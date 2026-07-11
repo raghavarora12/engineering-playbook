@@ -121,7 +121,7 @@ Must contain, in this order:
 
 ---
 
-## Phase 2 — Tier 1 ADRs *(the differentiators — ship first, strongest first)*
+## Phase 2 — Tier 1 ADRs *(the differentiators — ship first, strongest first)* — ◑ DRAFTED (awaiting author specifics)
 
 Each: fixed template, front-matter complete, `status: draft`, at least one *earned* visual, honest
 "wrong call" section, quantified tradeoffs where real numbers exist. *Depends on:* Phase 0 + the
@@ -156,7 +156,7 @@ matching author-input row. *I draft the industry reasoning; author supplies the 
 
 ---
 
-## Phase 3 — Tier 2 ADRs *(technology judgment — solid, supporting)*
+## Phase 3 — Tier 2 ADRs *(technology judgment — solid, supporting)* — ◑ DRAFTED (awaiting author specifics)
 
 Same bar as Phase 2. General → specific → framework. *Depends on:* Phase 0 + author rows.
 
@@ -176,7 +176,7 @@ Same bar as Phase 2. General → specific → framework. *Depends on:* Phase 0 +
 
 ---
 
-## Phase 4 — Principles & templates
+## Phase 4 — Principles & templates — ◑ DRAFTED (templates final; principles await author confirm)
 
 **4.1 — Principles (8–12)** — one file each: one-line statement + short rationale + a real
 consequence of ignoring it. Specific enough to disagree with (SPEC §3.1). `related:` links to the
