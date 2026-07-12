@@ -26,7 +26,13 @@ vocabularies, and identifiers.
 
 Someone has to reconcile those differences into one consistent meaning. The decision is *where*:
 at the boundary, once, as data enters the platform — or later, inside each consumer, every time
-it reads.
+it reads. This is the **Canonical Data Model** pattern (Hohpe & Woolf) applied to a data platform
+rather than a message bus: agree one internal representation, and translate every source into it
+at the edge.
+
+The cost of getting this wrong is not abstract. Gartner has put the average cost of poor data
+quality at **~$12.9M per year** per organization — most of it the downstream reconciliation,
+rework, and lost-trust tax that a governed canonical layer exists to prevent.
 
 [AUTHOR: the specific system and the moment this decision was forced — a new consumer? a failed
 reconciliation? an audit finding? Ground the rest of this ADR in that.]
@@ -49,6 +55,18 @@ flowchart LR
         C --> a2["Risk / Fraud"]
         C --> a3[Reporting]
     end
+```
+
+The audit test makes the difference concrete. Ask *"what does `settled_amount` mean, and prove
+it"*:
+
+```mermaid
+flowchart TD
+    Q["Auditor: what is 'settled amount'?"]
+    Q --> CA["Canonical: one governed<br/>definition, one lineage graph"]
+    Q --> TA["Transform-on-read: 4 consumers,<br/>4 definitions, 4 lineages to reconcile"]
+    CA --> OK["Answerable"]
+    TA --> NO["Un-provable"]
 ```
 
 | Option | Cost / complexity | Failure modes | When it's the right call |
@@ -77,6 +95,13 @@ means when every consumer computes it differently.
 or incident, the reference-data / metadata-management specifics. This is the load-bearing detail;
 do not ship the ADR without it.]
 
+**Where this decision has a real opponent.** The *data mesh* argument (Dehghani) pushes the other
+way: a single central canonical model can become a bottleneck and a political battleground, and
+domain-owned data products can serve consumers better. That critique is right for large,
+federated orgs with strong domain teams — and it is why the decision here is *canonicalize at a
+governed boundary*, not *one monolithic enterprise schema to rule them all*. Canonicalization is
+about a provable contract at the edge, not central ownership of every model.
+
 ## Consequences
 
 **What it buys.** One place to encode semantics, enforce reference data, and attach lineage.
@@ -100,4 +125,10 @@ of re-deriving it. Audit is answered once, at the boundary, not defended per con
 
 draft — awaiting author specifics and review. Related: [ADR-004](004-operational-vs-analytical-data-planes.md)
 (where the canonical data then lives). Reference-data and metadata-management practices that make
-this enforceable are candidates for the principles set.
+this enforceable are candidates for the principles set ([[canonicalize-at-the-boundary]]).
+
+## References
+
+- Hohpe & Woolf — [Canonical Data Model pattern](https://www.enterpriseintegrationpatterns.com/patterns/messaging/CanonicalDataModel.html), *Enterprise Integration Patterns*.
+- Dehghani — [Data Mesh Principles](https://martinfowler.com/articles/data-mesh-principles.html) (the decentralized counter-argument).
+- Gartner — cost of poor data quality (~$12.9M/yr average, 2021 estimate).

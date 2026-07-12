@@ -23,6 +23,13 @@ right output of this decision is not "use X" — it's a repeatable way to reason
 data model. This ADR is that framework, so the choice is defensible each time it's made rather than
 re-argued from scratch.
 
+Two facts anchor the reasoning. First, the data model must follow the **access pattern**: how the
+data is read and written dominates every other criterion (Kleppmann, *DDIA*). Second, physical
+placement has real latency consequences — a main-memory reference is ~**100 ns**, an SSD random read
+~**16 µs**, a same-datacenter round trip ~**0.5 ms**, cross-continent ~**150 ms** ("Latency Numbers
+Every Programmer Should Know"). A datastore that forces an extra network hop or a random-read pattern
+your workload can't afford is the wrong datastore, regardless of its label.
+
 [AUTHOR: the real selections this framework is drawn from — a case where relational was kept under
 pressure, and a case where a specific pressure justified moving off it.]
 
@@ -62,9 +69,10 @@ Apply the framework in this order, and stop at the first honest answer:
 5. **Operational maturity** — the team's ability to run it is a first-class criterion, not an
    afterthought.
 
-Default to relational and make the workload *earn* a move off it. Polyglot persistence is a cost —
-every additional store is operational surface, expertise, and failure modes — so earn each one; do
-not collect databases.
+Default to relational and make the workload *earn* a move off it — modern relational engines scale
+far further than the "NoSQL for scale" reflex assumes. Polyglot persistence is a cost — every
+additional store is operational surface, expertise, and failure modes — so earn each one; do not
+collect databases.
 
 ## Consequences
 
@@ -79,10 +87,15 @@ same criteria.
 - **Relational-by-default is wrong** when a genuine scale or model pressure exists and the framework
   says so — a global, write-heavy, known-access-pattern workload forced onto a single relational
   primary is its own failure. [AUTHOR: the case where the pressure was real and you moved.]
-- **Polyglot is wrong** when the second store is added for a marginal fit gain that doesn't cover
-  its operational cost.
+- **Polyglot is wrong** when the second store is added for a marginal fit gain that doesn't cover its
+  operational cost.
 
 ## Status
 
 draft — awaiting author specifics and review. This framework is a candidate rule set for the future
-architecture-review agent. Related: —
+architecture-review agent. Related principle: [[match-the-datastore-to-the-access-pattern]].
+
+## References
+
+- Kleppmann — [Designing Data-Intensive Applications](https://dataintensive.net) (access patterns, storage engines).
+- [Latency Numbers Every Programmer Should Know](https://gist.github.com/jboner/2841832).

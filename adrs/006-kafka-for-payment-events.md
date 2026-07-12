@@ -21,14 +21,33 @@ related: [ADR-005]
 
 Having chosen event-driven for cross-domain communication ([ADR-005](005-event-driven-vs-request-response.md)),
 the next decision is the substrate. Kafka is the default answer for event streaming, but "default"
-is not "always right." Kafka is a distributed, partitioned, replayable *log* — that is its power
-and also the source of every mistake made with it, because it is repeatedly reached for as if it
-were a queue or an RPC channel.
+is not "always right." Kafka is a distributed, partitioned, replayable *log* — that is its power and
+also the source of every mistake made with it, because it is repeatedly reached for as if it were a
+queue or an RPC channel.
+
+Its ceiling is genuinely high: LinkedIn's classic benchmark hit **2 million writes/second on three
+cheap machines** (Kreps). Throughput is almost never why Kafka is the *wrong* choice — operational
+weight and misuse are.
 
 [AUTHOR: the payment-event-processing context, the scale (throughput, consumers, retention) that
 justified Kafka.]
 
 ## Options Considered
+
+The partitioned log is the whole idea — ordered within a partition, retained, and replayable by
+independent consumer groups:
+
+```mermaid
+flowchart LR
+    P["Producers"] --> T["Topic"]
+    subgraph T2["Partitions (ordered, retained)"]
+        p0["partition 0 →→→"]
+        p1["partition 1 →→→"]
+    end
+    T --> T2
+    T2 --> g1["Consumer group A<br/>(ledger)"]
+    T2 --> g2["Consumer group B<br/>(fraud) — own offset, can replay"]
+```
 
 ```mermaid
 flowchart TD
@@ -53,12 +72,12 @@ flowchart TD
 
 Use Kafka for [AUTHOR: the specific payment event streams], where replay, multiple independent
 consumers, ordering within a partition, and high throughput are all genuinely needed. Do **not**
-extend it to interactions that are really queues or RPCs just because it's already there —
-route those to a queue or a synchronous call respectively.
+extend it to interactions that are really queues or RPCs just because it's already there — route
+those to a queue or a synchronous call respectively.
 
 For financial state transitions, treat exactly-once as a design problem, not a checkbox: partition
-by the entity key for ordering, make consumers idempotent, and use transactions or an outbox where
-a duplicated event would mean a duplicated payment.
+by the entity key for ordering, make consumers idempotent, and use the **transactional outbox**
+pattern or Kafka transactions where a duplicated event would mean a duplicated payment.
 
 ## Consequences
 
@@ -70,8 +89,8 @@ bad consumer can be fixed and reprocess; throughput scales with partitions.
 - **Operational weight.** Partitions, consumer-group rebalancing, retention tuning, and broker
   operation are a real standing cost — the reason a small team should reach for a managed queue or
   managed Kafka first.
-- **The log-is-not-a-queue tax.** Used as a task queue, you inherit ordering and offset semantics
-  you didn't want and lose the per-message ack/DLQ you did.
+- **The log-is-not-a-queue tax.** Used as a task queue, you inherit ordering and offset semantics you
+  didn't want and lose the per-message ack/DLQ you did.
 - **Where Kafka was the wrong choice:** [AUTHOR: the real case — the scar. Where reaching for Kafka
   cost more than it returned, and what you'd use instead.] This is the section that proves this ADR
   is judgment, not advocacy.
@@ -80,4 +99,10 @@ bad consumer can be fixed and reprocess; throughput scales with partitions.
 
 draft — awaiting author specifics and review. Demonstrated in the
 **[Payments Resiliency Simulator](https://github.com/raghavarora12/payments-resiliency-simulator)**.
-Related: [ADR-005](005-event-driven-vs-request-response.md).
+Related: [ADR-005](005-event-driven-vs-request-response.md); principle [[match-the-datastore-to-the-access-pattern]].
+
+## References
+
+- Kreps — [Benchmarking Apache Kafka: 2 Million Writes Per Second](https://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines).
+- microservices.io — [Transactional Outbox pattern](https://microservices.io/patterns/data/transactional-outbox.html).
+- Kleppmann — [Designing Data-Intensive Applications](https://dataintensive.net) (logs, ch. 11).
