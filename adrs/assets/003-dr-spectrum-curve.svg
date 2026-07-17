@@ -47,10 +47,9 @@
 <text x="1080" y="806" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" fill="#ffd9a0" opacity="0.9">RTO: minutes</text>
 
 <!-- point 4: active-active -->
-<rect x="1330" y="205" width="290" height="66" rx="14" fill="#1c0f0c" fill-opacity="0.9" stroke="#ff5c4d" stroke-opacity="0.6" stroke-width="1.6"/>
-<text x="1475" y="230" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffb4a8">Multi-site active-active</text>
-<text x="1475" y="253" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" fill="#ffb4a8" opacity="0.9">RTO: seconds — paid every day</text>
-<text x="1480" y="806" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="700" fill="#e7ecf7"> </text>
+<rect x="1170" y="106" width="280" height="64" rx="14" fill="#1c0f0c" fill-opacity="0.9" stroke="#ff5c4d" stroke-opacity="0.6" stroke-width="1.6"/>
+<text x="1310" y="130" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffb4a8">Multi-site active-active</text>
+<text x="1310" y="153" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" fill="#ffb4a8" opacity="0.9">RTO: seconds — paid every day</text>
 
 <text x="1480" y="864" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#ffb4a8" opacity="0.85">NEAR-ZERO RTO IS A STANDING TAX, NOT A ONE-TIME PURCHASE</text>
 </svg>
