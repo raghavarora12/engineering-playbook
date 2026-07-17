@@ -19,11 +19,22 @@ related: [ADR-005]
 
 ## Context
 
-Having chosen event-driven for cross-domain communication ([ADR-005](005-event-driven-vs-request-response.md)),
-the next decision is the substrate. Kafka is the default answer for event streaming, but "default"
-is not "always right." Kafka is a distributed, partitioned, replayable *log* — that is its power and
-also the source of every mistake made with it, because it is repeatedly reached for as if it were a
-queue or an RPC channel.
+By 2010, LinkedIn had a data integration problem with a name: N×M. Every data source that needed
+to reach every consumer got its own bespoke pipeline — member activity to the recommendation
+engine, database changes to search, service metrics to monitoring, and so on. Adding one new
+source meant writing pipelines to every existing consumer; adding one new consumer meant touching
+every existing source. Jay Kreps, Jun Rao, and Neha Narkhede spent a year building the fix: a
+single, ordered, replayable log that every source writes to once and every consumer reads from
+independently — turning an N×M integration problem into an N+M one. Kreps named it after the
+author whose work he'd studied in college, reasoning that "a system optimized for writing" deserved
+a writer's name. That system is Kafka, and the log — not the queue, not the RPC channel — is the
+whole idea.
+
+![Split diagram: before Kafka, LinkedIn's data sources (member activity, database changes, search index, service metrics) connect to consumers (recommendations, search, monitoring, data warehouse) through a tangle of N times M custom point-to-point pipelines, where every new source or consumer touches all the others. After adopting a shared log, the same sources and consumers connect through one place instead — N plus M connections, and a new source or consumer touches only the log. Caption: the problem Kafka was built to solve.](assets/006-linkedin-nxm-to-log.svg)
+
+Kafka is the default answer for event streaming today, but "default" is not "always right." Kafka
+is a distributed, partitioned, replayable *log* — that is its power and also the source of every
+mistake made with it, because it is repeatedly reached for as if it were a queue or an RPC channel.
 
 Its ceiling is genuinely high: LinkedIn's classic benchmark hit **2 million writes/second on three
 cheap machines** (Kreps). Throughput is almost never why Kafka is the *wrong* choice — operational
@@ -47,17 +58,30 @@ flowchart LR
     T --> T2
     T2 --> g1["Consumer group A<br/>(ledger)"]
     T2 --> g2["Consumer group B<br/>(fraud) — own offset, can replay"]
+
+    classDef neutral fill:#0d1420,stroke:#4c8dff,stroke-width:1.5px,color:#b9d0ff
+    classDef good fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#9ff3e6
+    class P,T neutral
+    class p0,p1,g1,g2 good
+    style T2 fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#9ff3e6
 ```
 
 ```mermaid
 flowchart TD
     Q1{"Multiple independent consumers,<br/>replay, ordered high-throughput streams?"}
-    Q1 -- Yes --> K["Kafka — partitioned log,<br/>retention, consumer groups"]
+    Q1 -- Yes --> K["✓ Kafka — partitioned log,<br/>retention, consumer groups"]
     Q1 -- No --> Q2{"Per-message ack, DLQ,<br/>simple task distribution?"}
-    Q2 -- Yes --> QUE["Managed queue<br/>(SQS / RabbitMQ)"]
+    Q2 -- Yes --> QUE["✓ Managed queue<br/>(SQS / RabbitMQ)"]
     Q2 -- No --> Q3{"Need a synchronous answer?"}
-    Q3 -- Yes --> RPC["Request/response<br/>(gRPC / REST)"]
+    Q3 -- Yes --> RPC["✓ Request/response<br/>(gRPC / REST)"]
     Q3 -- No --> QUE
+
+    classDef decision fill:#11151c,stroke:#c7cfe0,stroke-width:1.5px,color:#e7ecf7
+    classDef good fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#9ff3e6
+    classDef neutral fill:#0d1420,stroke:#4c8dff,stroke-width:1.5px,color:#b9d0ff
+    class Q1,Q2,Q3 decision
+    class K good
+    class QUE,RPC neutral
 ```
 
 | Use case | Kafka? | Why / better fit |
@@ -104,5 +128,6 @@ Related: [ADR-005](005-event-driven-vs-request-response.md); principle [[match-t
 ## References
 
 - Kreps — [Benchmarking Apache Kafka: 2 Million Writes Per Second](https://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines).
+- Kreps — [The Log: What every software engineer should know about real-time data's unifying abstraction](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying), LinkedIn Engineering (2013) — the N×M pipeline problem and the log as its fix.
 - microservices.io — [Transactional Outbox pattern](https://microservices.io/patterns/data/transactional-outbox.html).
 - Kleppmann — [Designing Data-Intensive Applications](https://dataintensive.net) (logs, ch. 11).

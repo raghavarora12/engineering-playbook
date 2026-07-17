@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Split diagram illustrating LinkedIn's pre-Kafka data integration problem, circa 2010: on the left, four representative data sources connect to four representative consumers through a tangle of custom point-to-point pipelines, N times M connections, each one bespoke and each new source or consumer touching all the others. On the right, the same sources and consumers connect through a single shared log instead — N plus M connections to one place. Caption: the problem Kafka was built to solve.">
+<defs>
+<linearGradient id="lkBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f0d12"/><stop offset="0.5" stop-color="#080b14"/><stop offset="1" stop-color="#070c17"/></linearGradient>
+<filter id="lkGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
+<filter id="lkGlowSoft" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="14"/></filter>
+<linearGradient id="lkLogFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2dd4bf"/><stop offset="1" stop-color="#4c8dff"/></linearGradient>
+</defs>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#lkBg)"/>
+<line x1="800" y1="60" x2="800" y2="780" stroke="#3a4258" stroke-width="1.5" stroke-dasharray="4,10" opacity="0.6"/>
+
+<!-- LEFT PANEL: BEFORE -->
+<text x="390" y="70" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="16" font-weight="700" letter-spacing="2" fill="#ff5c4d">BEFORE — CIRCA 2010</text>
+<text x="390" y="98" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" fill="#ffb4a8" opacity="0.9">N × M custom, point-to-point pipelines</text>
+
+<!-- chaotic mesh lines (left) -->
+<g stroke="#ff5c4d" stroke-width="2.2" opacity="0.7">
+  <line x1="160" y1="170" x2="640" y2="170"/><line x1="160" y1="170" x2="640" y2="330"/><line x1="160" y1="170" x2="640" y2="490"/><line x1="160" y1="170" x2="640" y2="650"/>
+  <line x1="160" y1="330" x2="640" y2="170"/><line x1="160" y1="330" x2="640" y2="330"/><line x1="160" y1="330" x2="640" y2="490"/><line x1="160" y1="330" x2="640" y2="650"/>
+  <line x1="160" y1="490" x2="640" y2="170"/><line x1="160" y1="490" x2="640" y2="330"/><line x1="160" y1="490" x2="640" y2="490"/><line x1="160" y1="490" x2="640" y2="650"/>
+  <line x1="160" y1="650" x2="640" y2="170"/><line x1="160" y1="650" x2="640" y2="330"/><line x1="160" y1="650" x2="640" y2="490"/><line x1="160" y1="650" x2="640" y2="650"/>
+</g>
+
+<!-- left source nodes -->
+<g font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="600">
+<rect x="60" y="145" width="200" height="50" rx="12" fill="#1c0f0c" fill-opacity="0.9" stroke="#ff5c4d" stroke-opacity="0.6" stroke-width="1.4"/>
+<text x="160" y="176" text-anchor="middle" fill="#e7ecf7">Member activity</text>
+<rect x="60" y="305" width="200" height="50" rx="12" fill="#1c0f0c" fill-opacity="0.9" stroke="#ff5c4d" stroke-opacity="0.6" stroke-width="1.4"/>
+<text x="160" y="336" text-anchor="middle" fill="#e7ecf7">Database changes</text>
+<rect x="60" y="465" width="200" height="50" rx="12" fill="#1c0f0c" fill-opacity="0.9" stroke="#ff5c4d" stroke-opacity="0.6" stroke-width="1.4"/>
+<text x="160" y="496" text-anchor="middle" fill="#e7ecf7">Search index</text>
+<rect x="60" y="625" width="200" height="50" rx="12" fill="#1c0f0c" fill-opacity="0.9" stroke="#ff5c4d" stroke-opacity="0.6" stroke-width="1.4"/>
+<text x="160" y="656" text-anchor="middle" fill="#e7ecf7">Service metrics</text>
+</g>
+
+<!-- left consumer nodes -->
+<g font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="600">
+<rect x="540" y="145" width="200" height="50" rx="12" fill="#1c0f0c" fill-opacity="0.9" stroke="#ffb4a8" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="640" y="176" text-anchor="middle" fill="#e7ecf7">Recommendations</text>
+<rect x="540" y="305" width="200" height="50" rx="12" fill="#1c0f0c" fill-opacity="0.9" stroke="#ffb4a8" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="640" y="336" text-anchor="middle" fill="#e7ecf7">Search</text>
+<rect x="540" y="465" width="200" height="50" rx="12" fill="#1c0f0c" fill-opacity="0.9" stroke="#ffb4a8" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="640" y="496" text-anchor="middle" fill="#e7ecf7">Monitoring</text>
+<rect x="540" y="625" width="200" height="50" rx="12" fill="#1c0f0c" fill-opacity="0.9" stroke="#ffb4a8" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="640" y="656" text-anchor="middle" fill="#e7ecf7">Data warehouse</text>
+</g>
+
+<text x="390" y="750" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" fill="#ffb4a8" opacity="0.85">EVERY NEW SOURCE OR CONSUMER TOUCHES ALL THE OTHERS</text>
+
+<!-- RIGHT PANEL: AFTER -->
+<text x="1210" y="70" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="16" font-weight="700" letter-spacing="2" fill="#2dd4bf">AFTER — THE LOG</text>
+<text x="1210" y="98" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" fill="#9ff3e6" opacity="0.9">N + M connections to one place</text>
+
+<!-- clean lines source -> log -->
+<g stroke="#2dd4bf" stroke-width="2.2" opacity="0.55" filter="url(#lkGlow)">
+  <line x1="1060" y1="170" x2="1160" y2="330"/>
+  <line x1="1060" y1="330" x2="1160" y2="380"/>
+  <line x1="1060" y1="490" x2="1160" y2="440"/>
+  <line x1="1060" y1="650" x2="1160" y2="490"/>
+</g>
+<!-- clean lines log -> consumer -->
+<g stroke="#4c8dff" stroke-width="2.2" opacity="0.55" filter="url(#lkGlow)">
+  <line x1="1240" y1="330" x2="1340" y2="170"/>
+  <line x1="1240" y1="380" x2="1340" y2="330"/>
+  <line x1="1240" y1="440" x2="1340" y2="490"/>
+  <line x1="1240" y1="490" x2="1340" y2="650"/>
+</g>
+
+<!-- the log -->
+<rect x="1160" y="300" width="80" height="220" rx="14" fill="url(#lkLogFill)" fill-opacity="0.22" filter="url(#lkGlowSoft)"/>
+<rect x="1160" y="300" width="80" height="220" rx="14" fill="#0d1a1c" fill-opacity="0.92" stroke="#2dd4bf" stroke-width="2"/>
+<text x="1200" y="395" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" font-weight="700" fill="#9ff3e6" transform="rotate(-90 1200 405)">THE LOG</text>
+
+<!-- right source nodes -->
+<g font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="600">
+<rect x="860" y="145" width="200" height="50" rx="12" fill="#0d1420" fill-opacity="0.9" stroke="#2dd4bf" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="960" y="176" text-anchor="middle" fill="#e7ecf7">Member activity</text>
+<rect x="860" y="305" width="200" height="50" rx="12" fill="#0d1420" fill-opacity="0.9" stroke="#2dd4bf" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="960" y="336" text-anchor="middle" fill="#e7ecf7">Database changes</text>
+<rect x="860" y="465" width="200" height="50" rx="12" fill="#0d1420" fill-opacity="0.9" stroke="#2dd4bf" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="960" y="496" text-anchor="middle" fill="#e7ecf7">Search index</text>
+<rect x="860" y="625" width="200" height="50" rx="12" fill="#0d1420" fill-opacity="0.9" stroke="#2dd4bf" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="960" y="656" text-anchor="middle" fill="#e7ecf7">Service metrics</text>
+</g>
+
+<!-- right consumer nodes -->
+<g font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="600">
+<rect x="1340" y="145" width="200" height="50" rx="12" fill="#0d1420" fill-opacity="0.9" stroke="#b9d0ff" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="1440" y="176" text-anchor="middle" fill="#e7ecf7">Recommendations</text>
+<rect x="1340" y="305" width="200" height="50" rx="12" fill="#0d1420" fill-opacity="0.9" stroke="#b9d0ff" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="1440" y="336" text-anchor="middle" fill="#e7ecf7">Search</text>
+<rect x="1340" y="465" width="200" height="50" rx="12" fill="#0d1420" fill-opacity="0.9" stroke="#b9d0ff" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="1440" y="496" text-anchor="middle" fill="#e7ecf7">Monitoring</text>
+<rect x="1340" y="625" width="200" height="50" rx="12" fill="#0d1420" fill-opacity="0.9" stroke="#b9d0ff" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="1440" y="656" text-anchor="middle" fill="#e7ecf7">Data warehouse</text>
+</g>
+
+<text x="1210" y="750" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" fill="#9ff3e6" opacity="0.9">A NEW SOURCE OR CONSUMER TOUCHES ONLY THE LOG</text>
+
+<text x="800" y="840" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5" fill="#c7cfe0" opacity="0.85">LINKEDIN, 2010–2011 · THE PROBLEM KAFKA WAS BUILT TO SOLVE</text>
+</svg>

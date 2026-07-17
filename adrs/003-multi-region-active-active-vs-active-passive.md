@@ -66,17 +66,24 @@ operational complexity it adds, not just the failure it protects against.
 
 ```mermaid
 flowchart LR
-    subgraph AP["Active-passive — one region serves"]
+    subgraph AP["✓ Active-passive — one region serves"]
         direction TB
         lb1["Traffic"] --> ra["Region A (active)"]
         ra -. "replicate" .-> rb["Region B (standby)"]
     end
-    subgraph AA["Active-active — both serve"]
+    subgraph AA["⚠ Active-active — both serve"]
         direction TB
         lb2["Traffic"] --> rc["Region C"]
         lb2 --> rd["Region D"]
         rc <-. "bidirectional<br/>replication" .-> rd
     end
+
+    classDef good fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#e7ecf7
+    classDef warn fill:#1c150c,stroke:#ffa53d,stroke-width:2px,color:#e7ecf7
+    class lb1,ra,rb good
+    class lb2,rc,rd warn
+    style AP fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#9ff3e6
+    style AA fill:#1c150c,stroke:#ffa53d,stroke-width:2px,color:#ffd9a0
 ```
 
 | Option | Cost / complexity | Protects against | Introduces / when right |
@@ -94,8 +101,10 @@ sequenceDiagram
     participant RA as Region A
     participant RB as Region B
     Op->>RA: bad change
+    rect rgb(40, 20, 18)
     RA-->>RB: replicate (instantly)
     Note over RA,RB: both regions now broken —<br/>active-active gave you no safe region to fail to
+    end
 ```
 
 This is not a hypothetical. On 12 June 2025, a policy update with an unintended blank field landed
@@ -118,10 +127,19 @@ The decision aid:
 ```mermaid
 flowchart TD
     Q1{"Can the business tolerate a<br/>minutes-long, controlled failover?"}
-    Q1 -- Yes --> AP["Active-passive<br/>(pilot light / warm standby)<br/>— rehearse the failover"]
+    Q1 -- Yes --> AP["✓ Active-passive<br/>(pilot light / warm standby)<br/>— rehearse the failover"]
     Q1 -- "No, RTO must be seconds" --> Q2{"Can cross-region consistency be<br/>solved or sidestepped<br/>(e.g. partitioned regional ownership)?"}
-    Q2 -- Yes --> AA["Active-active —<br/>the cost is justified"]
-    Q2 -- No --> WARN["Active-active anyway =<br/>unsolved split-brain risk.<br/>Revisit the RTO requirement first."]
+    Q2 -- Yes --> AA["⚠ Active-active —<br/>the cost is justified"]
+    Q2 -- No --> WARN["✗ Active-active anyway =<br/>unsolved split-brain risk.<br/>Revisit the RTO requirement first."]
+
+    classDef decision fill:#11151c,stroke:#c7cfe0,stroke-width:1.5px,color:#e7ecf7
+    classDef good fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#9ff3e6
+    classDef warn fill:#1c150c,stroke:#ffa53d,stroke-width:2px,color:#ffd9a0
+    classDef bad fill:#1c0f0c,stroke:#ff5c4d,stroke-width:2px,color:#ffb4a8
+    class Q1,Q2 decision
+    class AP good
+    class AA warn
+    class WARN bad
 ```
 
 ## Decision
@@ -164,5 +182,12 @@ Related: [ADR-002](002-availability-target.md); principle [[design-for-the-commo
 ## References
 
 - AWS — [Disaster recovery options in the cloud](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html) (RTO/RPO per strategy).
+- AWS Builders' Library — [Static stability using Availability Zones](https://aws.amazon.com/builders-library/static-stability-using-availability-zones/) (Weiss & Furr) — a standby only delivers its designed RTO if capacity is provisioned before the failure, not scaled up during one.
 - [Jepsen](https://jepsen.io/analyses) — consistency-testing analyses of distributed databases (why cross-region "consistency" is hard).
+- Abadi — [Consistency Tradeoffs in Modern Distributed Database System Design](https://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf) (2012) — the PACELC extension to CAP: latency vs. consistency is a live tradeoff even without a partition.
 - Google SRE — [Embracing Risk](https://sre.google/sre-book/embracing-risk/) (matching DR spend to the target).
+- GitHub — [October 21 post-incident analysis](https://github.blog/news-insights/company-news/oct21-post-incident-analysis/) (2018) — 43-second network partition, Orchestrator quorum failover, 24h11m to reconcile and restore service.
+- The Register — [Google caused outage by ignoring its quality protections](https://www.theregister.com/2025/06/16/google_cloud_outage_incident_report/) (2025) — the 12 June 2025 global Service Control outage from a corrupted policy replicated via global Spanner.
+- ThousandEyes — [Google Cloud Outage Analysis: June 12, 2025](https://www.thousandeyes.com/blog/google-cloud-outage-analysis-june-12-2025) — regional propagation and recovery timeline.
+- Cloudflare — [Cloudflare service outage June 12, 2025](https://blog.cloudflare.com/cloudflare-service-outage-june-12-2025/) — Workers KV's exclusive dependency on GCP turned Google's outage into a 2h28m Cloudflare outage too; the downstream-blast-radius evidence for why "active everywhere" propagates failure everywhere.
+- Uptime Institute — [Annual Outage Analysis 2025](https://uptimeinstitute.com/resources/research-and-reports/annual-outage-analysis-2025) (IT/networking issues 23% of impactful outages; human-error share up 10 points year over year).

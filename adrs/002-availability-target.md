@@ -83,10 +83,17 @@ The decision aid:
 ```mermaid
 flowchart LR
     Q1{"Does downtime cause regulatory,<br/>financial, or safety harm?"}
-    Q1 -- Yes --> FIVE["Four to five nines<br/>— earn it deliberately"]
+    Q1 -- Yes --> FIVE["⚠ Four to five nines<br/>— earn it deliberately"]
     Q1 -- No --> Q2{"Is it customer-facing<br/>and revenue-critical?"}
-    Q2 -- Yes --> FOUR["Three to four nines (or lower)"]
-    Q2 -- No --> THREE["Two to three nines (or even lower)<br/>— and stop there honestly"]
+    Q2 -- Yes --> FOUR["✓ Three to four nines (or lower)"]
+    Q2 -- No --> THREE["✓ Two to three nines (or even lower)<br/>— and stop there honestly"]
+
+    classDef decision fill:#11151c,stroke:#c7cfe0,stroke-width:1.5px,color:#e7ecf7
+    classDef good fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#9ff3e6
+    classDef warn fill:#1c150c,stroke:#ffa53d,stroke-width:2px,color:#ffd9a0
+    class Q1,Q2 decision
+    class FOUR,THREE good
+    class FIVE warn
 ```
 
 ## Decision
@@ -103,10 +110,19 @@ argument into arithmetic.
 ```mermaid
 flowchart LR
     M["Measure against SLO"] -- Continuous --> B{"Error budget<br/>remaining?"}
-    B -- Yes --> S["Ship features<br/>— spend the budget"]
-    B -- No --> F["Freeze features,<br/>harden reliability"]
+    B -- Yes --> S["✓ Ship features<br/>— spend the budget"]
+    B -- No --> F["⚠ Freeze features,<br/>harden reliability"]
     S -- Continuous --> M
     F -- Continuous --> M
+
+    classDef decision fill:#11151c,stroke:#c7cfe0,stroke-width:1.5px,color:#e7ecf7
+    classDef good fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#9ff3e6
+    classDef warn fill:#1c150c,stroke:#ffa53d,stroke-width:2px,color:#ffd9a0
+    classDef neutral fill:#0d1420,stroke:#4c8dff,stroke-width:1.5px,color:#b9d0ff
+    class M neutral
+    class B decision
+    class S good
+    class F warn
 ```
 
 A nuance an honest reliability story must include: speed and stability are **not** opposites. The

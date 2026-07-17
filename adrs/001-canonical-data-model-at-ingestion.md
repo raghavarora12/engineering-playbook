@@ -70,27 +70,37 @@ A model's output quality is capped by the consistency of what it reads — the c
 
 ```mermaid
 flowchart LR
-    subgraph C["Transform-on-read — pay N times"]
+    subgraph C["✗ Transform-on-read — pay N times"]
         direction LR
         S2[Sources publish data] --> R[("Raw landing")]
         R --> c1["Ledger<br/>+ own transform"]
         R --> c2["Risk / Fraud<br/>+ own transform"]
         R --> c3["Reporting<br/>+ own transform"]
     end
-    subgraph B["Hybrid: Transform in middleware — risk lineage"]
+    subgraph B["~ Hybrid: transform in middleware — risky lineage"]
         direction LR
-        S3[Sources publish data] --> H[("Raw landing performs <br/> Transformation to canonicalize")]
+        S3[Sources publish data] --> H[("Raw landing performs <br/> transformation to canonicalize")]
         H --> b1["Ledger"]
         H --> b2["Risk / Fraud"]
         H --> b3["Reporting"]
     end
-    subgraph A["Standardize & Canonicalize at ingestion — pay once"]
+    subgraph A["✓ Standardize & canonicalize at ingestion — pay once"]
         direction LR
         S1[Sources publish<br/> standardized data] --> M["Canonical model<br/>at the boundary"]
         M --> a1[Ledger]
         M --> a2["Risk / Fraud"]
         M --> a3[Reporting]
     end
+
+    classDef good fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#e7ecf7
+    classDef warn fill:#1c150c,stroke:#ffa53d,stroke-width:2px,color:#e7ecf7
+    classDef bad fill:#1c0f0c,stroke:#ff5c4d,stroke-width:2px,color:#e7ecf7
+    class S1,M,a1,a2,a3 good
+    class S3,H,b1,b2,b3 warn
+    class S2,R,c1,c2,c3 bad
+    style A fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#9ff3e6
+    style B fill:#1c150c,stroke:#ffa53d,stroke-width:2px,color:#ffd9a0
+    style C fill:#1c0f0c,stroke:#ff5c4d,stroke-width:2px,color:#ffb4a8
 ```
 
 The audit test makes the difference concrete. In the case of a payment network or banking institution, as the transaction flows through various stages, it becomes crucial to maintain lineage. And, let's say, a question arises from an auditor: *"what does `settled_amount` mean, and prove it"*. That's where it gets tricky:
