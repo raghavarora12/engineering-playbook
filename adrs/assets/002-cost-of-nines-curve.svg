@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Chart: as availability rises from 99 percent to 99.9999 percent, the relative cost to achieve it climbs steeply while user-perceived benefit flattens almost immediately after three to four nines. A shaded sweet-spot zone marks three to four nines as right for most systems. A marker at 99.999 percent labels it the payment-network and regulated-core floor, earned deliberately rather than defaulted to. Near six nines the cost line crosses above the benefit line, illustrating cost outrunning marginal value.">
+<defs>
+<linearGradient id="cnBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f0d12"/><stop offset="0.5" stop-color="#080b14"/><stop offset="1" stop-color="#070c17"/></linearGradient>
+<filter id="cnGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+
+<linearGradient id="cnCostGlow" x1="250" y1="720" x2="1400" y2="156" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffa53d"/><stop offset="1" stop-color="#ff5c4d"/></linearGradient>
+<linearGradient id="cnCostLine" x1="250" y1="720" x2="1400" y2="156" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffd9a0"/><stop offset="1" stop-color="#ffb4a8"/></linearGradient>
+<linearGradient id="cnBenGlow" x1="250" y1="510" x2="1400" y2="162" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2dd4bf"/><stop offset="1" stop-color="#4c8dff"/></linearGradient>
+<linearGradient id="cnBenLine" x1="250" y1="510" x2="1400" y2="162" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9ff3e6"/><stop offset="1" stop-color="#b9d0ff"/></linearGradient>
+
+<radialGradient id="cnDotCost" cx="1400" cy="156" r="16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff5c4d" stop-opacity="0.6"/><stop offset="1" stop-color="#ff5c4d" stop-opacity="0"/></radialGradient>
+<radialGradient id="cnDotBen" cx="1400" cy="162" r="16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4c8dff" stop-opacity="0.6"/><stop offset="1" stop-color="#4c8dff" stop-opacity="0"/></radialGradient>
+</defs>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#cnBg)"/>
+
+<text x="800" y="66" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="26" font-weight="700" fill="#f4faff">Each nine costs roughly 10× more — the benefit doesn't keep up</text>
+<text x="800" y="96" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" letter-spacing="1" fill="#a9b4c9" opacity="0.85">RELATIVE INTENSITY, ILLUSTRATIVE — NOT TO A LINEAR $ SCALE</text>
+
+<!-- sweet spot zone: 99.9% to 99.99% -->
+<rect x="537.5" y="150" width="287.5" height="600" fill="#2dd4bf" fill-opacity="0.07"/>
+<text x="681" y="180" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#9ff3e6" opacity="0.85">SWEET SPOT — MOST SYSTEMS</text>
+
+<!-- five-nines marker -->
+<line x1="1112.5" y1="150" x2="1112.5" y2="750" stroke="#ffd9a0" stroke-width="1.5" stroke-dasharray="6,8" opacity="0.6"/>
+<text x="1112.5" y="180" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#ffd9a0" opacity="0.9">PAYMENT NETWORKS —</text>
+<text x="1112.5" y="200" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#ffd9a0" opacity="0.9">EARNED, NOT DEFAULTED TO</text>
+
+<!-- axis -->
+<line x1="200" y1="750" x2="1450" y2="750" stroke="#3a4258" stroke-width="2"/>
+<line x1="200" y1="150" x2="200" y2="750" stroke="#3a4258" stroke-width="2"/>
+
+<!-- x tick labels -->
+<text x="250" y="784" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="16" fill="#c7cfe0">99%</text>
+<text x="537.5" y="784" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="16" fill="#c7cfe0">99.9%</text>
+<text x="825" y="784" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="16" fill="#c7cfe0">99.99%</text>
+<text x="1112.5" y="784" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="16" font-weight="700" fill="#ffd9a0">99.999%</text>
+<text x="1400" y="784" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="16" fill="#c7cfe0">99.9999%</text>
+<text x="825" y="815" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" letter-spacing="2" fill="#a9b4c9" opacity="0.75">AVAILABILITY TARGET</text>
+
+<!-- cost curve -->
+<g style="mix-blend-mode:screen">
+  <path d="M250,720 C393.75,720 393.75,660 537.5,660 C681.25,660 681.25,540 825,540 C968.75,540 968.75,360 1112.5,360 C1256.25,360 1256.25,156 1400,156" fill="none" stroke="url(#cnCostGlow)" stroke-width="9" stroke-linecap="round" opacity="0.5" filter="url(#cnGlow)"/>
+  <path d="M250,720 C393.75,720 393.75,660 537.5,660 C681.25,660 681.25,540 825,540 C968.75,540 968.75,360 1112.5,360 C1256.25,360 1256.25,156 1400,156" fill="none" stroke="url(#cnCostLine)" stroke-width="3.5" stroke-linecap="round" opacity="0.95"/>
+</g>
+<circle cx="1400" cy="156" r="16" fill="url(#cnDotCost)"/><circle cx="1400" cy="156" r="6" fill="#ffb4a8"/>
+
+<!-- benefit curve -->
+<g style="mix-blend-mode:screen">
+  <path d="M250,510 C393.75,510 393.75,300 537.5,300 C681.25,300 681.25,198 825,198 C968.75,198 968.75,168 1112.5,168 C1256.25,168 1256.25,162 1400,162" fill="none" stroke="url(#cnBenGlow)" stroke-width="9" stroke-linecap="round" opacity="0.5" filter="url(#cnGlow)"/>
+  <path d="M250,510 C393.75,510 393.75,300 537.5,300 C681.25,300 681.25,198 825,198 C968.75,198 968.75,168 1112.5,168 C1256.25,168 1256.25,162 1400,162" fill="none" stroke="url(#cnBenLine)" stroke-width="3.5" stroke-linecap="round" opacity="0.95"/>
+</g>
+<circle cx="1400" cy="162" r="16" fill="url(#cnDotBen)"/><circle cx="1400" cy="162" r="6" fill="#b9d0ff"/>
+
+<!-- direct labels at widest separation -->
+<rect x="835" y="410" width="220" height="34" rx="8" fill="#1c150c" fill-opacity="0.85" stroke="#ffa53d" stroke-opacity="0.5" stroke-width="1"/>
+<text x="945" y="433" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="700" fill="#ffd9a0">Cost to achieve</text>
+
+<rect x="590" y="222" width="220" height="34" rx="8" fill="#0d1a1c" fill-opacity="0.85" stroke="#2dd4bf" stroke-opacity="0.5" stroke-width="1"/>
+<text x="700" y="245" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="700" fill="#9ff3e6">User-perceived benefit</text>
+
+<text x="1400" y="864" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#ffb4a8" opacity="0.85">PAST 5 NINES, COST OUTRUNS THE VALUE IT BUYS</text>
+</svg>

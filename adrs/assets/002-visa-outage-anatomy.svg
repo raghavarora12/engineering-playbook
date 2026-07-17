@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Diagram: on 1 June 2018 a rare partial failure hit a switch in Visa Europe's primary UK datacentre. Because the failure was partial rather than clean, the backup switch did not engage as designed, and the still-failing primary kept trying to sync with the secondary datacentre, backlogging its capacity too. Engineers had to intervene manually to restore service. The outcome: 10 hours down, 5.2 million failed payments, and a Bank of England supervisory action. Caption: what five nines actually buys is a failover that triggers on its own.">
+<defs>
+<linearGradient id="vaBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#120d0f"/><stop offset="0.5" stop-color="#080b14"/><stop offset="1" stop-color="#070c17"/></linearGradient>
+<filter id="vaGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="10"/></filter>
+<filter id="vaGlowSoft" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="16"/></filter>
+
+<linearGradient id="vaL1" x1="800" y1="185" x2="550" y2="330" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f4faff"/><stop offset="1" stop-color="#ff5c4d"/></linearGradient>
+<linearGradient id="vaL1b" x1="800" y1="185" x2="550" y2="330" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ffb4a8"/></linearGradient>
+<linearGradient id="vaL2" x1="800" y1="185" x2="1050" y2="330" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f4faff"/><stop offset="1" stop-color="#ffa53d"/></linearGradient>
+<linearGradient id="vaL2b" x1="800" y1="185" x2="1050" y2="330" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ffd9a0"/></linearGradient>
+
+<linearGradient id="vaL3" x1="550" y1="520" x2="800" y2="620" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff5c4d"/><stop offset="1" stop-color="#c7cfe0"/></linearGradient>
+<linearGradient id="vaL4" x1="1050" y1="520" x2="800" y2="620" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffa53d"/><stop offset="1" stop-color="#c7cfe0"/></linearGradient>
+
+<linearGradient id="vaL5" x1="800" y1="620" x2="280" y2="700" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c7cfe0"/><stop offset="1" stop-color="#ff5c4d"/></linearGradient>
+<linearGradient id="vaL6" x1="800" y1="620" x2="800" y2="700" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c7cfe0"/><stop offset="1" stop-color="#ffa53d"/></linearGradient>
+<linearGradient id="vaL7" x1="800" y1="620" x2="1320" y2="700" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c7cfe0"/><stop offset="1" stop-color="#4c8dff"/></linearGradient>
+
+<radialGradient id="vaDotTop" cx="800" cy="185" r="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f4faff" stop-opacity="0.6"/><stop offset="1" stop-color="#f4faff" stop-opacity="0"/></radialGradient>
+<radialGradient id="vaDotMerge" cx="800" cy="620" r="20" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c7cfe0" stop-opacity="0.55"/><stop offset="1" stop-color="#c7cfe0" stop-opacity="0"/></radialGradient>
+</defs>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#vaBg)"/>
+
+<!-- top incident card -->
+<rect x="440" y="55" width="720" height="130" rx="22" fill="#f4faff" fill-opacity="0.14" filter="url(#vaGlowSoft)"/>
+<rect x="440" y="55" width="720" height="130" rx="22" fill="#0d1420" fill-opacity="0.85" stroke="#f4faff" stroke-opacity="0.55" stroke-width="1.6"/>
+<text x="800" y="88" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2" fill="#a9b4c9" opacity="0.9">1 JUNE 2018 · VISA EUROPE, PRIMARY UK DATACENTRE</text>
+<text x="800" y="122" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="600" fill="#f4faff">A single switch component suffers a rare partial failure —</text>
+<text x="800" y="152" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="600" fill="#f4faff">nothing catastrophic, on paper.</text>
+
+<!-- connectors: top card to branch cards -->
+<g style="mix-blend-mode:screen">
+  <path d="M800,185 C675,185 675,330 550,330" fill="none" stroke="url(#vaL1)" stroke-width="9" stroke-linecap="round" opacity="0.5" filter="url(#vaGlow)"/>
+  <path d="M800,185 C675,185 675,330 550,330" fill="none" stroke="url(#vaL1b)" stroke-width="3.4" stroke-linecap="round" opacity="0.9"/>
+</g>
+<g style="mix-blend-mode:screen">
+  <path d="M800,185 C925,185 925,330 1050,330" fill="none" stroke="url(#vaL2)" stroke-width="9" stroke-linecap="round" opacity="0.5" filter="url(#vaGlow)"/>
+  <path d="M800,185 C925,185 925,330 1050,330" fill="none" stroke="url(#vaL2b)" stroke-width="3.4" stroke-linecap="round" opacity="0.9"/>
+</g>
+<circle cx="800" cy="185" r="24" fill="url(#vaDotTop)"/><circle cx="800" cy="185" r="8" fill="#f4faff"/>
+
+<!-- left branch: failover did not trigger -->
+<rect x="310" y="330" width="480" height="190" rx="22" fill="#ff5c4d" fill-opacity="0.14" filter="url(#vaGlowSoft)"/>
+<rect x="310" y="330" width="480" height="190" rx="22" fill="#1c0f0c" fill-opacity="0.85" stroke="#ff5c4d" stroke-opacity="0.7" stroke-width="1.8"/>
+<text x="550" y="368" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5" fill="#ff5c4d">BACKUP SWITCH</text>
+<text x="550" y="408" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="600" fill="#e7ecf7">Fails to engage — the failure</text>
+<text x="550" y="436" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="600" fill="#e7ecf7">was partial, not clean.</text>
+<text x="550" y="475" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#ffb4a8" opacity="0.9">The still-failing primary keeps syncing</text>
+<text x="550" y="497" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#ffb4a8" opacity="0.9">with the secondary, backlogging it too.</text>
+
+<!-- right branch: manual recovery -->
+<rect x="810" y="330" width="480" height="190" rx="22" fill="#ffa53d" fill-opacity="0.14" filter="url(#vaGlowSoft)"/>
+<rect x="810" y="330" width="480" height="190" rx="22" fill="#1c150c" fill-opacity="0.85" stroke="#ffa53d" stroke-opacity="0.7" stroke-width="1.8"/>
+<text x="1050" y="368" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5" fill="#ffa53d">MANUAL RECOVERY</text>
+<text x="1050" y="408" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="600" fill="#e7ecf7">Engineers replace the part</text>
+<text x="1050" y="436" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="600" fill="#e7ecf7">and restore service by hand.</text>
+<text x="1050" y="475" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#ffd9a0" opacity="0.9">Full restoration: 00:45 —</text>
+<text x="1050" y="497" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#ffd9a0" opacity="0.9">roughly ten hours after the fault.</text>
+
+<!-- connectors: branch cards to merge point -->
+<g style="mix-blend-mode:screen">
+  <path d="M550,520 C675,520 675,620 800,620" fill="none" stroke="url(#vaL3)" stroke-width="8" stroke-linecap="round" opacity="0.45" filter="url(#vaGlow)"/>
+  <path d="M550,520 C675,520 675,620 800,620" fill="none" stroke="#ffb4a8" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+</g>
+<g style="mix-blend-mode:screen">
+  <path d="M1050,520 C925,520 925,620 800,620" fill="none" stroke="url(#vaL4)" stroke-width="8" stroke-linecap="round" opacity="0.45" filter="url(#vaGlow)"/>
+  <path d="M1050,520 C925,520 925,620 800,620" fill="none" stroke="#ffd9a0" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+</g>
+<circle cx="800" cy="620" r="20" fill="url(#vaDotMerge)"/><circle cx="800" cy="620" r="6.5" fill="#e7ecf7"/>
+
+<!-- connectors: merge point to outcome pills -->
+<g style="mix-blend-mode:screen">
+  <path d="M800,620 C540,620 540,700 280,700" fill="none" stroke="url(#vaL5)" stroke-width="8" stroke-linecap="round" opacity="0.45" filter="url(#vaGlow)"/>
+  <path d="M800,620 C540,620 540,700 280,700" fill="none" stroke="#ffb4a8" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+</g>
+<g style="mix-blend-mode:screen">
+  <path d="M800,620 L800,700" fill="none" stroke="url(#vaL6)" stroke-width="8" stroke-linecap="round" opacity="0.45" filter="url(#vaGlow)"/>
+  <path d="M800,620 L800,700" fill="none" stroke="#ffd9a0" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+</g>
+<g style="mix-blend-mode:screen">
+  <path d="M800,620 C1060,620 1060,700 1320,700" fill="none" stroke="url(#vaL7)" stroke-width="8" stroke-linecap="round" opacity="0.45" filter="url(#vaGlow)"/>
+  <path d="M800,620 C1060,620 1060,700 1320,700" fill="none" stroke="#b9d0ff" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+</g>
+
+<!-- outcome pills -->
+<rect x="130" y="700" width="300" height="86" rx="43" fill="#ff5c4d" fill-opacity="0.16" filter="url(#vaGlowSoft)"/>
+<rect x="130" y="700" width="300" height="86" rx="43" fill="#1c0f0c" fill-opacity="0.9" stroke="#ff5c4d" stroke-width="2"/>
+<text x="280" y="753" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="25" font-weight="700" fill="#ffb4a8">10 hours down</text>
+
+<rect x="650" y="700" width="300" height="86" rx="43" fill="#ffa53d" fill-opacity="0.16" filter="url(#vaGlowSoft)"/>
+<rect x="650" y="700" width="300" height="86" rx="43" fill="#1c150c" fill-opacity="0.9" stroke="#ffa53d" stroke-width="2"/>
+<text x="800" y="753" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="25" font-weight="700" fill="#ffd9a0">5.2M payments failed</text>
+
+<rect x="1170" y="700" width="300" height="86" rx="43" fill="#4c8dff" fill-opacity="0.16" filter="url(#vaGlowSoft)"/>
+<rect x="1170" y="700" width="300" height="86" rx="43" fill="#0d1420" fill-opacity="0.9" stroke="#4c8dff" stroke-width="2"/>
+<text x="1320" y="746" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="#b9d0ff">BoE supervisory</text>
+<text x="1320" y="770" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="#b9d0ff">action</text>
+
+<text x="800" y="852" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="16" font-weight="700" letter-spacing="1.5" fill="#c7cfe0" opacity="0.85">WHAT FIVE NINES ACTUALLY BUYS: A FAILOVER THAT TRIGGERS WITHOUT A HUMAN</text>
+</svg>

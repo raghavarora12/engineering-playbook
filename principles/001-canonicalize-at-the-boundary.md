@@ -7,13 +7,16 @@ tags: [data-strategy, governance]
 related: [ADR-001]
 ---
 
-# Canonicalize at the boundary
+# Standardize and canonicalize at the boundary
 
-**Standardize and canonicalize data once, where it enters the platform — never in every consumer.**
+**Standardize values and canonicalize the model once, where data enters the platform — as far left
+as you can, never in every consumer.**
 
-The differences between sources get reconciled *somewhere*. Doing it once, at the boundary, makes
-lineage, governance, and audit provable. Pushing it downstream means every consumer reinvents the
-same reconciliation, slightly differently.
+The differences between sources get reconciled *somewhere*. Doing it once, at the boundary — and
+into the source itself via data contracts where you own it — makes lineage, governance, and audit
+provable. Pushing it downstream means every consumer reinvents the same reconciliation, slightly
+differently. (Standardizing left is near-universal; canonicalizing left is the judgment call —
+see [[ADR-001]].)
 
 *Ignore it and:* the numbers stop agreeing across systems, and no one can answer an auditor's "what
 does this figure actually mean?" — because it means four things. See [[ADR-001]].
