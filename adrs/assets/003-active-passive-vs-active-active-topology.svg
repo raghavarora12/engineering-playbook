@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Side-by-side topology comparison of the two options. Left, active-passive: all traffic goes to Region A, which serves writes and reads; Region B is a warm standby that takes no writes and receives one-way replication, and only takes traffic on failover. Its numbers are RTO in minutes, RPO in seconds, and about 1.5 times the infrastructure. The takeaway: one writer, so failover is a decision you make. Right, active-active: traffic is split across Region C and Region D, both serving writes and reads, with bidirectional replication between them and a conflict surface on that link. Its numbers are RTO in seconds, RPO near zero, and about two times or more the infrastructure. The takeaway: two writers, so consistency is a problem you own. Bottom banner: the second region is not the cost, the second writer is. Caption: both survive a region loss, only one of them hands you a consistency problem every single day.">
+<defs>
+<linearGradient id="apBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f0d12"/><stop offset="0.5" stop-color="#080b14"/><stop offset="1" stop-color="#070c17"/></linearGradient>
+<filter id="apGlowSoft" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="16"/></filter>
+<filter id="apGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="8"/></filter>
+
+<marker id="apArrT" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2dd4bf"/></marker>
+<marker id="apArrTd" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2dd4bf" fill-opacity="0.45"/></marker>
+<marker id="apArrO" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffa53d"/></marker>
+</defs>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#apBg)"/>
+
+<text x="800" y="72" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700" fill="#f4faff">Two regions either way. The difference is how many of them write.</text>
+<text x="800" y="102" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" letter-spacing="1.5" fill="#a9b4c9" opacity="0.85">SAME REGION-LOSS PROTECTION · VERY DIFFERENT STANDING COST</text>
+
+<!-- ================= LEFT PANEL: ACTIVE-PASSIVE ================= -->
+<rect x="80" y="140" width="680" height="560" rx="24" fill="#2dd4bf" fill-opacity="0.10" filter="url(#apGlowSoft)"/>
+<rect x="80" y="140" width="680" height="560" rx="24" fill="#0d1a1c" fill-opacity="0.88" stroke="#2dd4bf" stroke-opacity="0.65" stroke-width="1.8"/>
+<text x="420" y="184" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5" fill="#2dd4bf">ACTIVE-PASSIVE · ONE REGION SERVES</text>
+
+<!-- traffic pill -->
+<rect x="320" y="208" width="200" height="50" rx="25" fill="#0d1420" fill-opacity="0.9" stroke="#c7cfe0" stroke-opacity="0.55" stroke-width="1.5"/>
+<text x="420" y="240" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5" fill="#e7ecf7">TRAFFIC</text>
+
+<!-- traffic routing: solid to A, dashed to B -->
+<path d="M420,258 C420,300 235,300 235,336" fill="none" stroke="#2dd4bf" stroke-width="6" opacity="0.35" filter="url(#apGlow)"/>
+<path d="M420,258 C420,300 235,300 235,336" fill="none" stroke="#2dd4bf" stroke-width="2.6" marker-end="url(#apArrT)"/>
+<path d="M420,258 C420,300 605,300 605,336" fill="none" stroke="#2dd4bf" stroke-opacity="0.45" stroke-width="2" stroke-dasharray="7 7" marker-end="url(#apArrTd)"/>
+<text x="668" y="304" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-style="italic" fill="#9ff3e6" opacity="0.7">only on failover</text>
+
+<!-- Region A (active) -->
+<rect x="120" y="340" width="230" height="170" rx="18" fill="#2dd4bf" fill-opacity="0.12"/>
+<rect x="120" y="340" width="230" height="170" rx="18" fill="#0d1a1c" fill-opacity="0.75" stroke="#2dd4bf" stroke-opacity="0.85" stroke-width="1.8"/>
+<text x="235" y="376" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" font-weight="700" letter-spacing="1.5" fill="#2dd4bf">REGION A</text>
+<path d="M213,401 V429 A22,7 0 0 0 257,429 V401" fill="#0d1a1c" stroke="#2dd4bf" stroke-width="1.8"/>
+<path d="M213,415 A22,7 0 0 0 257,415" fill="none" stroke="#2dd4bf" stroke-width="1.4" opacity="0.5"/>
+<ellipse cx="235" cy="401" rx="22" ry="7" fill="#0d1a1c" stroke="#2dd4bf" stroke-width="1.8"/>
+<text x="235" y="470" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="700" fill="#f4faff">Writes + reads</text>
+<text x="235" y="493" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" fill="#9ff3e6" opacity="0.85">the single source of truth</text>
+
+<!-- Region B (standby) -->
+<rect x="490" y="340" width="230" height="170" rx="18" fill="#2dd4bf" fill-opacity="0.04"/>
+<rect x="490" y="340" width="230" height="170" rx="18" fill="#0d1a1c" fill-opacity="0.55" stroke="#2dd4bf" stroke-opacity="0.45" stroke-width="1.6" stroke-dasharray="8 6"/>
+<text x="605" y="376" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" font-weight="700" letter-spacing="1.5" fill="#2dd4bf" opacity="0.75">REGION B · STANDBY</text>
+<path d="M583,401 V429 A22,7 0 0 0 627,429 V401" fill="#0d1a1c" stroke="#2dd4bf" stroke-width="1.6" stroke-opacity="0.55"/>
+<path d="M583,415 A22,7 0 0 0 627,415" fill="none" stroke="#2dd4bf" stroke-width="1.2" opacity="0.32"/>
+<ellipse cx="605" cy="401" rx="22" ry="7" fill="#0d1a1c" stroke="#2dd4bf" stroke-width="1.6" stroke-opacity="0.55"/>
+<text x="605" y="470" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="700" fill="#e7ecf7" opacity="0.8">No writes</text>
+<text x="605" y="493" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" fill="#9ff3e6" opacity="0.6">warm, provisioned, idle</text>
+
+<!-- one-way replication -->
+<path d="M354,425 H486" fill="none" stroke="#2dd4bf" stroke-width="2.4" stroke-opacity="0.8" marker-end="url(#apArrT)"/>
+<text x="420" y="452" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#9ff3e6" opacity="0.8">one-way</text>
+
+<!-- metrics strip -->
+<rect x="120" y="540" width="600" height="66" rx="14" fill="#0d1420" fill-opacity="0.7" stroke="#2dd4bf" stroke-opacity="0.35" stroke-width="1.2"/>
+<line x1="320" y1="556" x2="320" y2="590" stroke="#2dd4bf" stroke-opacity="0.25" stroke-width="1"/>
+<line x1="520" y1="556" x2="520" y2="590" stroke="#2dd4bf" stroke-opacity="0.25" stroke-width="1"/>
+<text x="220" y="566" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" letter-spacing="1.2" fill="#a9b4c9">RTO</text>
+<text x="220" y="592" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" fill="#9ff3e6">minutes</text>
+<text x="420" y="566" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" letter-spacing="1.2" fill="#a9b4c9">RPO</text>
+<text x="420" y="592" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" fill="#9ff3e6">seconds</text>
+<text x="620" y="566" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" letter-spacing="1.2" fill="#a9b4c9">INFRA</text>
+<text x="620" y="592" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" fill="#9ff3e6">~1.5×</text>
+
+<text x="420" y="654" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" fill="#f4faff">One writer.</text>
+<text x="420" y="679" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="16" fill="#9ff3e6">Failover is a decision you make — and rehearse.</text>
+
+<!-- ================= RIGHT PANEL: ACTIVE-ACTIVE ================= -->
+<rect x="840" y="140" width="680" height="560" rx="24" fill="#ffa53d" fill-opacity="0.10" filter="url(#apGlowSoft)"/>
+<rect x="840" y="140" width="680" height="560" rx="24" fill="#1c150c" fill-opacity="0.88" stroke="#ffa53d" stroke-opacity="0.65" stroke-width="1.8"/>
+<text x="1180" y="184" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5" fill="#ffa53d">ACTIVE-ACTIVE · BOTH REGIONS SERVE</text>
+
+<!-- traffic pill -->
+<rect x="1080" y="208" width="200" height="50" rx="25" fill="#0d1420" fill-opacity="0.9" stroke="#c7cfe0" stroke-opacity="0.55" stroke-width="1.5"/>
+<text x="1180" y="240" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5" fill="#e7ecf7">TRAFFIC</text>
+
+<!-- traffic routing: solid to both -->
+<path d="M1180,258 C1180,300 995,300 995,336" fill="none" stroke="#ffa53d" stroke-width="6" opacity="0.3" filter="url(#apGlow)"/>
+<path d="M1180,258 C1180,300 995,300 995,336" fill="none" stroke="#ffa53d" stroke-width="2.6" marker-end="url(#apArrO)"/>
+<path d="M1180,258 C1180,300 1365,300 1365,336" fill="none" stroke="#ffa53d" stroke-width="6" opacity="0.3" filter="url(#apGlow)"/>
+<path d="M1180,258 C1180,300 1365,300 1365,336" fill="none" stroke="#ffa53d" stroke-width="2.6" marker-end="url(#apArrO)"/>
+
+<!-- Region C -->
+<rect x="880" y="340" width="230" height="170" rx="18" fill="#ffa53d" fill-opacity="0.12"/>
+<rect x="880" y="340" width="230" height="170" rx="18" fill="#1c150c" fill-opacity="0.75" stroke="#ffa53d" stroke-opacity="0.85" stroke-width="1.8"/>
+<text x="995" y="376" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" font-weight="700" letter-spacing="1.5" fill="#ffa53d">REGION C</text>
+<path d="M973,401 V429 A22,7 0 0 0 1017,429 V401" fill="#1c150c" stroke="#ffa53d" stroke-width="1.8"/>
+<path d="M973,415 A22,7 0 0 0 1017,415" fill="none" stroke="#ffa53d" stroke-width="1.4" opacity="0.5"/>
+<ellipse cx="995" cy="401" rx="22" ry="7" fill="#1c150c" stroke="#ffa53d" stroke-width="1.8"/>
+<text x="995" y="470" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="700" fill="#f4faff">Writes + reads</text>
+<text x="995" y="493" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" fill="#ffd9a0" opacity="0.85">its own source of truth</text>
+
+<!-- Region D -->
+<rect x="1250" y="340" width="230" height="170" rx="18" fill="#ffa53d" fill-opacity="0.12"/>
+<rect x="1250" y="340" width="230" height="170" rx="18" fill="#1c150c" fill-opacity="0.75" stroke="#ffa53d" stroke-opacity="0.85" stroke-width="1.8"/>
+<text x="1365" y="376" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" font-weight="700" letter-spacing="1.5" fill="#ffa53d">REGION D</text>
+<path d="M1343,401 V429 A22,7 0 0 0 1387,429 V401" fill="#1c150c" stroke="#ffa53d" stroke-width="1.8"/>
+<path d="M1343,415 A22,7 0 0 0 1387,415" fill="none" stroke="#ffa53d" stroke-width="1.4" opacity="0.5"/>
+<ellipse cx="1365" cy="401" rx="22" ry="7" fill="#1c150c" stroke="#ffa53d" stroke-width="1.8"/>
+<text x="1365" y="470" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="700" fill="#f4faff">Writes + reads</text>
+<text x="1365" y="493" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" fill="#ffd9a0" opacity="0.85">its own source of truth</text>
+
+<!-- bidirectional replication + conflict marker -->
+<path d="M1114,425 H1246" fill="none" stroke="#ff5c4d" stroke-width="6" opacity="0.35" filter="url(#apGlow)"/>
+<path d="M1114,425 H1246" fill="none" stroke="#ffa53d" stroke-width="2.4" marker-start="url(#apArrO)" marker-end="url(#apArrO)"/>
+<circle cx="1180" cy="425" r="15" fill="#1c0f0c" stroke="#ff5c4d" stroke-width="2"/>
+<text x="1180" y="431" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#ff5c4d">!</text>
+<text x="1180" y="464" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#ffd9a0" opacity="0.85">bidirectional</text>
+<text x="1180" y="482" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#ffb4a8" opacity="0.9">conflict surface</text>
+
+<!-- metrics strip -->
+<rect x="880" y="540" width="600" height="66" rx="14" fill="#0d1420" fill-opacity="0.7" stroke="#ffa53d" stroke-opacity="0.35" stroke-width="1.2"/>
+<line x1="1080" y1="556" x2="1080" y2="590" stroke="#ffa53d" stroke-opacity="0.25" stroke-width="1"/>
+<line x1="1280" y1="556" x2="1280" y2="590" stroke="#ffa53d" stroke-opacity="0.25" stroke-width="1"/>
+<text x="980" y="566" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" letter-spacing="1.2" fill="#a9b4c9">RTO</text>
+<text x="980" y="592" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" fill="#ffd9a0">seconds</text>
+<text x="1180" y="566" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" letter-spacing="1.2" fill="#a9b4c9">RPO</text>
+<text x="1180" y="592" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" fill="#ffd9a0">~none</text>
+<text x="1380" y="566" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" letter-spacing="1.2" fill="#a9b4c9">INFRA</text>
+<text x="1380" y="592" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" fill="#ffd9a0">~2×+</text>
+
+<text x="1180" y="654" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" fill="#f4faff">Two writers.</text>
+<text x="1180" y="679" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="16" fill="#ffd9a0">Consistency is a problem you own — permanently.</text>
+
+<!-- ================= BOTTOM BANNER ================= -->
+<rect x="230" y="730" width="1140" height="100" rx="28" fill="#f4faff" fill-opacity="0.08" filter="url(#apGlowSoft)"/>
+<rect x="230" y="730" width="1140" height="100" rx="28" fill="#0d1420" fill-opacity="0.9" stroke="#f4faff" stroke-opacity="0.4" stroke-width="1.8"/>
+<text x="800" y="768" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#c7cfe0">WHAT YOU ARE ACTUALLY BUYING</text>
+<text x="800" y="801" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="#f4faff">The second region isn't the cost. The second writer is.</text>
+
+<text x="800" y="868" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#c7cfe0" opacity="0.8">BOTH SURVIVE A REGION LOSS — ONLY ONE HANDS YOU A CONSISTENCY PROBLEM EVERY DAY</text>
+</svg>

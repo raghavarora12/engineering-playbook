@@ -180,3 +180,9 @@ Related: [ADR-004](004-operational-vs-analytical-data-planes.md) (where the cano
 - Basel Committee on Banking Supervision — [Progress in adopting the Principles for effective risk data aggregation and risk reporting](https://www.bis.org/bcbs/publ/d559.htm) (Nov 2023) — only 2 of 31 G-SIBs fully compliant with BCBS 239, a decade on.
 - OCC — [$400M civil money penalty against Citibank](https://www.occ.gov/news-issuances/news-releases/2020/nr-occ-2020-132.html) (2020) and [$75M follow-on penalty](https://www.occ.gov/news-issuances/news-releases/2024/nr-occ-2024-76.html) (2024, $136M combined with the Fed) — for deficiencies in data quality, data governance, and risk-data aggregation.
 - Sanderson — [The Shift Left Data Manifesto](https://dataproducts.substack.com/p/the-shift-left-data-manifesto) and *Data Contracts* (O'Reilly) — standardize/govern at the producer, upstream of consumers.
+
+---
+
+*Every organisation draws the canonicalisation boundary in a slightly different place, and the
+argument is always about where. If you're drawing it now, I'd genuinely enjoy comparing notes —
+[get in touch](../README.md#get-in-touch).*

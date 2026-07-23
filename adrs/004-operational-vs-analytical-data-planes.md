@@ -151,3 +151,9 @@ trustworthy. Related: [ADR-001](001-canonical-data-model-at-ingestion.md).
 - Zaharia, Ghodsi, Xin, Armbrust — [Lakehouse: A New Generation of Open Platforms](https://people.eecs.berkeley.edu/~matei/papers/2021/cidr_lakehouse.pdf), CIDR 2021.
 - [HTAP: Still the Dream, a Decade Later](https://medium.com/@danthelion/htap-still-the-dream-a-decade-later-9d168f07c759) (why one-engine convergence keeps disappointing).
 - ClickHouse — [Unifying OLTP and OLAP: HTAP databases, zero-ETL, and best-of-breed architectures](https://clickhouse.com/resources/engineering/unifying-oltp-and-olap) (2025) — Snowflake Unistore's real limits (~1,000 ops/sec, 500GB cap, missing features); Databricks acquiring Neon (May 2025) and Snowflake acquiring Crunchy Data (June 2025) instead of extending HTAP further.
+
+---
+
+*Where the operational and analytical planes should meet is rarely settled by the architecture
+diagram alone. If you're working that boundary, I'd genuinely enjoy comparing notes —
+[get in touch](../README.md#get-in-touch).*

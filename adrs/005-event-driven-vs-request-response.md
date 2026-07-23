@@ -143,3 +143,9 @@ Related principle: [[choose-coupling-on-purpose]].
 - Newman — *Building Microservices* (temporal vs. implementation coupling).
 - Netflix Technology Blog (Ben Christensen) — [Fault Tolerance in a High Volume, Distributed System](https://netflixtechblog.com/fault-tolerance-in-a-high-volume-distributed-system-91ab4faae74a) (2012) — the 1B+ calls/day, ~1:6 fan-out, 100k+ req/sec cascading-failure problem that led to Hystrix.
 - Bronson, Aghayev, Charapko, Zhu (formerly Meta/Facebook) — [Metastable Failures in Distributed Systems](https://sigops.org/s/conferences/hotos/2021/papers/hotos21-s11-bronson.pdf), HotOS 2021 — how retries and synchronous fan-out turn a small trigger into a self-sustaining, hard-to-predict outage.
+
+---
+
+*Coupling decisions look obvious on a whiteboard and rarely stay that way once the failure
+semantics show up. If you're weighing one, I'd genuinely enjoy comparing notes —
+[get in touch](../README.md#get-in-touch).*

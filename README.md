@@ -70,6 +70,17 @@ why vanity metrics mislead).
 patterns that repo demonstrates in running code. This playbook is the reasoning; the Simulator
 is the proof it runs.
 
+## Get in touch
+
+These are positions, not conclusions — they are meant to be argued with. If you're weighing one of
+these tradeoffs in your own landscape, or you think a call here is plainly wrong, I'd genuinely
+enjoy the conversation. Availability targets, multi-region failover, and the dependency chains that
+quietly cap both are where I've spent the most time.
+
+**LinkedIn** — https://www.linkedin.com/in/raghav12/
+
+---
+
 ## Provenance
 
 AI assisted the drafting of this repository. The judgment, the positions, and the tradeoffs are

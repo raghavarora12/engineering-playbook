@@ -120,3 +120,9 @@ architecture-review agent. Related principle: [[match-the-datastore-to-the-acces
 - [Latency Numbers Every Programmer Should Know](https://gist.github.com/jboner/2841832).
 - Nick Craver — [Stack Overflow: The Architecture - 2016 Edition](https://nickcraver.com/blog/2016/02/17/stack-overflow-the-architecture-2016-edition/) — single vertically-scaled SQL Server, 1.5TB RAM, ~30% of reads served from memory.
 - Klitzke (Uber Engineering) — [Why Uber Engineering Switched from Postgres to MySQL](https://www.uber.com/en-US/blog/postgres-to-mysql-migration/) (2016) — write amplification, process-per-connection cost, and version-locked replication as the real pressures behind the move.
+
+---
+
+*Most datastore arguments turn out to be access-pattern arguments wearing a different hat. If
+you're in the middle of one, I'd genuinely enjoy comparing notes —
+[get in touch](../README.md#get-in-touch).*

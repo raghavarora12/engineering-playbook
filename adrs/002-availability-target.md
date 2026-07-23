@@ -172,3 +172,9 @@ five nines depends on); principles [[availability-is-a-budget]] and [[reliabilit
 - Bank of England — [Supervisory action over Visa Europe's June 2018 partial outage incident](https://www.bankofengland.co.uk/news/2019/march/boe-announces-supervisory-action-over-visa-europes-june-2018-partial-outage-incident) (2019).
 - ITIC — [2024 Hourly Cost of Downtime Report](https://itic-corp.com/itic-2024-hourly-cost-of-downtime-report/) (>90% of mid/large enterprises: >$300K/hour; 41%: $1M–$5M+/hour; banking/finance among verticals averaging >$5M/hour).
 - Uptime Institute — [Annual Outage Analysis 2025](https://uptimeinstitute.com/resources/research-and-reports/annual-outage-analysis-2025) (54% of significant outages cost >$100K; 1 in 5 top $1M).
+
+---
+
+*Availability targets are cheap to state and expensive to actually mean. If you're arguing one out
+right now — or defending the nine you already committed to — I'd genuinely enjoy comparing notes —
+[get in touch](../README.md#get-in-touch).*

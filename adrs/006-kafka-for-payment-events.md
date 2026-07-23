@@ -131,3 +131,9 @@ Related: [ADR-005](005-event-driven-vs-request-response.md); principle [[match-t
 - Kreps — [The Log: What every software engineer should know about real-time data's unifying abstraction](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying), LinkedIn Engineering (2013) — the N×M pipeline problem and the log as its fix.
 - microservices.io — [Transactional Outbox pattern](https://microservices.io/patterns/data/transactional-outbox.html).
 - Kleppmann — [Designing Data-Intensive Applications](https://dataintensive.net) (logs, ch. 11).
+
+---
+
+*Kafka's fit is decided by the access pattern, not the logo — and the edge cases are where it gets
+interesting. If you're sizing up that call, I'd genuinely enjoy comparing notes —
+[get in touch](../README.md#get-in-touch).*
