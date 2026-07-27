@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Timeline: in November 2024 Snowflake's Unistore hybrid tables reach general availability, the industry's most ambitious single-engine HTAP bet yet. Within months real limits surface: throughput throttled to roughly 1,000 operations per second, active data capped at 500 gigabytes, and no materialized views, cloning, streams, or cross-region replication. In May 2025 Databricks acquires Neon, a dedicated Postgres provider. In June 2025 Snowflake acquires Crunchy Data, another dedicated Postgres provider. Verdict: compose two engines, don't converge into one.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Timeline: in October 2024 Snowflake's Unistore hybrid tables reach general availability in AWS regions, the industry's most ambitious single-engine HTAP bet yet. It launches far short of OLTP-grade: default quotas of roughly 1,000 operations per second and 500 gigabytes of active data, both raisable on request, and no materialized views, cloning, streams, or replication. In May 2025 Databricks acquires Neon, a dedicated Postgres provider. In June 2025 Snowflake acquires Crunchy Data, another dedicated Postgres provider. Verdict: compose two engines, don't converge into one. Footnote: Snowflake has since raised the quotas to roughly 16,000 operations per second and 2 terabytes per database; the starting position is the point, not the number.">
 <defs>
 <linearGradient id="hdBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f0d12"/><stop offset="0.5" stop-color="#080b14"/><stop offset="1" stop-color="#070c17"/></linearGradient>
 <filter id="hdGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="9"/></filter>
@@ -19,7 +19,7 @@
 <!-- top intro card -->
 <rect x="380" y="50" width="840" height="120" rx="22" fill="#f4faff" fill-opacity="0.14" filter="url(#hdGlowSoft)"/>
 <rect x="380" y="50" width="840" height="120" rx="22" fill="#0d1420" fill-opacity="0.85" stroke="#f4faff" stroke-opacity="0.55" stroke-width="1.6"/>
-<text x="800" y="82" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2" fill="#a9b4c9" opacity="0.9">NOVEMBER 2024 · SNOWFLAKE UNISTORE HYBRID TABLES REACH GA</text>
+<text x="800" y="82" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2" fill="#a9b4c9" opacity="0.9">OCTOBER 2024 · SNOWFLAKE UNISTORE HYBRID TABLES REACH GA (AWS)</text>
 <text x="800" y="114" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="600" fill="#f4faff">The industry's most ambitious single-engine</text>
 <text x="800" y="142" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="600" fill="#f4faff">HTAP bet yet.</text>
 
@@ -55,11 +55,12 @@
 <!-- card 2: limits -->
 <rect x="450" y="300" width="300" height="210" rx="20" fill="#ff5c4d" fill-opacity="0.14" filter="url(#hdGlowSoft)"/>
 <rect x="450" y="300" width="300" height="210" rx="20" fill="#1c0f0c" fill-opacity="0.85" stroke="#ff5c4d" stroke-opacity="0.7" stroke-width="1.8"/>
-<text x="600" y="336" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#ff5c4d">THE CEILING, FAST</text>
+<text x="600" y="336" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#ff5c4d">DEFAULT QUOTAS AT LAUNCH</text>
 <text x="600" y="372" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#e7ecf7">~1,000 ops/sec,</text>
-<text x="600" y="396" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#e7ecf7">500 GB active-data cap.</text>
-<text x="600" y="432" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#ffb4a8" opacity="0.9">No materialized views, cloning,</text>
-<text x="600" y="454" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#ffb4a8" opacity="0.9">streams, or cross-region replication.</text>
+<text x="600" y="396" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#e7ecf7">500 GB active data.</text>
+<text x="600" y="420" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#ffb4a8" opacity="0.75">Both raisable on request.</text>
+<text x="600" y="452" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#ffb4a8" opacity="0.9">No materialized views, cloning,</text>
+<text x="600" y="474" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#ffb4a8" opacity="0.9">streams, or replication.</text>
 
 <!-- card 3: Databricks acquires Neon -->
 <rect x="830" y="300" width="300" height="210" rx="20" fill="#ffa53d" fill-opacity="0.14" filter="url(#hdGlowSoft)"/>
@@ -89,5 +90,6 @@
 <text x="800" y="695" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5" fill="#2dd4bf">VERDICT</text>
 <text x="800" y="730" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="#9ff3e6">Compose two engines — don't converge into one</text>
 
-<text x="800" y="835" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#c7cfe0" opacity="0.85">TWO OF THE INDUSTRY'S BIGGEST DATA PLATFORMS TRIED HTAP AND CHOSE COMPOSITION INSTEAD</text>
+<text x="800" y="828" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#c7cfe0" opacity="0.85">BOTH BOUGHT A DEDICATED POSTGRES ENGINE RATHER THAN EXTEND THEIR ANALYTICAL ONE</text>
+<text x="800" y="862" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" letter-spacing="0.5" fill="#a9b4c9" opacity="0.6">Snowflake has since raised the quotas to ~16,000 ops/sec and 2 TB per database — the starting position is the point, not the number.</text>
 </svg>

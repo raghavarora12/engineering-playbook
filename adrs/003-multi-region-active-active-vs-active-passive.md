@@ -83,27 +83,6 @@ target or quietly caps it.
 
 ![Side-by-side topology comparison. Left, active-passive: all traffic goes to Region A, which serves writes and reads; Region B is a warm standby that takes no writes, receives one-way replication, and only takes traffic on failover — RTO in minutes, RPO in seconds, about 1.5× the infrastructure. One writer, so failover is a decision you make and rehearse. Right, active-active: traffic is split across Region C and Region D, both serving writes and reads, with bidirectional replication between them and a conflict surface on that link — RTO in seconds, RPO near none, about 2×+ the infrastructure. Two writers, so consistency is a problem you own permanently. Caption: the second region isn't the cost, the second writer is.](assets/003-active-passive-vs-active-active-topology.svg)
 
-```mermaid
-flowchart LR
-    subgraph AP["✓ Active-passive — one region serves"]
-        direction TB
-        lb1["Traffic"] --> ra["Region A (active)"]
-        ra -. "replicate" .-> rb["Region B (standby)"]
-    end
-    subgraph AA["⚠ Active-active — both serve"]
-        direction TB
-        lb2["Traffic"] --> rc["Region C"]
-        lb2 --> rd["Region D"]
-        rc <-. "bidirectional<br/>replication" .-> rd
-    end
-
-    classDef good fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#e7ecf7
-    classDef warn fill:#1c150c,stroke:#ffa53d,stroke-width:2px,color:#e7ecf7
-    class lb1,ra,rb good
-    class lb2,rc,rd warn
-    style AP fill:#0d1a1c,stroke:#2dd4bf,stroke-width:2px,color:#9ff3e6
-    style AA fill:#1c150c,stroke:#ffa53d,stroke-width:2px,color:#ffd9a0
-```
 
 | Option | Cost / complexity | Protects against | Introduces / when right |
 |--------|-------------------|------------------|-------------------------|
