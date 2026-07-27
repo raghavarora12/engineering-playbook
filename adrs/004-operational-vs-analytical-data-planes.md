@@ -72,8 +72,8 @@ duality is what makes that coherent: a log and a table are two projections of th
 point, [ADR-006](006-kafka-for-payment-events.md)), and Confluent's Tableflow leans on it directly —
 materialising Kafka topics as Iceberg tables (GA March 2025) or Delta tables (GA October 2025) so
 analysts query the same governed stream operational services are already reading. It is the same
-instinct as [ADR-001](001-canonical-data-model-at-ingestion.md): fix the data once, at the boundary — here
-applied to the operational/analytical divide rather than the ingestion one.
+instinct as [ADR-001](001-canonical-data-model-at-ingestion.md): fix the data once, at the
+boundary — here applied to the operational/analytical divide rather than the ingestion one.
 
 Seen this way, the decision isn't "converge or stay separate." It is **at which layer you let the
 two estates meet — and the further upstream you push that point, the less you couple**. Meet at the
@@ -82,9 +82,6 @@ one governed copy but isolate compute. Meet at the stream and you share only an 
 while each estate scales its own reads independently. Engine convergence couples at the worst layer;
 stream convergence at the best. That reframing — not "is convergence modern?" — is what this ADR
 turns on.
-
-[AUTHOR: the real convergence decision, the system, and the latency-sensitive use case
-(e.g. fraud/risk decisioning) if one drove it — and which layer you chose to converge at.]
 
 ## Options Considered
 
@@ -135,10 +132,8 @@ flowchart LR
 | **Unified storage, separate compute (lakehouse)** | Storage — one open table format, many engines | Seconds to minutes | Strong on compute, shared on storage — the pragmatic middle | You want one governed copy of data at rest without coupling the two workloads' compute. |
 | **Converged engine (HTAP)** | The engine — one store serves both | Live / sub-second | Weak: mixed workload contends on one engine; analytics share OLTP's blast radius | A decision needs data fresher than *any* pipeline delivers, *and* that freshness outweighs the isolation lost. Rare — and the vendors best placed to build it bought dedicated OLTP engines instead. |
 
-The decision aid:
-
-The rule of thumb it encodes: **push the meeting point as far upstream as it will go.** Reach for the
-engine only when the stream and storage layers genuinely can't deliver.
+The decision aid below encodes one rule of thumb: **push the meeting point as far upstream as it
+will go.** Reach for the engine only when the stream and storage layers genuinely can't deliver.
 
 ```mermaid
 flowchart TD
@@ -160,14 +155,35 @@ flowchart TD
     class CON2 bad
 ```
 
+Two cases, run through it:
+
+**Fraud and risk decisioning** — learning from each transaction and applying it to the next. This is
+the case HTAP was built for: the lag between learning and applying *is* the product, and no pipeline
+beats one engine on it. It is also where the argument for one engine breaks. Fraud traffic is spiky,
+and the decision has to hold its latency at peak — exactly when a shared engine's analytical side is
+competing for the same capacity. Both bars are real and they point opposite ways: freshness says
+converge, elastic scale says don't. I weigh scale heavier, so this lands on the stream — giving up
+milliseconds to buy back elasticity and a cleaner operational story.
+
+**End-of-day analytics on operational data** — reports, trend analysis, periodic decisioning. No
+latency pressure, so batch is the obvious fit and stays the cheapest answer. Where a lakehouse or a
+governed stream is already carrying other workloads, routing this through it consolidates what you
+operate. Converge because you are already paying for the platform, not to make the report fresher.
+
 ## Decision
 
-[AUTHOR: which layer you chose to converge at, for which system.] The test that should decide it:
-converging *into one engine* wins only when **the decision has to act on data fresher than any
-pipeline can deliver, and that freshness is worth more than the isolation you give up.** Live
-fraud/risk decisioning on in-flight transactions is the canonical case that clears that bar. A daily
-revenue dashboard is not — paying HTAP's contention and operational cost to make it "live" is
-complexity with no buyer.
+No single pattern generalises across systems — each use case has to be assessed on its own
+operational stability, scalability and maintainability. But "it depends" is not a decision, so here
+is the default I hold to: **meet as far upstream as the workload allows, and treat the engine as the
+layer you have to earn.**
+
+The test that should decide it: converging *into one engine* wins only when **the decision has to act
+on data fresher than any pipeline can deliver, and that freshness is worth more than the isolation
+you give up.** Live fraud/risk decisioning on in-flight transactions is the one case that clears that
+bar — and, as the case above shows, the one where I would still hesitate. It passes the test as
+written and fails a second one the test doesn't ask about: elastic scale under spiky load. I am not
+going to pretend that resolves cleanly. A daily revenue dashboard doesn't even reach the question —
+paying HTAP's contention and operational cost to make it "live" is complexity with no buyer.
 
 But that is the *last* question to ask, not the first. For most "we want fresher analytics" needs
 the honest answer isn't a converged engine at all — it's to **converge further upstream**. A
@@ -198,12 +214,12 @@ lakehouse shapes) a single *governed* copy that both sides trust.
   governance of the open format become a standing operational job.
 - **When convergence is simply wrong:** any workload whose analytics tolerate minutes of lag — which
   is most of them. A batch pipeline there buys isolation everybody wants at a price everybody can
-  pay; forcing "live" onto it is complexity with no buyer. [AUTHOR: the freshness SLA that actually
-  mattered for your case.]
+  pay; forcing "live" onto it is complexity with no buyer. End-of-day and monthly reporting is the
+  clearest example — nobody acts on those numbers before the batch lands.
 
 ## Status
 
-draft — awaiting author specifics and review. Builds on
+Draft. Builds on
 [ADR-001](001-canonical-data-model-at-ingestion.md) — canonicalized data is what makes either plane
 trustworthy, and the shift-left convergence path is the same instinct applied to a different
 boundary. The stream-as-substrate option leans directly on
