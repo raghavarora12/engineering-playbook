@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Chart: the four multi-region Kafka topologies placed on a single spectrum of how wide the duplicate window is when you fail over. At the left, a stretched cluster has no duplicate window at all, because there is only one offset address space and nothing to translate, but it is bounded by geography — it needs round-trip times under 50 to 100 milliseconds and a third site to hold the quorum, which confines it to a metro rather than a continent. In the middle, an active-passive mirror and a mirrored active-active pair both land in the same place, a window of seconds set by the offset-sync interval and biased backwards on purpose; they differ from each other on other axes, not on this one. At the right, producer dual-write has an unbounded and unmeasurable window, because two independent writes share no sequence to reconcile against. Below the spectrum, a second curve shows the latency charged to every acknowledged write, which runs the opposite way: high for the stretched cluster where each write waits for a cross-site round trip, near zero for the two mirrored options where replication sits off the write path, and high again for dual-write which pays the produce cost N times. The two curves cross in the middle, where the mirrored options sit. The closing caption reads: you are not choosing an availability tier, you are choosing how much reconciliation you will have to build.">
+<defs>
+<linearGradient id="spBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f0d12"/><stop offset="0.5" stop-color="#080b14"/><stop offset="1" stop-color="#070c17"/></linearGradient>
+<filter id="spGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+<linearGradient id="spRail" x1="220" y1="0" x2="1400" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2dd4bf"/><stop offset="0.45" stop-color="#9ff3e6"/><stop offset="0.72" stop-color="#ffa53d"/><stop offset="1" stop-color="#ff5c4d"/></linearGradient>
+<linearGradient id="spLat" x1="300" y1="0" x2="1300" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffa53d"/><stop offset="0.35" stop-color="#2dd4bf"/><stop offset="0.65" stop-color="#2dd4bf"/><stop offset="1" stop-color="#ff5c4d"/></linearGradient>
+<radialGradient id="spD1" cx="300" cy="440" r="16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffa53d" stop-opacity="0.6"/><stop offset="1" stop-color="#ffa53d" stop-opacity="0"/></radialGradient>
+<radialGradient id="spD2" cx="660" cy="440" r="16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2dd4bf" stop-opacity="0.6"/><stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/></radialGradient>
+<radialGradient id="spD3" cx="940" cy="440" r="16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9ff3e6" stop-opacity="0.6"/><stop offset="1" stop-color="#9ff3e6" stop-opacity="0"/></radialGradient>
+<radialGradient id="spD4" cx="1300" cy="440" r="18" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff5c4d" stop-opacity="0.6"/><stop offset="1" stop-color="#ff5c4d" stop-opacity="0"/></radialGradient>
+</defs>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#spBg)"/>
+
+<text x="800" y="58" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700" fill="#f4faff">Four topologies, one axis that actually decides your design work</text>
+<text x="800" y="88" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" letter-spacing="1.4" fill="#a9b4c9" opacity="0.85">NOT RPO/RTO — HOW MUCH REPROCESSING YOU ARE SIGNING UP TO ABSORB</text>
+
+<!-- ============ CARDS ============ -->
+<!-- 1. stretched -->
+<rect x="175" y="130" width="250" height="252" rx="14" fill="#1c150c" fill-opacity="0.9" stroke="#ffa53d" stroke-opacity="0.65" stroke-width="1.6"/>
+<text x="300" y="164" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffd9a0">Stretched cluster</text>
+<line x1="205" y1="180" x2="395" y2="180" stroke="#ffa53d" stroke-opacity="0.35" stroke-width="1"/>
+<text x="300" y="212" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#f4faff">NONE</text>
+<text x="300" y="234" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#a9b4c9">one offset space · nothing to translate</text>
+<text x="300" y="272" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" font-weight="700" letter-spacing="1" fill="#ffd9a0">BOUNDED BY GEOGRAPHY</text>
+<text x="300" y="296" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">RTT &lt; 50 ms (Cloudera)</text>
+<text x="300" y="317" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">sub-100 ms, tight p99 (Confluent)</text>
+<text x="300" y="338" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">third site required for quorum</text>
+<text x="300" y="366" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" font-style="italic" fill="#ffd9a0" opacity="0.9">a metro, not a continent</text>
+
+<!-- 2. active-passive -->
+<rect x="535" y="130" width="250" height="252" rx="14" fill="#0d1a1c" fill-opacity="0.9" stroke="#2dd4bf" stroke-opacity="0.8" stroke-width="2"/>
+<text x="660" y="164" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="700" fill="#9ff3e6">Active-passive mirror</text>
+<line x1="565" y1="180" x2="755" y2="180" stroke="#2dd4bf" stroke-opacity="0.35" stroke-width="1"/>
+<text x="660" y="212" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#f4faff">SECONDS</text>
+<text x="660" y="234" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#a9b4c9">bounded by the offset-sync interval</text>
+<text x="660" y="272" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" font-weight="700" letter-spacing="1" fill="#9ff3e6">THE DEFAULT</text>
+<text x="660" y="296" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">one writer, always</text>
+<text x="660" y="317" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">30–60 s sync gaps typical</text>
+<text x="660" y="338" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">cold group state on cutover</text>
+<text x="660" y="366" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" font-style="italic" fill="#9ff3e6" opacity="0.9">only as good as the rehearsal</text>
+
+<!-- 3. mirrored active-active -->
+<rect x="815" y="130" width="250" height="252" rx="14" fill="#0d1420" fill-opacity="0.9" stroke="#4c8dff" stroke-opacity="0.7" stroke-width="1.6"/>
+<text x="940" y="164" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="700" fill="#b9d0ff">Mirrored active-active</text>
+<line x1="845" y1="180" x2="1035" y2="180" stroke="#4c8dff" stroke-opacity="0.35" stroke-width="1"/>
+<text x="940" y="212" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#f4faff">SECONDS</text>
+<text x="940" y="234" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#a9b4c9">same window — differs on other axes</text>
+<text x="940" y="272" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" font-weight="700" letter-spacing="1" fill="#b9d0ff">EARN IT WITH LATENCY NEED</text>
+<text x="940" y="296" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">partition write ownership</text>
+<text x="940" y="317" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">EOS stops at the cluster edge</text>
+<text x="940" y="338" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">cycle prevention required</text>
+<text x="940" y="366" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" font-style="italic" fill="#b9d0ff" opacity="0.9">two writers to reconcile</text>
+
+<!-- 4. dual-write -->
+<rect x="1175" y="130" width="250" height="252" rx="14" fill="#1c0f0c" fill-opacity="0.9" stroke="#ff5c4d" stroke-opacity="0.75" stroke-width="1.8"/>
+<text x="1300" y="164" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffb4a8">Producer dual-write</text>
+<line x1="1205" y1="180" x2="1395" y2="180" stroke="#ff5c4d" stroke-opacity="0.35" stroke-width="1"/>
+<text x="1300" y="212" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700" fill="#f4faff">UNBOUNDED</text>
+<text x="1300" y="234" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#a9b4c9">no shared sequence to measure against</text>
+<text x="1300" y="272" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" font-weight="700" letter-spacing="1" fill="#ffb4a8">NOT A CHEAPER MIRRORING</text>
+<text x="1300" y="296" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">no atomicity across regions</text>
+<text x="1300" y="317" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">partial writes diverge silently</text>
+<text x="1300" y="338" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" fill="#e7ecf7">no cross-region ordering</text>
+<text x="1300" y="366" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" font-style="italic" fill="#ffb4a8" opacity="0.9">mirroring reports its lag; this doesn't</text>
+
+<!-- ============ SPECTRUM RAIL ============ -->
+<g style="mix-blend-mode:screen">
+  <line x1="220" y1="440" x2="1400" y2="440" stroke="url(#spRail)" stroke-width="10" stroke-linecap="round" opacity="0.45" filter="url(#spGlow)"/>
+  <line x1="220" y1="440" x2="1400" y2="440" stroke="url(#spRail)" stroke-width="3.5" stroke-linecap="round"/>
+</g>
+<line x1="300" y1="382" x2="300" y2="432" stroke="#ffa53d" stroke-width="1.4" stroke-dasharray="4 4" opacity="0.6"/>
+<line x1="660" y1="382" x2="660" y2="432" stroke="#2dd4bf" stroke-width="1.4" stroke-dasharray="4 4" opacity="0.6"/>
+<line x1="940" y1="382" x2="940" y2="432" stroke="#4c8dff" stroke-width="1.4" stroke-dasharray="4 4" opacity="0.6"/>
+<line x1="1300" y1="382" x2="1300" y2="432" stroke="#ff5c4d" stroke-width="1.4" stroke-dasharray="4 4" opacity="0.6"/>
+
+<circle cx="300" cy="440" r="16" fill="url(#spD1)"/><circle cx="300" cy="440" r="7.5" fill="#ffd9a0"/>
+<circle cx="660" cy="440" r="16" fill="url(#spD2)"/><circle cx="660" cy="440" r="7.5" fill="#9ff3e6"/>
+<circle cx="940" cy="440" r="16" fill="url(#spD3)"/><circle cx="940" cy="440" r="7.5" fill="#c8f5ee"/>
+<circle cx="1300" cy="440" r="18" fill="url(#spD4)"/><circle cx="1300" cy="440" r="7.5" fill="#ffb4a8"/>
+
+<text x="800" y="486" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13.5" font-weight="700" letter-spacing="2.5" fill="#e7ecf7" opacity="0.9">WIDTH OF THE DUPLICATE WINDOW ON FAILOVER  ⟶</text>
+
+<!-- bracket showing the two middle options share a class -->
+<path d="M660,506 L660,518 L940,518 L940,506" fill="none" stroke="#8f9bb3" stroke-width="1.4" opacity="0.6"/>
+<text x="800" y="538" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" fill="#a9b4c9" opacity="0.9">same window class — the choice between these two is not about duplicates</text>
+
+<!-- ============ LATENCY SUB-CHART ============ -->
+<text x="220" y="592" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12.5" font-weight="700" letter-spacing="2" fill="#a9b4c9" opacity="0.8">LATENCY CHARGED TO EVERY ACKNOWLEDGED WRITE — RUNS THE OPPOSITE WAY</text>
+
+<line x1="220" y1="770" x2="1400" y2="770" stroke="#3a4258" stroke-width="1.6"/>
+<g style="mix-blend-mode:screen">
+  <path d="M300,626 C440,626 520,752 660,752 L940,752 C1080,752 1160,640 1300,640" fill="none" stroke="url(#spLat)" stroke-width="8" stroke-linecap="round" opacity="0.4" filter="url(#spGlow)"/>
+  <path d="M300,626 C440,626 520,752 660,752 L940,752 C1080,752 1160,640 1300,640" fill="none" stroke="url(#spLat)" stroke-width="3" stroke-linecap="round" opacity="0.95"/>
+</g>
+<circle cx="300" cy="626" r="6" fill="#ffd9a0"/>
+<circle cx="660" cy="752" r="6" fill="#9ff3e6"/>
+<circle cx="940" cy="752" r="6" fill="#c8f5ee"/>
+<circle cx="1300" cy="640" r="6" fill="#ffb4a8"/>
+
+<text x="300" y="612" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#ffd9a0">cross-site round trip, every write</text>
+<text x="800" y="790" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#9ff3e6">replication sits off the write path</text>
+<text x="1300" y="622" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#ffb4a8">N× produce, N× failure surface</text>
+
+<text x="1400" y="874" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.4" fill="#9ff3e6" opacity="0.9">YOU ARE NOT PICKING AN AVAILABILITY TIER — YOU ARE PICKING HOW MUCH RECONCILIATION YOU BUILD</text>
+</svg>

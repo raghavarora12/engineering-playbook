@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Diagram: the anatomy of a cross-region Kafka failover, drawn on the log itself. The upper bar is a partition in the source cluster in region A, shown as a row of records. Three positions are marked along it: the last offset-sync checkpoint, then further along the consumer's actual committed position, then the head of the log at the end. The records between the checkpoint and the committed position are shaded amber and labelled the duplicate window — already processed, but the checkpoint does not know it, so they will be delivered a second time. The records between the committed position and the head of the log are shaded red and labelled the loss window — accepted in region A but not yet carried across by asynchronous replication, which is the RPO. A divider marks region A being lost and the failover occurring. The lower bar is the target cluster in region B holding the same records at entirely different offset numbers, n is not equal to m, and the resume point sits back at the checkpoint, deliberately earlier than the true position, because translation maps conservatively backwards. A quoted callout records that Uber's failover algorithm takes the smallest checkpointed offset in the passive region to ensure no data loss, and that Apache's KIP-1279 describes offset mapping as inherently lossy. The closing caption reads: the window is not a bug, it is the design — the ledger closes it, not the broker.">
+<defs>
+<linearGradient id="dwBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f0d12"/><stop offset="0.5" stop-color="#080b14"/><stop offset="1" stop-color="#070c17"/></linearGradient>
+<filter id="dwGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8"/></filter>
+<filter id="dwSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>
+<linearGradient id="dwAmber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffa53d" stop-opacity="0.30"/><stop offset="1" stop-color="#ffa53d" stop-opacity="0.06"/></linearGradient>
+<linearGradient id="dwRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff5c4d" stop-opacity="0.30"/><stop offset="1" stop-color="#ff5c4d" stop-opacity="0.06"/></linearGradient>
+<marker id="dwArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffd9a0"/></marker>
+<marker id="dwArrowDim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8f9bb3"/></marker>
+</defs>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#dwBg)"/>
+
+<text x="800" y="60" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700" fill="#f4faff">Anatomy of a cross-region failover — drawn on the log itself</text>
+<text x="800" y="90" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" letter-spacing="1.4" fill="#a9b4c9" opacity="0.85">ONE PARTITION · THE THREE POSITIONS THAT DECIDE WHAT HAPPENS WHEN THE REGION GOES</text>
+
+<!-- ============ REGION A ============ -->
+<text x="200" y="150" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2" fill="#b9d0ff" opacity="0.9">REGION A · SOURCE CLUSTER</text>
+
+<!-- marker labels -->
+<text x="820" y="188" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" fill="#ffd9a0">last offset-sync checkpoint ▸</text>
+<text x="1128" y="188" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" fill="#e7ecf7">consumer's committed position ▸</text>
+<text x="1396" y="188" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" fill="#ffb4a8">head of log ▸</text>
+
+<!-- bands behind the cells -->
+<rect x="820" y="200" width="308" height="128" rx="6" fill="url(#dwAmber)"/>
+<rect x="1128" y="200" width="268" height="128" rx="6" fill="url(#dwRed)"/>
+
+<!-- record cells: processed & checkpointed -->
+<g fill="#0d1a1c" stroke="#2dd4bf" stroke-width="1.4" stroke-opacity="0.75">
+<rect x="210" y="220" width="38" height="56" rx="5"/><rect x="254" y="220" width="38" height="56" rx="5"/>
+<rect x="298" y="220" width="38" height="56" rx="5"/><rect x="342" y="220" width="38" height="56" rx="5"/>
+<rect x="386" y="220" width="38" height="56" rx="5"/><rect x="430" y="220" width="38" height="56" rx="5"/>
+<rect x="474" y="220" width="38" height="56" rx="5"/><rect x="518" y="220" width="38" height="56" rx="5"/>
+<rect x="562" y="220" width="38" height="56" rx="5"/><rect x="606" y="220" width="38" height="56" rx="5"/>
+<rect x="650" y="220" width="38" height="56" rx="5"/><rect x="694" y="220" width="38" height="56" rx="5"/>
+<rect x="738" y="220" width="38" height="56" rx="5"/><rect x="782" y="220" width="38" height="56" rx="5"/>
+</g>
+<!-- record cells: duplicate window -->
+<g fill="#1c150c" stroke="#ffa53d" stroke-width="1.8">
+<rect x="826" y="220" width="38" height="56" rx="5"/><rect x="870" y="220" width="38" height="56" rx="5"/>
+<rect x="914" y="220" width="38" height="56" rx="5"/><rect x="958" y="220" width="38" height="56" rx="5"/>
+<rect x="1002" y="220" width="38" height="56" rx="5"/><rect x="1046" y="220" width="38" height="56" rx="5"/>
+<rect x="1090" y="220" width="38" height="56" rx="5"/>
+</g>
+<!-- record cells: loss window -->
+<g fill="#1c0f0c" stroke="#ff5c4d" stroke-width="1.8" stroke-dasharray="4 3">
+<rect x="1134" y="220" width="38" height="56" rx="5"/><rect x="1178" y="220" width="38" height="56" rx="5"/>
+<rect x="1222" y="220" width="38" height="56" rx="5"/><rect x="1266" y="220" width="38" height="56" rx="5"/>
+<rect x="1310" y="220" width="38" height="56" rx="5"/><rect x="1354" y="220" width="38" height="56" rx="5"/>
+</g>
+
+<!-- boundary rules -->
+<line x1="820" y1="196" x2="820" y2="336" stroke="#ffa53d" stroke-width="2" stroke-dasharray="5 4" opacity="0.9"/>
+<line x1="1128" y1="196" x2="1128" y2="336" stroke="#e7ecf7" stroke-width="2" stroke-dasharray="5 4" opacity="0.8"/>
+<line x1="1396" y1="196" x2="1396" y2="336" stroke="#ff5c4d" stroke-width="2" stroke-dasharray="5 4" opacity="0.8"/>
+
+<!-- offset scale -->
+<text x="210" y="303" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" fill="#8f9bb3" opacity="0.85">offset n−26</text>
+<text x="1392" y="303" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" fill="#8f9bb3" opacity="0.85">offset n</text>
+
+<!-- band labels -->
+<rect x="820" y="348" width="308" height="52" rx="10" fill="#1c150c" fill-opacity="0.92" stroke="#ffa53d" stroke-opacity="0.75" stroke-width="1.6"/>
+<text x="974" y="370" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#ffd9a0">THE DUPLICATE WINDOW</text>
+<text x="974" y="390" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#ffd9a0" opacity="0.9">already processed — delivered again</text>
+
+<rect x="1140" y="348" width="256" height="52" rx="10" fill="#1c0f0c" fill-opacity="0.92" stroke="#ff5c4d" stroke-opacity="0.75" stroke-width="1.6"/>
+<text x="1268" y="370" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#ffb4a8">THE LOSS WINDOW · RPO</text>
+<text x="1268" y="390" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#ffb4a8" opacity="0.9">accepted here, never replicated</text>
+
+<text x="210" y="376" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12.5" fill="#9ff3e6" opacity="0.85">processed · checkpointed · safe</text>
+
+<!-- ============ FAILOVER DIVIDER ============ -->
+<line x1="200" y1="440" x2="640" y2="440" stroke="#3a4258" stroke-width="1.5"/>
+<line x1="960" y1="440" x2="1400" y2="440" stroke="#3a4258" stroke-width="1.5"/>
+<rect x="648" y="418" width="304" height="44" rx="22" fill="#1c0f0c" fill-opacity="0.95" stroke="#ff5c4d" stroke-opacity="0.7" stroke-width="1.6"/>
+<text x="800" y="446" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.6" fill="#ffb4a8">⚡ REGION A LOST · FAILOVER</text>
+
+<!-- ============ REGION B ============ -->
+<text x="200" y="512" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2" fill="#b9d0ff" opacity="0.9">REGION B · TARGET CLUSTER</text>
+<text x="1396" y="512" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" font-weight="700" fill="#4c8dff">same records · different address space</text>
+
+<g fill="#0d1420" stroke="#4c8dff" stroke-width="1.4" stroke-opacity="0.7">
+<rect x="210" y="540" width="38" height="56" rx="5"/><rect x="254" y="540" width="38" height="56" rx="5"/>
+<rect x="298" y="540" width="38" height="56" rx="5"/><rect x="342" y="540" width="38" height="56" rx="5"/>
+<rect x="386" y="540" width="38" height="56" rx="5"/><rect x="430" y="540" width="38" height="56" rx="5"/>
+<rect x="474" y="540" width="38" height="56" rx="5"/><rect x="518" y="540" width="38" height="56" rx="5"/>
+<rect x="562" y="540" width="38" height="56" rx="5"/><rect x="606" y="540" width="38" height="56" rx="5"/>
+<rect x="650" y="540" width="38" height="56" rx="5"/><rect x="694" y="540" width="38" height="56" rx="5"/>
+<rect x="738" y="540" width="38" height="56" rx="5"/><rect x="782" y="540" width="38" height="56" rx="5"/>
+</g>
+<g fill="#1c150c" stroke="#ffa53d" stroke-width="1.8">
+<rect x="826" y="540" width="38" height="56" rx="5"/><rect x="870" y="540" width="38" height="56" rx="5"/>
+<rect x="914" y="540" width="38" height="56" rx="5"/><rect x="958" y="540" width="38" height="56" rx="5"/>
+<rect x="1002" y="540" width="38" height="56" rx="5"/><rect x="1046" y="540" width="38" height="56" rx="5"/>
+<rect x="1090" y="540" width="38" height="56" rx="5"/>
+</g>
+<!-- the loss window simply does not exist here -->
+<rect x="1134" y="540" width="262" height="56" rx="6" fill="none" stroke="#ff5c4d" stroke-width="1.6" stroke-dasharray="6 5" opacity="0.55"/>
+<text x="1265" y="574" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" fill="#ffb4a8" opacity="0.85">never arrived</text>
+
+<text x="210" y="623" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" fill="#8f9bb3" opacity="0.85">offset m−26</text>
+<text x="1128" y="623" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" fill="#8f9bb3" opacity="0.85">offset m</text>
+
+<!-- n != m badge -->
+<rect x="660" y="640" width="280" height="38" rx="19" fill="#0d1420" fill-opacity="0.95" stroke="#4c8dff" stroke-opacity="0.7" stroke-width="1.6"/>
+<text x="800" y="665" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="15" font-weight="700" fill="#b9d0ff">n ≠ m — offsets do not replicate</text>
+
+<!-- resume arrow: the deliberate rewind -->
+<path d="M1128,616 C1050,668 900,668 824,620" fill="none" stroke="#ffd9a0" stroke-width="2.6" stroke-linecap="round" marker-end="url(#dwArrow)" opacity="0.95"/>
+<text x="976" y="706" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#ffd9a0">resumes here — deliberately earlier</text>
+<text x="976" y="727" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12.5" fill="#ffd9a0" opacity="0.85">translation maps conservatively backwards</text>
+
+<!-- ============ QUOTED CALLOUT ============ -->
+<rect x="200" y="748" width="1200" height="88" rx="14" fill="#0d1a1c" fill-opacity="0.85" stroke="#2dd4bf" stroke-opacity="0.45" stroke-width="1.5"/>
+<text x="228" y="778" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#c8f5ee">Uber's failover algorithm “finds the smallest offset among checkpointed values in the passive region <tspan font-weight="700">to ensure no data loss</tspan>.”</text>
+<text x="228" y="803" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#c8f5ee">Apache's KIP-1279 calls offset mapping “<tspan font-weight="700">inherently lossy</tspan>” — where exact translation is unavailable, MM2 “conservatively maps to earlier records.”</text>
+<text x="228" y="826" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" letter-spacing="1" fill="#9ff3e6" opacity="0.75">BOTH ARE CHOOSING DUPLICATES OVER GAPS — BECAUSE THOSE ARE THE ONLY TWO OPTIONS</text>
+
+<text x="1400" y="874" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#ffd9a0" opacity="0.9">THE WINDOW IS NOT A BUG — IT IS THE DESIGN. THE LEDGER CLOSES IT, NOT THE BROKER.</text>
+</svg>

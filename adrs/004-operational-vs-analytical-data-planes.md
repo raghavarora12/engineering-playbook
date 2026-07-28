@@ -7,7 +7,7 @@ date: 2026-07-11
 tags: [data-strategy, htap, oltp-olap, streaming]
 supersedes: null
 superseded_by: null
-related: [ADR-001, ADR-006]
+related: [ADR-001, ADR-005]
 ---
 
 # ADR-004 — Converging operational & analytical data planes vs. keeping them separate
@@ -69,7 +69,7 @@ engine. Its "shift-left" thesis moves processing and governance *upstream*, onto
 itself, so a single well-formed data product is produced once and consumed both ways — by
 operational systems through Kafka's API, and by the analytical estate as tables. Stream/table
 duality is what makes that coherent: a log and a table are two projections of the same data (Kreps'
-point, [ADR-006](006-kafka-for-payment-events.md)), and Confluent's Tableflow leans on it directly —
+point), and Confluent's Tableflow leans on it directly —
 materialising Kafka topics as Iceberg tables (GA March 2025) or Delta tables (GA October 2025) so
 analysts query the same governed stream operational services are already reading. It is the same
 instinct as [ADR-001](001-canonical-data-model-at-ingestion.md): fix the data once, at the
@@ -223,8 +223,10 @@ Draft. Builds on
 [ADR-001](001-canonical-data-model-at-ingestion.md) — canonicalized data is what makes either plane
 trustworthy, and the shift-left convergence path is the same instinct applied to a different
 boundary. The stream-as-substrate option leans directly on
-[ADR-006](006-kafka-for-payment-events.md) — the log as the unifying abstraction. Related:
-[ADR-001](001-canonical-data-model-at-ingestion.md), [ADR-006](006-kafka-for-payment-events.md).
+[ADR-005](005-coupling-across-domains.md) — the log as the unifying abstraction; what
+happens to that log when a region is lost is [ADR-006](006-multi-region-kafka-high-availability.md).
+Related: [ADR-001](001-canonical-data-model-at-ingestion.md),
+[ADR-005](005-coupling-across-domains.md).
 
 ## References
 

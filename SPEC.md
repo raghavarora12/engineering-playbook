@@ -92,18 +92,40 @@ author's real data-governance and payments-platform experience.
   failure modes each actually protects against.
 
 **Tier 2 — Technology judgment (solid, supporting):**
-- Why Kafka for payment event processing — and where it is the *wrong* choice
-- Event-driven vs. request/response for cross-domain communication
+- Multi-region high availability for Kafka — stretched cluster vs. cross-region mirroring vs.
+  active-passive, and what each does to publishers, consumers, replay, reconciliation, and
+  dead-letter handling. The position is a consequence, not a topology: cross-cluster replication
+  is at-least-once by construction, so the topology only sets how wide the duplicate window is.
+  Distinct from the Tier 1 multi-region ADR, which decides the *data-plane* topology; this one
+  decides what happens to the *event log* and the consumer's position in it.
+- Coupling across domains — when a caller may wait, and when it must not. Framed as a coupling
+  and failure-semantics decision rather than an event-driven-vs-REST debate, because agent
+  chains have made the same question urgent again at model latency.
 - One database-selection framework ADR (relational vs. document vs. wide-column vs.
   key-value) — a decision framework, not a ranking
+- **AI-assisted engineering across teams — why adoption is a measurement decision, not a tooling
+  one.** The org-level counterpart to the Tier 1 reliability ADRs: DORA 2025 finds AI raises
+  throughput *and* instability and acts as an amplifier of an organization's existing strengths
+  and dysfunctions, while METR's randomized trial found experienced developers were measurably
+  slower with AI while believing they were faster. The position that follows — you cannot steer
+  this on developer perception or adoption counts, so the decision is which outcome you commit to
+  measuring. Anchored in the author's real experience leading AI-assisted delivery adoption across
+  teams; must state honestly where the evidence is contested and where it is already dated.
 
 **Tier 3 — Hold for v2, only if genuinely backed by real scars (do not include on
 generic best-practice grounds alone):**
 - REST vs. gRPC — the decision boundary, not the dogma
 - When serverless is right, and when it quietly becomes a liability
 - Kubernetes vs. managed (e.g. GKE/EKS) vs. not-orchestrated-at-all
+- Kafka as the right and wrong tool — the log-is-not-a-queue argument (durable replayable log vs.
+  task queue vs. RPC bus). Drafted for v1 and cut: the endorsement half is well-covered ground,
+  and the ADR only earns its place if the author brings the real case where reaching for Kafka
+  cost more than it returned. Revive it with that scar, or not at all.
 
-v1 ships all of Tier 1 (four ADRs) plus Tier 2 (three ADRs) — seven strong ADRs. Tier 3
+v1 ships all of Tier 1 (four ADRs) plus Tier 2 (four ADRs) — eight strong ADRs. The AI-adoption
+ADR was added to Tier 2 after the initial shortlist: it is the one place the repo takes a position
+on the defining platform shift of the period, and it earns its place only because the author owns
+the org-adoption experience behind it — not because the topic is current. Tier 3
 is deferred unless the author has strong, specific opinions to bring — thin coverage of a
 Tier 3 topic dilutes the sharper ADRs around it and should be cut rather than included
 for completeness.

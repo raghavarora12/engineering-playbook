@@ -12,11 +12,11 @@
 
 | # | Question | Resolution | Source |
 |---|----------|------------|--------|
-| 1 | Final ADR shortlist & order | 7 ADRs: 4 Tier 1 then 3 Tier 2, ordered strongest/most experience-backed first (see Phases 2–3). | Shortlist **carried from SPEC**; order is my **recommendation**. |
+| 1 | Final ADR shortlist & order | 8 ADRs: 4 Tier 1 then 4 Tier 2, ordered strongest/most experience-backed first (see Phases 2–3). ADR-008 (AI adoption) added after the initial shortlist. | Shortlist **carried from SPEC**; order is my **recommendation**. |
 | 2 | Platform/ways-of-working in v1? | **Deferred to v2.** *Reason: v1's edge is scar-backed ADRs; a broad platform section risks the generic-best-practice filler SPEC §4 exists to prevent, and dilutes shipping focus.* | My **recommendation** — override if you have real golden-path/IDP scars ready to write. |
 | 3 | Repo structure & front-matter | `/adrs`, `/principles`, `/templates` (+ deferred `/platform`); front-matter schema fixed in Phase 0. | **Carried from CLAUDE.md**, extended with machine-readable `id`/`related` fields (my recommendation). |
 | 4 | README design | Positioning line → the gap it closes → curated ADR index table → reader-map → provenance → Simulator link. Skeleton early, finalized last. | My **recommendation** (Phase 1). |
-| 5 | What "done" means for v1 | All 7 ADRs + 8–12 principles + 5 templates + README, every `[AUTHOR: …]` filled, statuses left at `draft` for author promotion. | My **recommendation** (see Definition of Done). |
+| 5 | What "done" means for v1 | All 8 ADRs + 8–12 principles + 5 templates + README, every `[AUTHOR: …]` filled, statuses left at `draft` for author promotion. | My **recommendation** (see Definition of Done). |
 
 **One line on ADR order (question 1):** SPEC calls data-strategy *the* v1 differentiator, so the
 repo opens with its rarest signal — canonical data model — then leads into the most
@@ -37,9 +37,10 @@ invent any of these** (`CLAUDE.md` §"never fabricate").
 | ADR-002 Availability target | The 99.999% system & context; the 40→<5 monthly-incident figures + timeframe; the SLO/error-budget mechanism as you ran it; the feature-velocity you traded; **your call: split error-budget into its own ADR or keep it inline** (SPEC leaves this open — do not pre-commit to two). |
 | ADR-003 Multi-region | The real active-active vs active-passive decision & system; the failure mode that drove it; cost / RTO / RPO figures; region topology. |
 | ADR-004 Op/analytical planes | The real converge-or-separate decision; the latency-sensitive use case (e.g. fraud/risk) if any; why you chose as you did; any latency/cost numbers. |
-| ADR-005 Event-driven vs req/response | The cross-domain decision; the domains involved; what the rejected option actually cost. |
-| ADR-006 Kafka | The payment-event-processing context & scale numbers; **the case where Kafka was the *wrong* call** (the real scar SPEC demands). |
+| ADR-005 Coupling across domains | The cross-domain decision; the domains involved; what the rejected option actually cost. Plus, if you have it: a real agent-topology call, since the ADR now carries the model-latency argument. |
+| ADR-006 Multi-region Kafka | The payments platform & its region topology; the RPO/RTO the business actually set; what a failover rehearsal revealed; **the duplicate/reconciliation window you actually operated to** and what it cost. |
 | ADR-007 DB-selection framework | The real selections across DB families and the criteria you actually applied. |
+| ADR-008 AI-assisted engineering adoption | The org and its size; what you actually rolled out and to whom; **what you chose to measure and what you refused to measure**; the instability or quality effect you saw (or didn't); what adoption cost that the tooling bill didn't show. I can supply the DORA/METR evidence base — the org call, the measurement decision, and its cost are yours. |
 | Principles | Confirm the 8–12 that reflect how you *actually* lead — I can distill candidates from the ADRs, you confirm/cut. |
 
 ---
@@ -160,19 +161,41 @@ matching author-input row. *I draft the industry reasoning; author supplies the 
 
 Same bar as Phase 2. General → specific → framework. *Depends on:* Phase 0 + author rows.
 
-**3.1 — ADR-005 · Event-driven vs. request/response for cross-domain communication**
-- *Visuals:* Mermaid sequence per model; tradeoff table.  *Cross-link:* Simulator (event-driven).
+**3.1 — ADR-005 · Coupling across domains — when a caller may wait, and when it must not**
+- Reframed from the event-driven-vs-REST debate onto coupling and failure semantics, because agent
+  chains have made the same question urgent again at model latency. File renamed to match.
+- *Visuals:* Mermaid sequence per model; tradeoff table; the same-shape/new-constants comparison
+  carrying the agent section.  *Cross-link:* Simulator (event-driven); ADR-008 as its org-side counterpart.
 - *Author inputs:* ADR-005 row.
 
-**3.2 — ADR-006 · Kafka for payment event processing — and where it's the wrong choice**
-- Must include the real "wrong choice" case, not just the endorsement.
-- *Visuals:* when-right / when-wrong table; throughput numbers if supplied.  *Cross-link:* Simulator.
+**3.2 — ADR-006 · Multi-region Kafka — and the duplicate window you can't design away**
+- Stretched cluster vs. cross-region mirroring vs. producer broadcast vs. active-passive — compared
+  on write ownership and duplicate window, *not* on the RPO/RTO table every vendor already publishes.
+  Follows through to publishers, consumers, replay, reconciliation, and DLQ.
+- Must stay clear of ADR-003: that one decides the data-plane topology, this one decides what happens
+  to the event log and the consumer's position in it.
+- *Visuals:* the duplicate-window anatomy (the diagram nobody publishes); the four topologies on a
+  duplicate-window spectrum; decision tree keyed on the window the ledger can absorb.  *Cross-link:* Simulator.
 - *Author inputs:* ADR-006 row.
 
 **3.3 — ADR-007 · Database-selection framework (relational / document / wide-column / key-value)**
 - A decision *framework*, not a ranking.
 - *Visuals:* Mermaid decision tree; comparison table across DB families.
 - *Author inputs:* ADR-007 row.
+
+**3.4 — ADR-008 · AI-assisted engineering adoption — a measurement decision, not a tooling one**
+- Added to scope after the initial 7-ADR shortlist (SPEC §3.2 updated to match). Earns its place on
+  the author's org-adoption experience, **not** on the topic being current — if the author input
+  doesn't materialise, cut it rather than ship an industry summary.
+- The position: AI raises throughput and instability together and amplifies whatever discipline the
+  org already had, so the decision is which outcome you commit to measuring — and developer
+  perception is disqualified as the instrument.
+- Must state honestly where the evidence is contested and where it has already dated (METR
+  themselves now label their result historical).
+- *Visuals:* an SVG on the perception-vs-measurement gap; a table of what to measure vs. the
+  adoption metrics most orgs reach for.  *Cross-links:* ADR-002 (error budget as the mechanism that
+  catches the instability), PRIN-010 (measure outcomes, not activity), PRIN-007 (novelty earns its place).
+- *Author inputs:* ADR-008 row.
 
 ---
 
@@ -197,7 +220,7 @@ shipped in 0.3.
 
 Not in v1. *Reason: the golden-path / IDP / GitOps material is only worth shipping if it's as
 scar-backed as the ADRs; drafted generically it becomes the exact best-practice filler SPEC §4
-forbids, and it competes for focus with the seven ADRs that are the actual differentiator.*
+forbids, and it competes for focus with the eight ADRs that are the actual differentiator.*
 Revisit once v1 ships — or pull one sharp "paved-road / golden-path" principle into Phase 4 if you
 have a concrete story for it now.
 
@@ -209,14 +232,14 @@ have a concrete story for it now.
   decision tree; a comparison table for every A-vs-B-vs-C (the core shape of an ADR); real numbers
   wherever a claim can be made concrete. Never fabricate a figure to fill a gap.
 - **Simulator cross-links** belong in **ADR-002 (availability), ADR-003 (multi-region), ADR-005 &
-  ADR-006 (event-driven / Kafka)** — the resiliency, multi-region, and event-driven patterns the
+  ADR-006 (event-driven / multi-region Kafka)** — the resiliency, multi-region, and event-driven patterns the
   Simulator actually demonstrates (SPEC §5). Confirm the Simulator repo URL before finalizing the README.
 
 ---
 
 ## Definition of Done — v1
 
-- All **7 ADRs** written to the fixed template, front-matter complete, `status: draft` (author
+- All **8 ADRs** written to the fixed template, front-matter complete, `status: draft` (author
   promotes to `accepted` — Claude does not self-certify).
 - **8–12 principles** and **5 templates** shipped; every template fillable with no example inside.
 - **README** wins the skim, index links every artifact, provenance note and Simulator cross-link present.
@@ -231,7 +254,7 @@ have a concrete story for it now.
 - Not the platform/ways-of-working sections (v2).
 - Not Tier 3 ADRs (REST-vs-gRPC, serverless, k8s-vs-managed) — cut unless genuinely scar-backed;
   thin coverage dilutes the sharp ADRs around it (SPEC §3.2).
-- Not comprehensive — 7 ADRs, not 15. Curation is the demonstration (SPEC §4.6).
+- Not comprehensive — 8 ADRs, not 15. Curation is the demonstration (SPEC §4.6).
 - Not code — no review agent, no automation yet; that's a later phase with its own CLAUDE.md.
 - Not self-promoted to `accepted` — the author reviews and promotes.
 ```

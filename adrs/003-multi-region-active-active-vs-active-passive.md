@@ -7,7 +7,7 @@ date: 2026-07-11
 tags: [reliability, multi-region, disaster-recovery, availability]
 supersedes: null
 superseded_by: null
-related: [ADR-002]
+related: [ADR-002, ADR-006]
 ---
 
 # ADR-003 — Multi-region active-active vs. active-passive
@@ -181,6 +181,9 @@ Draft.
 
 Multi-region failover behaviour is demonstrated in the
 **[Payments Resiliency Simulator](https://github.com/raghavarora12/payments-resiliency-simulator)**.
+This ADR decides the topology of the data plane; the event log does not inherit that answer, because
+its unit of recovery is an offset rather than a row —
+[ADR-006](006-multi-region-kafka-high-availability.md) takes that on.
 Related: [ADR-002](002-availability-target.md); principle [[design-for-the-common-failure]].
 
 ## References
