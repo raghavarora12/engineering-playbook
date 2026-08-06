@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Diagram: Netflix's API in 2011 receives over 1 billion calls a day, fanning out at roughly 1-to-6 to dozens of subsystems, with peaks over 100,000 dependency requests per second. Six dependencies are shown; one goes latent. Because all six share the same caller's thread pool, that single slow dependency exhausts it within seconds, blocking requests that never even touched the slow dependency. Fix: isolate each dependency in its own circuit breaker, the design that became Hystrix.">
+<defs>
+<linearGradient id="ncBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f0d12"/><stop offset="0.5" stop-color="#080b14"/><stop offset="1" stop-color="#070c17"/></linearGradient>
+<filter id="ncGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="9"/></filter>
+<filter id="ncGlowSoft" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="16"/></filter>
+<radialGradient id="ncHubGlow" cx="800" cy="230" r="110" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f4faff" stop-opacity="0.5"/><stop offset="1" stop-color="#f4faff" stop-opacity="0"/></radialGradient>
+</defs>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#ncBg)"/>
+
+<!-- top intro card -->
+<rect x="330" y="40" width="940" height="120" rx="22" fill="#f4faff" fill-opacity="0.14" filter="url(#ncGlowSoft)"/>
+<rect x="330" y="40" width="940" height="120" rx="22" fill="#0d1420" fill-opacity="0.85" stroke="#f4faff" stroke-opacity="0.55" stroke-width="1.6"/>
+<text x="800" y="72" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2" fill="#a9b4c9" opacity="0.9">2011–2012 · THE NETFLIX API</text>
+<text x="800" y="104" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="600" fill="#f4faff">1B+ calls a day, fanning out ~1:6 to dozens of</text>
+<text x="800" y="132" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="600" fill="#f4faff">subsystems — 100k+ dependency requests/sec at peak.</text>
+
+<!-- connector to hub -->
+<line x1="800" y1="160" x2="800" y2="196" stroke="#f4faff" stroke-width="3" opacity="0.6" filter="url(#ncGlow)"/>
+
+<!-- hub -->
+<circle cx="800" cy="245" r="110" fill="url(#ncHubGlow)"/>
+<rect x="695" y="212" width="210" height="66" rx="16" fill="#0d1420" fill-opacity="0.92" stroke="#f4faff" stroke-width="1.8"/>
+<text x="800" y="251" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1" fill="#f4faff">NETFLIX API</text>
+
+<!-- 6 dependency nodes -->
+<!-- connectors hub to deps -->
+<g stroke-linecap="round" opacity="0.55">
+  <path d="M745,270 C500,300 300,320 175,335" fill="none" stroke="#c7cfe0" stroke-width="2.4"/>
+  <path d="M770,278 C620,310 500,325 440,340" fill="none" stroke="#c7cfe0" stroke-width="2.4"/>
+  <path d="M795,278 C740,305 720,320 705,335" fill="none" stroke="#c7cfe0" stroke-width="2.4"/>
+  <path d="M805,278 C880,310 920,320 965,335" fill="none" stroke="#ff5c4d" stroke-width="3.2"/>
+  <path d="M830,278 C1000,310 1150,325 1230,340" fill="none" stroke="#c7cfe0" stroke-width="2.4"/>
+  <path d="M855,270 C1100,300 1350,320 1495,335" fill="none" stroke="#c7cfe0" stroke-width="2.4"/>
+</g>
+
+<rect x="90" y="335" width="170" height="80" rx="14" fill="#0d1420" fill-opacity="0.85" stroke="#c7cfe0" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="175" y="380" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#c7cfe0">Dependency A</text>
+
+<rect x="355" y="340" width="170" height="80" rx="14" fill="#0d1420" fill-opacity="0.85" stroke="#c7cfe0" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="440" y="385" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#c7cfe0">Dependency B</text>
+
+<rect x="620" y="335" width="170" height="80" rx="14" fill="#0d1420" fill-opacity="0.85" stroke="#c7cfe0" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="705" y="380" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#c7cfe0">Dependency C</text>
+
+<rect x="880" y="335" width="170" height="80" rx="14" fill="#ff5c4d" fill-opacity="0.16" filter="url(#ncGlowSoft)"/>
+<rect x="880" y="335" width="170" height="80" rx="14" fill="#1c0f0c" fill-opacity="0.9" stroke="#ff5c4d" stroke-width="2"/>
+<text x="965" y="368" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" font-weight="700" letter-spacing="1" fill="#ff5c4d">SLOW</text>
+<text x="965" y="392" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#ffb4a8">Dependency D</text>
+
+<rect x="1145" y="340" width="170" height="80" rx="14" fill="#0d1420" fill-opacity="0.85" stroke="#c7cfe0" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="1230" y="385" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#c7cfe0">Dependency E</text>
+
+<rect x="1410" y="335" width="170" height="80" rx="14" fill="#0d1420" fill-opacity="0.85" stroke="#c7cfe0" stroke-opacity="0.5" stroke-width="1.4"/>
+<text x="1495" y="380" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#c7cfe0">Dependency F</text>
+
+<!-- connector: slow dependency back up into saturation -->
+<path d="M965,415 C965,460 800,460 800,500" fill="none" stroke="#ff5c4d" stroke-width="6" stroke-linecap="round" opacity="0.5" filter="url(#ncGlow)"/>
+<path d="M965,415 C965,460 800,460 800,500" fill="none" stroke="#ffb4a8" stroke-width="2.4" stroke-linecap="round" opacity="0.9"/>
+
+<!-- saturation card -->
+<rect x="520" y="500" width="560" height="120" rx="20" fill="#ff5c4d" fill-opacity="0.14" filter="url(#ncGlowSoft)"/>
+<rect x="520" y="500" width="560" height="120" rx="20" fill="#1c0f0c" fill-opacity="0.88" stroke="#ff5c4d" stroke-opacity="0.7" stroke-width="1.8"/>
+<text x="800" y="536" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#ff5c4d">SECONDS LATER</text>
+<text x="800" y="568" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="600" fill="#e7ecf7">The API's shared thread pool exhausts —</text>
+<text x="800" y="596" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="600" fill="#e7ecf7">requests to A, B, C, E, F block too.</text>
+
+<!-- connector to verdict -->
+<line x1="800" y1="620" x2="800" y2="660" stroke="#ffb4a8" stroke-width="3" opacity="0.5"/>
+
+<!-- verdict banner -->
+<rect x="230" y="660" width="1140" height="110" rx="30" fill="#2dd4bf" fill-opacity="0.14" filter="url(#ncGlowSoft)"/>
+<rect x="230" y="660" width="1140" height="110" rx="30" fill="#0d1a1c" fill-opacity="0.9" stroke="#2dd4bf" stroke-width="2"/>
+<text x="800" y="702" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5" fill="#2dd4bf">THE FIX — HYSTRIX</text>
+<text x="800" y="736" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="#9ff3e6">Isolate each dependency in its own circuit breaker</text>
+
+<text x="800" y="845" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#c7cfe0" opacity="0.85">ONE SLOW DEPENDENCY, LEFT UNISOLATED, BECOMES EVERYONE'S OUTAGE</text>
+</svg>

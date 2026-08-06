@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Diagram: the same fan-out shape drawn twice, side by side, fifteen years apart. On the left, Netflix in 2011 — one caller fanning out roughly one to six across dozens of backing subsystems, at more than a billion calls a day and over 100,000 dependency requests per second at peak. A round trip inside the datacentre is about half a millisecond and across a continent about 150 milliseconds, and the tail is predictable. One dependency goes slow and exhausts the shared thread pool within seconds, silently blocking the five healthy ones. On the right, an agent chain in 2026 — one agent fanning out across plan, retrieve, two tool calls and verify, where every leg is a model call measured in seconds rather than milliseconds and none of them has a dependable tail, so five availabilities multiply and five tails sum. A badge between the two panels reads: same shape, new constants. Along the bottom, the fix is the same both times — put a bus between them: Microsoft rebuilt AutoGen v0.4 on an asynchronous event-driven actor model that decouples how messages are delivered between agents from how the agents handle them, and Confluent states that in a production-grade multi-agent system agents never call each other directly, because over time the system collapses into a distributed monolith. The closing caption reads: the coupling question didn't age — the callees just got slower.">
+<defs>
+<linearGradient id="scBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f0d12"/><stop offset="0.5" stop-color="#080b14"/><stop offset="1" stop-color="#070c17"/></linearGradient>
+<filter id="scGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+<marker id="scA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4c8dff"/></marker>
+<marker id="scAw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff5c4d"/></marker>
+<marker id="scAo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffa53d"/></marker>
+</defs>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#scBg)"/>
+
+<text x="800" y="58" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700" fill="#f4faff">The same fan-out, three orders of magnitude slower</text>
+<text x="800" y="88" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" letter-spacing="1.4" fill="#a9b4c9" opacity="0.85">ONE FAILURE MODE, SOLVED IN 2012 AND RELEARNED IN 2026</text>
+
+<!-- ============ LEFT PANEL: 2011 ============ -->
+<rect x="120" y="120" width="650" height="500" rx="16" fill="#0d1420" fill-opacity="0.55" stroke="#4c8dff" stroke-opacity="0.35" stroke-width="1.4"/>
+<text x="150" y="152" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13.5" font-weight="700" letter-spacing="2" fill="#b9d0ff">NETFLIX API · 2011</text>
+<text x="740" y="152" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12.5" fill="#8f9bb3">1B+ calls/day · ~1:6 · 100k+ req/sec peak</text>
+
+<rect x="345" y="180" width="200" height="52" rx="10" fill="#0d1420" stroke="#4c8dff" stroke-width="1.8"/>
+<text x="445" y="212" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="700" fill="#b9d0ff">API caller</text>
+<text x="445" y="252" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#8f9bb3">one shared thread pool</text>
+
+<g stroke="#4c8dff" stroke-width="1.5" opacity="0.65" marker-end="url(#scA)">
+<line x1="445" y1="262" x2="194" y2="322"/><line x1="445" y1="262" x2="294" y2="322"/>
+<line x1="445" y1="262" x2="394" y2="322"/>
+<line x1="445" y1="262" x2="594" y2="322"/><line x1="445" y1="262" x2="694" y2="322"/>
+</g>
+<line x1="445" y1="262" x2="494" y2="322" stroke="#ff5c4d" stroke-width="2.4" marker-end="url(#scAw)"/>
+
+<g fill="#0d1a1c" stroke="#2dd4bf" stroke-width="1.5" stroke-opacity="0.7">
+<rect x="150" y="330" width="88" height="46" rx="8"/><rect x="250" y="330" width="88" height="46" rx="8"/>
+<rect x="350" y="330" width="88" height="46" rx="8"/>
+<rect x="550" y="330" width="88" height="46" rx="8"/><rect x="650" y="330" width="88" height="46" rx="8"/>
+</g>
+<rect x="450" y="330" width="88" height="46" rx="8" fill="#1c0f0c" stroke="#ff5c4d" stroke-width="2.2"/>
+<text x="494" y="358" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" font-weight="700" fill="#ffb4a8">SLOW</text>
+<text x="194" y="358" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#9ff3e6">dep</text>
+<text x="294" y="358" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#9ff3e6">dep</text>
+<text x="394" y="358" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#9ff3e6">dep</text>
+<text x="594" y="358" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#9ff3e6">dep</text>
+<text x="694" y="358" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#9ff3e6">dep</text>
+
+<rect x="150" y="410" width="588" height="58" rx="10" fill="#0d1420" fill-opacity="0.75" stroke="#4c8dff" stroke-opacity="0.4" stroke-width="1.3"/>
+<text x="444" y="434" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#e7ecf7">0.5 ms in-datacentre · 150 ms cross-continent</text>
+<text x="444" y="456" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" fill="#9ff3e6" opacity="0.9">fast, and — crucially — a predictable tail</text>
+
+<rect x="150" y="486" width="588" height="52" rx="10" fill="#1c0f0c" fill-opacity="0.9" stroke="#ff5c4d" stroke-opacity="0.6" stroke-width="1.5"/>
+<text x="444" y="518" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14.5" fill="#ffb4a8">one slow dependency exhausts the shared pool <tspan font-weight="700">in seconds</tspan></text>
+
+<rect x="150" y="556" width="588" height="44" rx="10" fill="#0d1a1c" fill-opacity="0.9" stroke="#2dd4bf" stroke-opacity="0.55" stroke-width="1.4"/>
+<text x="444" y="584" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14.5" fill="#9ff3e6">Fix, 2012: isolate every dependency — <tspan font-weight="700">Hystrix</tspan></text>
+
+<!-- ============ RIGHT PANEL: 2026 ============ -->
+<rect x="830" y="120" width="650" height="500" rx="16" fill="#1c150c" fill-opacity="0.45" stroke="#ffa53d" stroke-opacity="0.4" stroke-width="1.4"/>
+<text x="860" y="152" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13.5" font-weight="700" letter-spacing="2" fill="#ffd9a0">AGENT CHAIN · 2026</text>
+<text x="1450" y="152" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12.5" fill="#8f9bb3">one step · five legs · no dependable tail</text>
+
+<rect x="1055" y="180" width="200" height="52" rx="10" fill="#1c150c" stroke="#ffa53d" stroke-width="1.8"/>
+<text x="1155" y="212" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="700" fill="#ffd9a0">orchestrating agent</text>
+<text x="1155" y="252" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#8f9bb3">blocks on every leg</text>
+
+<g stroke="#ffa53d" stroke-width="1.8" opacity="0.8" marker-end="url(#scAo)">
+<line x1="1155" y1="262" x2="909" y2="322"/><line x1="1155" y1="262" x2="1032" y2="322"/>
+<line x1="1155" y1="262" x2="1155" y2="322"/><line x1="1155" y1="262" x2="1278" y2="322"/>
+<line x1="1155" y1="262" x2="1401" y2="322"/>
+</g>
+
+<g fill="#1c150c" stroke="#ffa53d" stroke-width="1.6">
+<rect x="860" y="330" width="98" height="46" rx="8"/><rect x="983" y="330" width="98" height="46" rx="8"/>
+<rect x="1106" y="330" width="98" height="46" rx="8"/><rect x="1229" y="330" width="98" height="46" rx="8"/>
+<rect x="1352" y="330" width="98" height="46" rx="8"/>
+</g>
+<text x="909" y="352" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#ffd9a0">plan</text>
+<text x="1032" y="352" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#ffd9a0">retrieve</text>
+<text x="1155" y="352" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#ffd9a0">tool</text>
+<text x="1278" y="352" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#ffd9a0">tool</text>
+<text x="1401" y="352" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="#ffd9a0">verify</text>
+<g font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="10.5" fill="#ffb4a8" text-anchor="middle" opacity="0.95">
+<text x="909" y="368">seconds</text><text x="1032" y="368">seconds</text><text x="1155" y="368">seconds</text>
+<text x="1278" y="368">seconds</text><text x="1401" y="368">seconds</text>
+</g>
+
+<rect x="860" y="410" width="590" height="58" rx="10" fill="#1c150c" fill-opacity="0.8" stroke="#ffa53d" stroke-opacity="0.45" stroke-width="1.3"/>
+<text x="1155" y="434" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#e7ecf7">seconds per call — not milliseconds</text>
+<text x="1155" y="456" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" fill="#ffd9a0" opacity="0.9">and the same two requests don't take the same time</text>
+
+<rect x="860" y="486" width="590" height="52" rx="10" fill="#1c0f0c" fill-opacity="0.9" stroke="#ff5c4d" stroke-opacity="0.6" stroke-width="1.5"/>
+<text x="1155" y="518" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14.5" fill="#ffb4a8">five availabilities <tspan font-weight="700">multiplied</tspan>, five tails <tspan font-weight="700">summed</tspan></text>
+
+<rect x="860" y="556" width="590" height="44" rx="10" fill="#0d1a1c" fill-opacity="0.9" stroke="#2dd4bf" stroke-opacity="0.55" stroke-width="1.4"/>
+<text x="1155" y="584" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14.5" fill="#9ff3e6">Fix, 2026: <tspan font-weight="700">put a bus between them</tspan></text>
+
+<!-- ============ SAME SHAPE BADGE ============ -->
+<line x1="800" y1="150" x2="800" y2="352" stroke="#3a4258" stroke-width="1.4" stroke-dasharray="5 5"/>
+<line x1="800" y1="448" x2="800" y2="600" stroke="#3a4258" stroke-width="1.4" stroke-dasharray="5 5"/>
+<g style="mix-blend-mode:screen"><circle cx="800" cy="400" r="54" fill="#2dd4bf" opacity="0.16" filter="url(#scGlow)"/></g>
+<circle cx="800" cy="400" r="52" fill="#0d1a1c" fill-opacity="0.96" stroke="#2dd4bf" stroke-width="2"/>
+<text x="800" y="394" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#9ff3e6">SAME</text>
+<text x="800" y="414" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#9ff3e6">SHAPE</text>
+
+<!-- ============ BOTTOM: THE CONVERGENT ANSWER ============ -->
+<rect x="120" y="648" width="1360" height="172" rx="14" fill="#0d1a1c" fill-opacity="0.8" stroke="#2dd4bf" stroke-opacity="0.42" stroke-width="1.5"/>
+<text x="150" y="680" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12.5" font-weight="700" letter-spacing="2" fill="#9ff3e6" opacity="0.85">THE INDUSTRY IS CONVERGING ON THE ANSWER IT ALREADY REACHED</text>
+
+<text x="150" y="714" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#c8f5ee">Microsoft · AutoGen v0.4</text>
+<text x="150" y="738" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14.5" fill="#e7ecf7">rebuilt on an asynchronous, event-driven actor model — it “decouples how the messages are delivered</text>
+<text x="150" y="759" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14.5" fill="#e7ecf7">between the agents from how the agents handle them.”</text>
+
+<text x="150" y="787" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#c8f5ee">Confluent<tspan font-weight="400" fill="#e7ecf7"> · “agents never call each other directly” — direct calls create tight coupling</tspan></text>
+<text x="150" y="808" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#e7ecf7">and synchronous failure propagation, and “over time, the system collapses into a <tspan font-weight="700" fill="#ffb4a8">distributed monolith</tspan>.”</text>
+
+<text x="1480" y="866" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#9ff3e6" opacity="0.9">THE COUPLING QUESTION DIDN'T AGE — THE CALLEES JUST GOT SLOWER</text>
+</svg>

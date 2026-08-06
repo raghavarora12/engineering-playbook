@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Chart: the perception gap in AI-assisted development. In a July 2025 randomized controlled trial, METR measured 16 experienced open-source developers across 246 real tasks in repositories they already knew. Before starting, the developers predicted AI would make them 24 percent faster. After finishing, they believed it had made them 20 percent faster. Measurement showed they were 19 percent slower — a gap of roughly 39 points between what was felt and what was measured. In February 2026 METR disclosed selection bias, noting that 30 to 50 percent of developers declined to submit tasks they did not want to attempt without AI, which biases the slowdown estimate downwards; the authors now call their data only very weak evidence for the magnitude. The direction is corroborated independently: DORA 2025, with about 5,000 respondents, found more than 80 percent of developers believed AI raised their productivity while delivery stability measurably declined. Conclusion: self-report is not an instrument you can steer an engineering organization by.">
+<defs>
+<linearGradient id="pmBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f0d12"/><stop offset="0.5" stop-color="#080b14"/><stop offset="1" stop-color="#070c17"/></linearGradient>
+<filter id="pmGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="10"/></filter>
+<filter id="pmSoft" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+
+<rect x="0" y="0" width="1600" height="900" fill="url(#pmBg)"/>
+
+<!-- header -->
+<text x="70" y="72" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2.5" fill="#a9b4c9" opacity="0.9">JULY 2025 · METR RANDOMIZED CONTROLLED TRIAL</text>
+<text x="70" y="116" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#f4faff">Two instruments, one set of tasks.</text>
+<text x="70" y="152" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" fill="#c7cfe0" opacity="0.8">16 experienced developers · 246 real issues · repositories they had worked in for ~5 years</text>
+
+<!-- axis label -->
+<text x="800" y="196" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" letter-spacing="1.5" fill="#a9b4c9" opacity="0.55">CHANGE IN TASK COMPLETION SPEED</text>
+<text x="534" y="196" text-anchor="start" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" letter-spacing="1.5" fill="#ffb4a8" opacity="0.6">← SLOWER</text>
+<text x="1136" y="196" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" letter-spacing="1.5" fill="#9ff3e6" opacity="0.6">FASTER →</text>
+
+<!-- gridlines -->
+<g stroke="#c7cfe0" stroke-opacity="0.10" stroke-width="1">
+  <line x1="520" y1="215" x2="520" y2="530"/>
+  <line x1="660" y1="215" x2="660" y2="530"/>
+  <line x1="940" y1="215" x2="940" y2="530"/>
+  <line x1="1080" y1="215" x2="1080" y2="530"/>
+</g>
+<g font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="12" fill="#a9b4c9" opacity="0.45" text-anchor="middle">
+  <text x="520" y="552">−20%</text>
+  <text x="660" y="552">−10%</text>
+  <text x="800" y="552">0</text>
+  <text x="940" y="552">+10%</text>
+  <text x="1080" y="552">+20%</text>
+</g>
+
+<!-- zero baseline -->
+<line x1="800" y1="212" x2="800" y2="534" stroke="#c7cfe0" stroke-opacity="0.55" stroke-width="2"/>
+
+<!-- row 1: predicted +24% -->
+<text x="70" y="253" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#e7ecf7">What they predicted</text>
+<text x="70" y="275" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#a9b4c9" opacity="0.75">before starting</text>
+<path d="M 800,230 H 1132 Q 1136,230 1136,234 V 278 Q 1136,282 1132,282 H 800 Z" fill="#2dd4bf" fill-opacity="0.28" stroke="#2dd4bf" stroke-opacity="0.7" stroke-width="1.5"/>
+<text x="1156" y="264" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="#9ff3e6">+24%</text>
+
+<!-- row 2: perceived +20% -->
+<text x="70" y="333" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#e7ecf7">What they believed</text>
+<text x="70" y="355" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#a9b4c9" opacity="0.75">after doing the work</text>
+<path d="M 800,310 H 1076 Q 1080,310 1080,314 V 358 Q 1080,362 1076,362 H 800 Z" fill="#2dd4bf" filter="url(#pmSoft)" fill-opacity="0.5"/>
+<path d="M 800,310 H 1076 Q 1080,310 1080,314 V 358 Q 1080,362 1076,362 H 800 Z" fill="#2dd4bf"/>
+<text x="1100" y="344" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="26" font-weight="700" fill="#9ff3e6">+20%</text>
+
+<!-- row 3: measured -19% -->
+<text x="70" y="413" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="600" fill="#e7ecf7">What was measured</text>
+<text x="70" y="435" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" fill="#a9b4c9" opacity="0.75">stopwatch on the same tasks</text>
+<path d="M 800,390 H 538 Q 534,390 534,394 V 438 Q 534,442 538,442 H 800 Z" fill="#ff5c4d" filter="url(#pmSoft)" fill-opacity="0.5"/>
+<path d="M 800,390 H 538 Q 534,390 534,394 V 438 Q 534,442 538,442 H 800 Z" fill="#ff5c4d"/>
+<text x="510" y="424" text-anchor="end" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="26" font-weight="700" fill="#ffb4a8">−19%</text>
+
+<!-- the gap bracket -->
+<g stroke="#f4faff" stroke-opacity="0.4" stroke-width="1.5" fill="none">
+  <path d="M 534,468 V 486 H 1080 V 468"/>
+</g>
+<rect x="700" y="470" width="200" height="34" rx="17" fill="#0d1420"/>
+<text x="800" y="493" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1" fill="#f4faff">39-POINT GAP</text>
+
+<!-- lower cards -->
+<rect x="70" y="600" width="700" height="150" rx="18" fill="#ffa53d" fill-opacity="0.10" filter="url(#pmSoft)"/>
+<rect x="70" y="600" width="700" height="150" rx="18" fill="#1c150c" fill-opacity="0.88" stroke="#ffa53d" stroke-opacity="0.65" stroke-width="1.6"/>
+<text x="98" y="634" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" font-weight="700" letter-spacing="1.5" fill="#ffa53d">FEBRUARY 2026 · THE AUTHORS WALK IT BACK</text>
+<text x="98" y="666" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#e7ecf7">METR disclose selection bias: 30–50% of developers declined to submit</text>
+<text x="98" y="690" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#e7ecf7">tasks they didn't want to do without AI. That biases the slowdown</text>
+<text x="98" y="714" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#e7ecf7">estimate downwards. They now call it "only very weak evidence".</text>
+<text x="98" y="740" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-style="italic" fill="#ffd9a0" opacity="0.9">The magnitude is contested.</text>
+
+<rect x="830" y="600" width="700" height="150" rx="18" fill="#2dd4bf" fill-opacity="0.10" filter="url(#pmSoft)"/>
+<rect x="830" y="600" width="700" height="150" rx="18" fill="#0d1a1c" fill-opacity="0.88" stroke="#2dd4bf" stroke-opacity="0.65" stroke-width="1.6"/>
+<text x="858" y="634" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" font-weight="700" letter-spacing="1.5" fill="#2dd4bf">THE DIRECTION SURVIVES · DORA 2025, n≈5,000</text>
+<text x="858" y="666" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#e7ecf7">A different method, at 300× the sample, found the same divergence:</text>
+<text x="858" y="690" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#e7ecf7">more than 80% believed AI made them more productive, while delivery</text>
+<text x="858" y="714" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#e7ecf7">stability measurably declined.</text>
+<text x="858" y="740" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-style="italic" fill="#9ff3e6" opacity="0.9">The misperception is not.</text>
+
+<!-- verdict -->
+<text x="800" y="822" text-anchor="middle" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="25" font-weight="700" fill="#f4faff">Self-report is not an instrument you can steer an engineering org by.</text>
+<text x="800" y="858" text-anchor="middle" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="13" letter-spacing="1.2" fill="#a9b4c9" opacity="0.65">SO THE MEASUREMENT COMMITMENT HAS TO BE MADE BEFORE THE ROLLOUT — NOT AFTER</text>
+</svg>

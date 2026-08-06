@@ -17,3 +17,15 @@ desktop.ini
 # Local scratch
 /scratch/
 *.tmp
+
+# Article drafts for external publication (Medium, LinkedIn) — not part of the playbook
+/publishing/
+
+# Internal working documents — kept local, not published with the playbook.
+# These stay on disk and still drive the build; they are just not indexed on GitHub.
+/SPEC.md
+/PLAN.md
+/CLAUDE.md
+
+# Principles — withheld pending author review; republish once reviewed.
+/principles/
