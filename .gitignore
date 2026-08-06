@@ -17,3 +17,6 @@ desktop.ini
 # Local scratch
 /scratch/
 *.tmp
+
+# Article drafts for external publication (Medium, LinkedIn) — not part of the playbook
+/publishing/

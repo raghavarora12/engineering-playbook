@@ -107,7 +107,8 @@
 <text x="150" y="738" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14.5" fill="#e7ecf7">rebuilt on an asynchronous, event-driven actor model — it “decouples how the messages are delivered</text>
 <text x="150" y="759" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14.5" fill="#e7ecf7">between the agents from how the agents handle them.”</text>
 
-<text x="150" y="791" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#c8f5ee">Confluent<tspan font-weight="400" fill="#e7ecf7"> · “agents never call each other directly” — direct calls create tight coupling and synchronous failure propagation, and “over time, the system collapses into a </tspan><tspan font-weight="700" fill="#ffb4a8">distributed monolith</tspan><tspan font-weight="400" fill="#e7ecf7">.”</tspan></text>
+<text x="150" y="787" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#c8f5ee">Confluent<tspan font-weight="400" fill="#e7ecf7"> · “agents never call each other directly” — direct calls create tight coupling</tspan></text>
+<text x="150" y="808" font-family="-apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="15" fill="#e7ecf7">and synchronous failure propagation, and “over time, the system collapses into a <tspan font-weight="700" fill="#ffb4a8">distributed monolith</tspan>.”</text>
 
 <text x="1480" y="866" text-anchor="end" font-family="ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="1.5" fill="#9ff3e6" opacity="0.9">THE COUPLING QUESTION DIDN'T AGE — THE CALLEES JUST GOT SLOWER</text>
 </svg>

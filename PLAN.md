@@ -168,8 +168,8 @@ Same bar as Phase 2. General → specific → framework. *Depends on:* Phase 0 +
   carrying the agent section.  *Cross-link:* Simulator (event-driven); ADR-008 as its org-side counterpart.
 - *Author inputs:* ADR-005 row.
 
-**3.2 — ADR-006 · Multi-region Kafka — and the duplicate window you can't design away**
-- Stretched cluster vs. cross-region mirroring vs. producer broadcast vs. active-passive — compared
+**3.2 — ADR-006 · Multi-region Kafka — the duplicate window you can't design away**
+- Stretched cluster vs. mirrored active-active vs. mirrored active-passive vs. producer broadcast — compared
   on write ownership and duplicate window, *not* on the RPO/RTO table every vendor already publishes.
   Follows through to publishers, consumers, replay, reconciliation, and DLQ.
 - Must stay clear of ADR-003: that one decides the data-plane topology, this one decides what happens

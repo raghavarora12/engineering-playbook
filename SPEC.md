@@ -92,8 +92,8 @@ author's real data-governance and payments-platform experience.
   failure modes each actually protects against.
 
 **Tier 2 — Technology judgment (solid, supporting):**
-- Multi-region high availability for Kafka — stretched cluster vs. cross-region mirroring vs.
-  active-passive, and what each does to publishers, consumers, replay, reconciliation, and
+- Multi-region high availability for Kafka — stretched cluster vs. mirrored active-active vs.
+  mirrored active-passive vs. producer dual-write, and what each does to publishers, consumers, replay, reconciliation, and
   dead-letter handling. The position is a consequence, not a topology: cross-cluster replication
   is at-least-once by construction, so the topology only sets how wide the duplicate window is.
   Distinct from the Tier 1 multi-region ADR, which decides the *data-plane* topology; this one
