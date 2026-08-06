@@ -12,11 +12,11 @@
 
 | # | Question | Resolution | Source |
 |---|----------|------------|--------|
-| 1 | Final ADR shortlist & order | 8 ADRs: 4 Tier 1 then 4 Tier 2, ordered strongest/most experience-backed first (see Phases 2–3). ADR-008 (AI adoption) added after the initial shortlist. | Shortlist **carried from SPEC**; order is my **recommendation**. |
+| 1 | Final ADR shortlist & order | 7 ADRs: 4 Tier 1 then 3 Tier 2, ordered strongest/most experience-backed first (see Phases 2–3). ADR-008 (AI adoption) added after the initial shortlist; ADR-007 (DB-selection) cut from it — see §3.3. | Shortlist **carried from SPEC**; order is my **recommendation**. |
 | 2 | Platform/ways-of-working in v1? | **Deferred to v2.** *Reason: v1's edge is scar-backed ADRs; a broad platform section risks the generic-best-practice filler SPEC §4 exists to prevent, and dilutes shipping focus.* | My **recommendation** — override if you have real golden-path/IDP scars ready to write. |
 | 3 | Repo structure & front-matter | `/adrs`, `/principles`, `/templates` (+ deferred `/platform`); front-matter schema fixed in Phase 0. | **Carried from CLAUDE.md**, extended with machine-readable `id`/`related` fields (my recommendation). |
 | 4 | README design | Positioning line → the gap it closes → curated ADR index table → reader-map → provenance → Simulator link. Skeleton early, finalized last. | My **recommendation** (Phase 1). |
-| 5 | What "done" means for v1 | All 8 ADRs + 8–12 principles + 5 templates + README, every `[AUTHOR: …]` filled, statuses left at `draft` for author promotion. | My **recommendation** (see Definition of Done). |
+| 5 | What "done" means for v1 | All 7 ADRs + 8–12 principles + 5 templates + README, every `[AUTHOR: …]` filled, statuses left at `draft` for author promotion. | My **recommendation** (see Definition of Done). |
 
 **One line on ADR order (question 1):** SPEC calls data-strategy *the* v1 differentiator, so the
 repo opens with its rarest signal — canonical data model — then leads into the most
@@ -39,7 +39,6 @@ invent any of these** (`CLAUDE.md` §"never fabricate").
 | ADR-004 Op/analytical planes | The real converge-or-separate decision; the latency-sensitive use case (e.g. fraud/risk) if any; why you chose as you did; any latency/cost numbers. |
 | ADR-005 Coupling across domains | The cross-domain decision; the domains involved; what the rejected option actually cost. Plus, if you have it: a real agent-topology call, since the ADR now carries the model-latency argument. |
 | ADR-006 Multi-region Kafka | The payments platform & its region topology; the RPO/RTO the business actually set; what a failover rehearsal revealed; **the duplicate/reconciliation window you actually operated to** and what it cost. |
-| ADR-007 DB-selection framework | The real selections across DB families and the criteria you actually applied. |
 | ADR-008 AI-assisted engineering adoption | The org and its size; what you actually rolled out and to whom; **what you chose to measure and what you refused to measure**; the instability or quality effect you saw (or didn't); what adoption cost that the tooling bill didn't show. I can supply the DORA/METR evidence base — the org call, the measurement decision, and its cost are yours. |
 | Principles | Confirm the 8–12 that reflect how you *actually* lead — I can distill candidates from the ADRs, you confirm/cut. |
 
@@ -178,10 +177,14 @@ Same bar as Phase 2. General → specific → framework. *Depends on:* Phase 0 +
   duplicate-window spectrum; decision tree keyed on the window the ledger can absorb.  *Cross-link:* Simulator.
 - *Author inputs:* ADR-006 row.
 
-**3.3 — ADR-007 · Database-selection framework (relational / document / wide-column / key-value)**
-- A decision *framework*, not a ranking.
-- *Visuals:* Mermaid decision tree; comparison table across DB families.
-- *Author inputs:* ADR-007 row.
+**3.3 — ADR-007 · Database-selection framework** — ✂ **DEFERRED, removed from the repo**
+- Cut from v1 on readiness, not topic: at ~1,040 words it was half the length of every other ADR and
+  still carried two open `[AUTHOR: …]` placeholders, and nothing in ADR-001–006 referenced it.
+- Recoverable from git history (removed after commit `6b9169d`). Bring it back when the real
+  selections across DB families, and the criteria actually applied, are ready to write.
+- **The 007 number stays vacant** — ADR ids are identifiers, not ordering. Do not renumber ADR-008.
+- On return it re-anchors PRIN-006 (*match the datastore to the access pattern*), which is currently
+  standing without an ADR link.
 
 **3.4 — ADR-008 · AI-assisted engineering adoption — a measurement decision, not a tooling one**
 - Added to scope after the initial 7-ADR shortlist (SPEC §3.2 updated to match). Earns its place on
@@ -220,7 +223,7 @@ shipped in 0.3.
 
 Not in v1. *Reason: the golden-path / IDP / GitOps material is only worth shipping if it's as
 scar-backed as the ADRs; drafted generically it becomes the exact best-practice filler SPEC §4
-forbids, and it competes for focus with the eight ADRs that are the actual differentiator.*
+forbids, and it competes for focus with the seven ADRs that are the actual differentiator.*
 Revisit once v1 ships — or pull one sharp "paved-road / golden-path" principle into Phase 4 if you
 have a concrete story for it now.
 
@@ -239,7 +242,7 @@ have a concrete story for it now.
 
 ## Definition of Done — v1
 
-- All **8 ADRs** written to the fixed template, front-matter complete, `status: draft` (author
+- All **7 ADRs** written to the fixed template, front-matter complete, `status: draft` (author
   promotes to `accepted` — Claude does not self-certify).
 - **8–12 principles** and **5 templates** shipped; every template fillable with no example inside.
 - **README** wins the skim, index links every artifact, provenance note and Simulator cross-link present.
@@ -254,7 +257,7 @@ have a concrete story for it now.
 - Not the platform/ways-of-working sections (v2).
 - Not Tier 3 ADRs (REST-vs-gRPC, serverless, k8s-vs-managed) — cut unless genuinely scar-backed;
   thin coverage dilutes the sharp ADRs around it (SPEC §3.2).
-- Not comprehensive — 8 ADRs, not 15. Curation is the demonstration (SPEC §4.6).
+- Not comprehensive — 7 ADRs, not 15. Curation is the demonstration (SPEC §4.6).
 - Not code — no review agent, no automation yet; that's a later phase with its own CLAUDE.md.
 - Not self-promoted to `accepted` — the author reviews and promotes.
 ```

@@ -101,8 +101,6 @@ author's real data-governance and payments-platform experience.
 - Coupling across domains — when a caller may wait, and when it must not. Framed as a coupling
   and failure-semantics decision rather than an event-driven-vs-REST debate, because agent
   chains have made the same question urgent again at model latency.
-- One database-selection framework ADR (relational vs. document vs. wide-column vs.
-  key-value) — a decision framework, not a ranking
 - **AI-assisted engineering across teams — why adoption is a measurement decision, not a tooling
   one.** The org-level counterpart to the Tier 1 reliability ADRs: DORA 2025 finds AI raises
   throughput *and* instability and acts as an amplifier of an organization's existing strengths
@@ -121,8 +119,14 @@ generic best-practice grounds alone):**
   task queue vs. RPC bus). Drafted for v1 and cut: the endorsement half is well-covered ground,
   and the ADR only earns its place if the author brings the real case where reaching for Kafka
   cost more than it returned. Revive it with that scar, or not at all.
+- Database-selection framework (relational vs. document vs. wide-column vs. key-value) — a decision
+  framework, not a ranking. Drafted for v1 and **removed from the repo**: at half the length of every
+  other ADR, with the real selections and applied criteria still unwritten, it was the weakest artifact
+  in a repo whose whole argument is curation. Recoverable from git history; it returns as **ADR-007**,
+  whose number is deliberately left vacant, and it re-anchors PRIN-006 when it does.
 
-v1 ships all of Tier 1 (four ADRs) plus Tier 2 (four ADRs) — eight strong ADRs. The AI-adoption
+v1 ships all of Tier 1 (four ADRs) plus Tier 2 (three ADRs) — seven strong ADRs, after the
+database-selection ADR was cut to the deferred list on readiness. The AI-adoption
 ADR was added to Tier 2 after the initial shortlist: it is the one place the repo takes a position
 on the defining platform shift of the period, and it earns its place only because the author owns
 the org-adoption experience behind it — not because the topic is current. Tier 3

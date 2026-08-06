@@ -11,7 +11,7 @@ would have been wrong. This repository is the second thing. It is a curated set 
 architecture decision records, principles, and reusable standards — the reasoning, not the
 résumé.
 
-It is deliberately small. Eight decision records, not fifty. Curation is the point.
+It is deliberately small. Seven decision records, not fifty. Curation is the point.
 
 ---
 
@@ -32,8 +32,7 @@ they are the ones backed by the most scar tissue.
 | [004](adrs/004-operational-vs-analytical-data-planes.md) | Converging operational & analytical data planes | Convergence earns its complexity only under live latency pressure; the OLTP/OLAP split with a pipeline is still usually right. | 1 | planned |
 | [005](adrs/005-coupling-across-domains.md) | Coupling across domains — when a caller may wait, and when it must not | Choose by coupling and failure semantics, not fashion; async is a liability where you need a synchronous answer — and agent chains have made the old question urgent again. | 2 | planned |
 | [006](adrs/006-multi-region-kafka-high-availability.md) | Multi-region Kafka — the duplicate window you can't design away | Cross-cluster replication is at-least-once by construction; the topology only sets how wide the window is, and the ledger closes it, not the broker. | 2 | planned |
-| [007](adrs/007-database-selection-framework.md) | Database-selection framework | A framework for relational vs. document vs. wide-column vs. key-value — not a ranking. | 2 | planned |
-| [008](adrs/008-ai-assisted-engineering-adoption.md) | AI-assisted engineering adoption | Buying the licences isn't the decision — the decision is what you agree to be measured on, because AI raises throughput and instability together and self-report is the one instrument it breaks. | 2 | planned |
+| [008](adrs/008-ai-assisted-engineering-adoption.md) | AI-assisted engineering adoption **(WIP)** | Buying the licences isn't the decision — the decision is what you agree to be measured on, because AI raises throughput and instability together and self-report is the one instrument it breaks. | 2 | in progress |
 
 ---
 

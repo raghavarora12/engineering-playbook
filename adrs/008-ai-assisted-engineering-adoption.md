@@ -1,6 +1,6 @@
 ---
 id: ADR-008
-title: AI-assisted engineering adoption — a measurement decision, not a tooling one
+title: AI-assisted engineering adoption — a measurement decision, not a tooling one [WIP]
 status: draft
 tier: 2
 date: 2026-07-28
@@ -10,7 +10,13 @@ superseded_by: null
 related: [ADR-002, ADR-005, PRIN-010]
 ---
 
-# ADR-008 — AI-assisted engineering adoption: a measurement decision, not a tooling one
+# ADR-008 — [WIP] AI-assisted engineering adoption: a measurement decision, not a tooling one
+
+> ⚠️ **Work in progress.** The argument and its evidence base are drafted, but this ADR is waiting on
+> the author's own org specifics — what was rolled out and to whom, what was measured, what was
+> deliberately *not* measured, and what that cost. Until those land it is not ready for review, and
+> the open `[AUTHOR: …]` markers below are intentional. Every other decision record here is finished;
+> this one is not.
 
 > Buying the licences is not the decision. The decision is which number you agree to be judged by
 > afterwards — because the tooling raises throughput and instability *together*, amplifies whatever

@@ -4,7 +4,7 @@ title: Match the datastore to the access pattern, not the trend
 status: draft
 date: 2026-07-11
 tags: [databases, data-modeling]
-related: [ADR-007, ADR-005]
+related: []
 ---
 
 # Match the datastore to the access pattern, not the trend
@@ -16,4 +16,4 @@ Access pattern determines fit; fashion doesn't. "NoSQL by default" — or "Kafka
 just rebuilds joins, transactions, and queues in application code, badly.
 
 *Ignore it and:* the wrong store shows up as query gymnastics, hand-rolled consistency, and a
-migration you'll pay for with interest later. See [[ADR-007]] and [[ADR-005]].
+migration you'll pay for with interest later.
