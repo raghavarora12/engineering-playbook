@@ -104,7 +104,7 @@ flowchart TD
 
 | What you measure | What it actually tells you | How it fails | When it's right |
 |---|---|---|---|
-| **Adoption** — seats, % of code AI-written, suggestion-acceptance rate | That the tool is being used. Nothing about whether anything got better. | Goes up regardless of outcome, so it always reads as success. It is the purest possible activity metric — trivial to game, and it becomes a target the moment it reaches a review deck ([PRIN-010](../principles/010-measure-outcomes-not-activity.md)). | Rollout logistics only — finding teams that haven't onboarded. Never as a success measure, and never in a board pack. |
+| **Adoption** — seats, % of code AI-written, suggestion-acceptance rate | That the tool is being used. Nothing about whether anything got better. | Goes up regardless of outcome, so it always reads as success. It is the purest possible activity metric — trivial to game, and it becomes a target the moment it reaches a review deck (PRIN-010, *measure outcomes, not activity*). | Rollout logistics only — finding teams that haven't onboarded. Never as a success measure, and never in a board pack. |
 | **Developer self-report** — satisfaction, perceived productivity | How the work *feels*, which is genuinely worth knowing — retention lives here. | It is the instrument METR and DORA both caught diverging from measurement. Perceived speed is the one thing you now know AI reliably distorts. | As a secondary signal for experience and friction. Never as the primary evidence that adoption worked. |
 | **Delivery outcomes** — change-failure rate, time to restore, throughput, and an error budget that actually bites | Whether the system got faster *without* getting more fragile — the exact tension DORA measured. | Lags by weeks; noisy for small teams; requires telemetry you must already have. It will not give you a clean answer next sprint. | The default, and the only option that can detect the failure mode the research actually found. Builds directly on [ADR-002](002-availability-target.md). |
 | **Nothing formal** — ship it and watch | Fast, honest about its own ignorance, costs nothing. | You will still be judged on an outcome; you just won't see it coming, and the amplifier works on dysfunction as readily as on strength. | Genuinely defensible for a small team with no existing telemetry, *if* named as a deliberate bet with a date to revisit — not as a default drifted into. |
@@ -169,8 +169,8 @@ budget is the mechanism this ADR relies on to catch the instability DORA measure
 [ADR-005](005-coupling-across-domains.md): this ADR decides how AI adoption is *measured*, that one
 decides how agents are *wired* — the organizational and architectural halves of the same arrival.
 Distils into
-[PRIN-010](../principles/010-measure-outcomes-not-activity.md) (measure outcomes, not activity) and
-tests [PRIN-007](../principles/007-make-novelty-earn-its-place.md) (make novelty earn its place)
+[[measure-outcomes-not-activity]] (PRIN-010) and
+tests [[make-novelty-earn-its-place]] (PRIN-007)
 against the least-boring technology of the decade.
 
 ## References

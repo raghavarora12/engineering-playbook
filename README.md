@@ -50,7 +50,7 @@ they are the ones backed by the most scar tissue.
 A small set (8–12) of opinionated principles — one-line statement, short rationale, and the
 real consequence of ignoring it. Specific enough to argue with.
 
-→ [`/principles`](principles/) *(planned)*
+*Drafted and in review — they publish here once they've earned their place.*
 
 ## Standards & templates
 
