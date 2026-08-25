@@ -88,7 +88,7 @@ flowchart TD
     Q1{"Do you already run delivery<br/>telemetry you trust?<br/>(change-failure rate, recovery,<br/>an error budget that bites)"}
     Q1 -- "Yes" --> OUT["✓ Steer on delivery outcomes<br/>— AI is just another change<br/>your existing budget absorbs"]
     Q1 -- "No" --> Q2{"Can you stand one up<br/>before the rollout spreads?"}
-    Q2 -- "Yes" --> FIX["✓ Instrument first, then adopt<br/>— the tooling is not the<br/>bottleneck; the baseline is"]
+    Q2 -- "Yes" --> FIX["✓ Instrument first, then adopt<br/>— the tooling is not the<br/>bottleneck — the baseline is"]
     Q2 -- "No, adoption is<br/>already happening" --> RISK["⚠ Adopt, but name it<br/>— you are running an<br/>unmeasured change to<br/>how all code is produced"]
     RISK -.-> NEVER["✗ Do not backfill with<br/>adoption counts or surveys<br/>— they will read as success<br/>either way"]
 

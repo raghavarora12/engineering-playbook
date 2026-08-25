@@ -1,16 +1,16 @@
 ---
 id: ADR-005
-title: Coupling across domains — when a caller may wait, and when it must not
+title: Coupling across domains — the question agent chains made urgent again
 status: draft
 tier: 2
-date: 2026-07-11
+date: 2026-08-24
 tags: [architecture, messaging, coupling, event-driven, ai-agents]
 supersedes: null
 superseded_by: null
 related: [ADR-004, ADR-006, ADR-008]
 ---
 
-# ADR-005 — Coupling across domains: when a caller may wait, and when it must not
+# ADR-005 — Coupling across domains: the question agent chains made urgent again
 
 > Choose by coupling and failure semantics, not fashion. Request/response when the caller genuinely
 > can't proceed without an answer. Async request/reply when it needs *an* answer but not on this
@@ -106,8 +106,8 @@ sequenceDiagram
     A->>B: submit work
     rect rgb(20, 24, 34)
     B-->>A: 202 Accepted + reference
-    Note over A: A is free; the reply is still owed
-    B->>A: callback / webhook with the result
+    Note over A: A is free — the reply is still owed
+    B->>A: response (callback / webhook with the result)
     end
 ```
 
@@ -193,43 +193,47 @@ flowchart TD
 ### Five cases from payments and banking, run through it
 
 #### Use-case 1: Transaction authorization
-- A merchant initiates a transaction from the source (user / scheduled / recurring / kiosk) to
-  authorize $x.y
+- A merchant initiates a transaction from the source (user / scheduled / recurring / kiosk) to authorize $x.y
 - The acquirer acquires it and forwards it to the payment network
-- The network assesses and verifies it against the issuer (bank / institution / building society),
-  or stands in
+- The network assesses and verifies it against the issuer (bank / institution / building society), or stands in
 - The decision is made and returned back down the chain to acquirer → merchant
 
-**Observation.** Domains: merchant/POS, gateway, acquirer, scheme network, issuer authorization host,
-fraud scoring, stand-in. **Verdict: synchronous end to end, and it isn't a close call** — somebody is
-standing at a terminal, a pump, or a turnstile, and there is no version of "eventually" that helps
+**Observations:** 
+- Domains: merchant/POS, gateway, acquirer, scheme network, issuer authorization host, fraud scoring, stand-in. 
+
+**Verdict: Synchronous end to end, and it isn't a close call** 
+- Somebody is standing at a terminal, a pump, or a turnstile, and there is no version of "eventually" that helps
 them. Every party in the chain is temporally coupled to every other, which means the chain is only as
-available as its weakest link. That cost is accepted deliberately, and the interesting part is what
+available as its weakest link. 
+- Above cost is accepted deliberately, and the interesting part is what
 the schemes built *because* of it: **stand-in processing**, where the network answers on the issuer's
 behalf when the issuer can't. That is precisely this ADR's pattern — bound the wait, and have a
 fallback authority ready rather than letting a timeout become a decline. Payments solved
 slow-dependency-in-a-synchronous-chain before Netflix named it, and solved it the same way: not by
 retrying harder, but by deciding in advance who answers when the callee doesn't.
-[AUTHOR: the authorization deadline you actually operated to, and what stand-in cost in approval quality.]
 
 #### Use-case 2: Transaction processing across lifecycle stages
-- Once authorised, the transaction moves through network interchange calculation, then pricing
-  deductions for acquirers and issuers
+- Once authorised, the transaction moves through network interchange calculation, then pricing deductions for acquirers and issuers
 - Eventual money movement (clearing / settlement) and release of funds
 - Reconciliation across parties and regulatory activity
 
-**Observation.** Domains: interchange calculation, acquirer/issuer pricing and billing, clearing,
-settlement, treasury/funding, reconciliation, regulatory reporting. **Verdict: event-driven, and this
-is where the log earns its keep.** The answer already exists — authorization decided it. Everything
+**Observations:** 
+- Domains: interchange calculation, acquirer/issuer pricing and billing, clearing,
+settlement, treasury/funding, reconciliation, regulatory reporting. 
+
+**Verdict: Event-driven, and this is where the log earns its keep.** 
+- The answer already exists — authorization decided it. Everything
 here is a stage transition on a fact that already happened, and the deadlines are cut-off windows
-measured in hours and days, not milliseconds. Nobody is waiting. Publishing each transition lets
+measured in hours and days, not milliseconds. 
+- Nobody is waiting. Publishing each transition lets
 reconciliation and regulatory reporting attach as consumers without the clearing path knowing they
 exist, which is the one place "add a consumer without touching the producer" is worth real money,
 because regulatory consumers arrive on somebody else's schedule.
-The cost the table warns about is not optional here: money movement has to be *effectively*
+- The cost the table warns about is not optional here: money movement has to be *effectively*
 exactly-once, so ordering and idempotency stop being hygiene and become the design — the duplicate
 window of [ADR-006](006-multi-region-kafka-high-availability.md), closed by the ledger rather than by
-the broker. Sync would be actively wrong: chaining clearing behind settlement behind pricing means a
+the broker. 
+- Sync would be actively wrong: chaining clearing behind settlement behind pricing means a
 slow treasury system stalls interchange calculation for transactions authorized cleanly hours ago.
 
 #### Use-case 3: Fraud and risk decisioning
@@ -238,17 +242,19 @@ slow treasury system stalls interchange calculation for transactions authorized 
   during authorization (use-case 1)
 - Fraud traffic is spiky, and the decision has to hold its latency at peak
 
-**Observation.** Domains: the authorization path itself, feature store, scoring service, model
-training, case management, chargeback/disputes. **Verdict: both — and the boundary between them is
-the entire decision.** Scoring during authorization sits *inside* use-case 1's budget, so it inherits
+**Observations** 
+- Domains: the authorization path itself, feature store, scoring service, model
+training, case management, chargeback/disputes. 
+
+**Verdict: both — and the boundary between them is the entire decision.** 
+- Scoring during authorization sits *inside* use-case 1's budget, so it inherits
 it: a synchronous call with a hard deadline and — the part teams skip — a **pre-decided fail-open or
 fail-closed behaviour**, because "the scorer didn't answer in time" is a business decision about
-fraud loss versus false declines, not something to leave to an exception handler. Learning is the
+fraud loss versus false declines, not something to leave to an exception handler. 
+- Learning is the
 opposite shape entirely: feature updates, retraining, and labels that arrive weeks later when a
 chargeback lands. That belongs on the event stream.
-The failure to avoid is letting the async side leak into the synchronous path — a feature lookup that
-quietly reads a store being rebuilt, and now your authorization deadline is hostage to a training
-pipeline. The two sides should share data and never share a call path. Spiky traffic is exactly why:
+- The two sides should share data and never share a call path. Spiky traffic is exactly why:
 fraud load peaks when you can least afford a contended dependency.
 
 #### Use-case 4: Banking mobile app features
@@ -256,37 +262,42 @@ fraud load peaks when you can least afford a contended dependency.
   app
 - Core capabilities like transaction history and value-added features
 
-**Observation.** Domains: core banking ledger, payment initiation, notification, offers/insights.
-**Verdict: split — but on read-your-own-writes, not on "criticality" in the abstract.** The question
+**Observations:** 
+- Domains: core banking ledger, payment initiation, notification, offers/insights.
+
+**Verdict: split — but on read-your-own-writes, not on "criticality" in the abstract.**
+- The question
 that decides each screen is *can the customer catch you being wrong?* A balance rendered right after
 a transfer must be authoritative, so it is a synchronous read against the ledger: the customer just
 moved money and will pull to refresh. Getting that wrong is not a stale cache, it is a support call
 and possibly a complaint. The transfer confirmation is the same — they need to know it happened, now.
-Everything the customer cannot immediately falsify — history beyond the recent window, categorisation,
+- Everything the customer cannot immediately falsify — history beyond the recent window, categorisation,
 spend insights, offers — is served fine from a read model projected off the event stream, where
 seconds of lag are invisible.
-This is also the clearest home for the middle row: a transfer that needs downstream checks is usually
+- This is also the clearest home for the middle row: a transfer that needs downstream checks is usually
 better modelled as accept-with-a-reference and notify on completion than as an app held on a spinner
 against a chain the phone can't see.
 
 #### Use-case 5: End-of-day analytics on operational data
 - Scheduled reports, trend analysis, periodic decisioning
 
-**Observation.** Domains: operational stores, warehouse/lakehouse, reporting and regulatory
-consumers. **Verdict: batch — and this ADR should defer rather than re-litigate.** There is no
-latency pressure at all; the report is read tomorrow morning. Batch buys the strongest isolation at
+**Observations:** 
+- Domains: operational stores, warehouse/lakehouse, reporting and regulatory consumers. 
+
+**Verdict: Batch — and this ADR should defer rather than re-litigate.** 
+- There is no latency pressure at all; the report is read the next day. Batch buys the strongest isolation at
 the lowest cost, and this is the one case in the five where the coupling question genuinely doesn't
-carry much weight. The only reason to converge on a governed stream or a lakehouse here is that one
+carry much weight. 
+- The only reason to converge on a governed stream or a lakehouse here is that one
 already exists for other workloads and routing this through it consolidates what you operate — which
-is [ADR-004](004-operational-vs-analytical-data-planes.md)'s argument, not this one's. Making an
-end-of-day report "live" is complexity with no buyer.
+is [ADR-004](004-operational-vs-analytical-data-planes.md)'s argument, not this one's. 
+- Making an end-of-day report "live" is complexity with no buyer.
 
 ## Decision
 
-[AUTHOR: which you chose, for which interaction.] The rule that should decide it: **does the caller
-need the answer to make its next move?** If yes — an authorization, a balance check, a synchronous
-validation — use request/response and protect it with timeouts, retries with backoff, and circuit
-breakers. If no — a state change other domains merely need to *know about* — publish an event and
+There is no single answer that generalises across systems — the rule that should decide it: **does the caller need the answer to make its next move?** 
+- If yes — an authorization, a balance check, a synchronous validation — use request/response and protect it with timeouts, retries with backoff, and circuit breakers. 
+- If no — a state change other domains merely need to *know about* — publish an event and
 let them react on their own schedule.
 
 Add the middle row where it belongs: when the caller needs a *specific* answer but cannot hold a
@@ -332,7 +343,6 @@ None of which is new. Mailboxes, supervision hierarchies, and letting a child fa
 parent with it are the actor model's oldest ideas — which is exactly what AutoGen v0.4 rebuilt onto,
 and exactly why the arithmetic in this ADR transfers without modification.
 
-[AUTHOR: if you've run a multi-agent topology, the fan-out width you settled on and what forced it.]
 
 ## Consequences
 
@@ -346,8 +356,7 @@ load; new consumers added without touching the producer.
 - **Async is wrong when you need an answer now.** Modeling an authorization as fire-and-forget to
   "decouple" it is how you get a system that can't tell you whether a payment went through.
 - **Request/response is wrong** as the default for everything — sync-calling a chain of domains turns
-  one slow dependency into a system-wide outage. [AUTHOR: an instance where the coupling choice
-  caused, or prevented, a cascading failure.]
+  one slow dependency into a system-wide outage.
 - **Async request/reply buys you a state machine you didn't have.** The middle row removes the
   blocked thread and hands you correlation IDs, retry-safe callbacks, duplicate replies, and a
   "never came back" branch that someone has to own. Teams adopt it for the latency relief and
