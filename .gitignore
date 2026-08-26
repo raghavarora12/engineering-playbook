@@ -27,5 +27,17 @@ desktop.ini
 /PLAN.md
 /CLAUDE.md
 
-# Principles — withheld pending author review; republish once reviewed.
+# Principles — pending review; republish once reviewed.
 /principles/
+
+# ADR-007 (AI-assisted engineering adoption) — drafted, held back for now. 
+# Stays on disk and keeps its number; publish by deleting
+# these two lines. The README lists it as "coming soon" without a link, so nothing 404s.
+/adrs/007-ai-assisted-engineering-adoption.md
+/adrs/assets/007-perception-vs-measurement.svg
+
+# Templates — Phase 2 scope. Drafted and kept local until they've earned release.
+# adr-template.md and engineering-metrics.md stay published.
+/templates/microservice-readiness-checklist.md
+/templates/rfc-template.md
+/templates/tech-debt-framework.md

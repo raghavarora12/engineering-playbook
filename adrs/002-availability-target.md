@@ -7,7 +7,7 @@ date: 2026-07-11
 tags: [reliability, availability, slo, error-budget]
 supersedes: null
 superseded_by: null
-related: [ADR-003, ADR-008]
+related: [ADR-003, ADR-007]
 ---
 
 # ADR-002 — Choosing the right availability target (why 99.999% is sometimes wrong)

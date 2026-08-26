@@ -20,9 +20,7 @@ because gaming one degrades another (ship faster recklessly and change-failure r
 | Change failure rate | Whether speed is costing you stability |
 | Time to restore (MTTR) | How well you recover, not just how rarely you fail |
 
-Pair these with **reliability signals that map to users**: SLO attainment and error-budget burn
-(see ADR-002). These tell you whether the system is meeting its promise, which is the only
-availability number worth reporting upward.
+Pair these with **reliability signals that map to users**: SLO attainment and error-budget burn measured via SLIs (see ADR-002). These tell you whether the system is meeting its promise, which is the only availability number worth reporting upward.
 
 ## Don't measure this — activity and vanity
 
