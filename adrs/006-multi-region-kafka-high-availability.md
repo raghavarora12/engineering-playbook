@@ -1,9 +1,9 @@
 ---
 id: ADR-006
 title: Multi-region Kafka — the duplicate window you can't design away
-status: draft
+status: accepted
 tier: 2
-date: 2026-07-28
+date: 2026-08-26
 tags: [kafka, multi-region, high-availability, disaster-recovery, event-driven]
 supersedes: null
 superseded_by: null
@@ -323,7 +323,7 @@ because those produce the same at-least-once behaviour as a regional failover, j
 
 ## Status
 
-DRAFT
+ACCEPTED
 
 Multi-region failover behaviour is demonstrated in the
 **[Payments Resiliency Simulator](https://github.com/raghavarora12/payments-resiliency-simulator)**.

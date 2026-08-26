@@ -20,17 +20,14 @@ The centerpiece. Each ADR states a position you could disagree with, lays the op
 side, and names the cost of the call. Data-strategy and reliability decisions come first —
 they are the ones backed by the most scar tissue.
 
-> *Index is provisional while the repo is built out; statuses move to `accepted` as each is
-> reviewed and promoted.*
-
 | # | Decision | The position | Tier | Status |
 |---|----------|--------------|------|--------|
-| [001](adrs/001-canonical-data-model-at-ingestion.md) | Standardize & canonicalize at ingestion vs. transform-on-read | Reconcile once at the boundary — shift data quality left — instead of paying every consumer to reshape raw data forever. | 1 | planned |
-| [002](adrs/002-availability-target.md) | Choosing the right availability target | Five nines is the right call for a payment network and the wrong one for most systems — each nine is ~10× the cost. | 1 | planned |
-| [003](adrs/003-multi-region-active-active-vs-active-passive.md) | Multi-region active-active vs. active-passive | Active-active protects against a different, narrower set of failures than its price implies; passive is often the honest choice. | 1 | planned |
-| [004](adrs/004-operational-vs-analytical-data-planes.md) | Converging operational & analytical data planes | Convergence earns its complexity only under live latency pressure; the OLTP/OLAP split with a pipeline is still usually right. | 1 | planned |
-| [005](adrs/005-coupling-across-domains.md) | Coupling across domains — the question agent chains made urgent again | Choose by coupling and failure semantics, not fashion; async is a liability where you need a synchronous answer — and agent chains have made the old question urgent again. | 2 | planned |
-| [006](adrs/006-multi-region-kafka-high-availability.md) | Multi-region Kafka — the duplicate window you can't design away | Cross-cluster replication is at-least-once by construction; the topology only sets how wide the window is, and the ledger closes it, not the broker. | 2 | planned |
+| [001](adrs/001-canonical-data-model-at-ingestion.md) | Standardize & canonicalize at ingestion vs. transform-on-read | Reconcile once at the boundary — shift data quality left — instead of paying every consumer to reshape raw data forever. | 1 | accepted |
+| [002](adrs/002-availability-target.md) | Choosing the right availability target | Five nines is the right call for a payment network and the wrong one for most systems — each nine is ~10× the cost. | 1 | accepted |
+| [003](adrs/003-multi-region-active-active-vs-active-passive.md) | Multi-region active-active vs. active-passive | Active-active protects against a different, narrower set of failures than its price implies; passive is often the honest choice. | 1 | accepted |
+| [004](adrs/004-operational-vs-analytical-data-planes.md) | Converging operational & analytical data planes | Convergence earns its complexity only under live latency pressure; the OLTP/OLAP split with a pipeline is still usually right. | 1 | accepted |
+| [005](adrs/005-coupling-across-domains.md) | Coupling across domains — the question agent chains made urgent again | Choose by coupling and failure semantics, not fashion; async is a liability where you need a synchronous answer — and agent chains have made the old question urgent again. | 2 | accepted |
+| [006](adrs/006-multi-region-kafka-high-availability.md) | Multi-region Kafka — the duplicate window you can't design away | Cross-cluster replication is at-least-once by construction; the topology only sets how wide the window is, and the ledger closes it, not the broker. | 2 | accepted |
 | 007 | AI-assisted engineering adoption | Buying the licences isn't the decision — the decision is what you agree to be measured on, because AI raises throughput and instability together and self-report is the one instrument it breaks. | 2 | Coming soon |
 
 ---

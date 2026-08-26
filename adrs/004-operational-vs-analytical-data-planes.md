@@ -1,9 +1,9 @@
 ---
 id: ADR-004
 title: Converging operational and analytical data planes vs. keeping them separate
-status: draft
+status: accepted
 tier: 1
-date: 2026-07-11
+date: 2026-08-26
 tags: [data-strategy, htap, oltp-olap, streaming]
 supersedes: null
 superseded_by: null
@@ -219,7 +219,7 @@ lakehouse shapes) a single *governed* copy that both sides trust.
 
 ## Status
 
-Draft. Builds on
+Accepted. Builds on
 [ADR-001](001-canonical-data-model-at-ingestion.md) — canonicalized data is what makes either plane
 trustworthy, and the shift-left convergence path is the same instinct applied to a different
 boundary. The stream-as-substrate option leans directly on

@@ -1,9 +1,9 @@
 ---
 id: ADR-002
 title: Choosing the right availability target — why 99.999% is sometimes wrong
-status: draft
+status: accepted
 tier: 1
-date: 2026-07-11
+date: 2026-08-26
 tags: [reliability, availability, slo, error-budget]
 supersedes: null
 superseded_by: null
@@ -154,7 +154,7 @@ Downtime measured in minutes per year and, more importantly, an organization tha
 
 ## Status
 
-Draft. The resiliency and failover patterns behind this target are demonstrated in running code in the
+Accepted. The resiliency and failover patterns behind this target are demonstrated in running code in the
 **[Payments Resiliency Simulator](https://github.com/raghavarora12/payments-resiliency-simulator)**.
 Related: [ADR-003](003-multi-region-active-active-vs-active-passive.md) (the multi-region topology
 five nines depends on); principles [[availability-is-a-budget]] and [[reliability-is-spent-not-wished]].

@@ -1,9 +1,9 @@
 ---
 id: ADR-003
 title: Multi-region active-active vs. active-passive
-status: draft
+status: accepted
 tier: 1
-date: 2026-07-11
+date: 2026-08-26
 tags: [reliability, multi-region, disaster-recovery, availability]
 supersedes: null
 superseded_by: null
@@ -177,7 +177,7 @@ running *before* the failure, not scaled up reactively during one, when the very
 
 ## Status
 
-Draft.
+Accepted.
 
 Multi-region failover behaviour is demonstrated in the
 **[Payments Resiliency Simulator](https://github.com/raghavarora12/payments-resiliency-simulator)**.

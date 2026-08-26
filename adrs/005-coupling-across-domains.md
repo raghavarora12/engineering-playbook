@@ -1,9 +1,9 @@
 ---
 id: ADR-005
 title: Coupling across domains — the question agent chains made urgent again
-status: draft
+status: accepted
 tier: 2
-date: 2026-08-24
+date: 2026-08-26
 tags: [architecture, messaging, coupling, event-driven, ai-agents]
 supersedes: null
 superseded_by: null
@@ -385,7 +385,7 @@ load; new consumers added without touching the producer.
 
 ## Status
 
-Draft. The event-driven patterns here are demonstrated in the
+Accepted. The event-driven patterns here are demonstrated in the
 **[Payments Resiliency Simulator](https://github.com/raghavarora12/payments-resiliency-simulator)**.
 Once that event-driven path has to survive the loss of a region, the log's own failure semantics take
 over — that is [ADR-006](006-multi-region-kafka-high-availability.md). This ADR takes a position on

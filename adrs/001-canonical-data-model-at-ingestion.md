@@ -1,9 +1,9 @@
 ---
 id: ADR-001
 title: Standardize and canonicalize at ingestion vs. transform-on-read downstream
-status: draft
+status: accepted
 tier: 1
-date: 2026-07-11
+date: 2026-08-26
 tags: [data-strategy, governance, lineage, reference-data, data-contracts, shift-left]
 supersedes: null
 superseded_by: null
@@ -163,7 +163,7 @@ of re-deriving it. Audit is answered once, at the boundary, not defended per con
 
 ## Status
 
-Draft.
+Accepted.
 Related: [ADR-004](004-operational-vs-analytical-data-planes.md) (where the canonical data then lives). Reference-data and metadata-management practices that make this enforceable are candidates for the principles set ([[canonicalize-at-the-boundary]]).
 
 ## References
