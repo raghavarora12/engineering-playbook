@@ -8,8 +8,7 @@
 Most senior engineering repos prove *what* someone used: Kafka, Kubernetes, a cloud logo.
 Very few prove *why* they chose it over the alternatives, what that choice cost, and when it
 would have been wrong. This repository is the second thing. It is a curated set of
-architecture decision records, principles, and reusable standards — the reasoning, not the
-résumé.
+architecture decision records, principles, and reusable standards — with the reasoning and real-world use-cases & examples.
 
 It is deliberately small. Six decision records, not fifty. Curation is the point.
 
