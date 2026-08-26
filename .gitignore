@@ -30,8 +30,8 @@ desktop.ini
 # Principles — pending review; republish once reviewed.
 /principles/
 
-# ADR-007 (AI-assisted engineering adoption) — drafted, held back until the author's
-# lived specifics are in. Stays on disk and keeps its number; publish by deleting
+# ADR-007 (AI-assisted engineering adoption) — drafted, held back for now. 
+# Stays on disk and keeps its number; publish by deleting
 # these two lines. The README lists it as "coming soon" without a link, so nothing 404s.
 /adrs/007-ai-assisted-engineering-adoption.md
 /adrs/assets/007-perception-vs-measurement.svg
