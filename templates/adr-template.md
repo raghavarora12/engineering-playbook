@@ -58,3 +58,7 @@ judgment call and any figures that drove it].)*
 
 *(draft | accepted | superseded — match the front-matter. Note any supersession, and cross-link
 related ADRs or the Payments Resiliency Simulator where it is the working demonstration.)*
+
+## References
+
+Put reference links / docs here as evidence / citations.

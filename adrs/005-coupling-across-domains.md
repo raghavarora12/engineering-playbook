@@ -7,13 +7,13 @@ date: 2026-08-24
 tags: [architecture, messaging, coupling, event-driven, ai-agents]
 supersedes: null
 superseded_by: null
-related: [ADR-004, ADR-006, ADR-008]
+related: [ADR-004, ADR-006, ADR-007]
 ---
 
 # ADR-005 — Coupling across domains: the question agent chains made urgent again
 
 > Choose by coupling and failure semantics, not fashion. Request/response when the caller genuinely
-> can't proceed without an answer. Async request/reply when it needs *an* answer but not on this
+> can't proceed without an answer. Async request/response when it needs *an* answer but not on this
 > thread. Event-driven when domains should evolve independently and the producer shouldn't know — or
 > wait for — its consumers. Async is a liability precisely where you need an immediate, consistent
 > answer. And whichever you pick, bound the buffer: backpressure is the difference between a queue
@@ -90,6 +90,8 @@ didn't go away. The callees just got slower, and the cost of getting it wrong we
 Three modes, drawn in order of how much the caller has to wait for — who blocks, who is owed an
 answer, and who simply publishes and moves on:
 
+### Option 1: Sync request/response
+
 ```mermaid
 sequenceDiagram
     participant A as Domain A
@@ -101,18 +103,21 @@ sequenceDiagram
     end
 ```
 
+### Option 2: Async request/response
+
 ```mermaid
 sequenceDiagram
     participant A as Domain A
     participant B as Domain B
-    Note over A,B: Async request/reply (202 + callback)
+    Note over A,B: Async request/response (202 Accepted + callback)
     A->>B: submit work
     rect rgb(20, 24, 34)
-    B-->>A: 202 Accepted + reference
-    Note over A: A is free — the reply is still owed
+    B-->>A: HTTP 202 Accepted + reference
+    Note over A: A is free — the response is still owed
     B->>A: response (callback / webhook with the result)
     end
 ```
+### Option 3: Event-driven
 
 ```mermaid
 sequenceDiagram
@@ -132,12 +137,12 @@ sequenceDiagram
 | Option | Coupling | Failure behavior | Cost / when right |
 |--------|----------|------------------|-------------------|
 | **Request/response** (REST/gRPC) | Temporal — caller needs callee up *now* | Callee down → caller blocked; risk of cascading failure without timeouts/circuit breakers; tail-latency amplification across a fan-out | Simple to reason about; right when the caller truly cannot proceed without the answer (e.g. authorize a payment). |
-| **Async request/reply** (202 + callback/webhook, or poll a status URL) | Temporal coupling *only for the reply* — caller still knows the callee and still expects a specific answer | Caller isn't blocked, so no thread exhaustion — but the reply can be late, lost, or duplicated. You now own correlation IDs, a timeout on *your* side, and a "never came back" path | The honest middle. Right when the caller needs an answer but the work is too slow to hold a connection open — long-running jobs, downstream approvals, model calls measured in seconds. Costs you a state machine the synchronous version didn't need. |
+| **Async request/response** (HTTP 202 Accepted response code + callback/webhook, or poll a status URL) | Temporal coupling *only for the response* — caller still knows the callee and still expects a specific answer | Caller isn't blocked, so no thread exhaustion — but the response can be late, lost, or duplicated. You now own correlation IDs, a timeout on *your* side, and a "never came back" path | The honest middle. Right when the caller needs an answer but the work is too slow to hold a connection open — long-running jobs, downstream approvals, model calls measured in seconds. Costs you a state machine the synchronous version didn't need. |
 | **Event-driven** (pub/sub) | Decoupled — producer doesn't know consumers | Consumer down → events buffer; producer unaffected | Resilience and independent evolution, paid for with eventual consistency, ordering/idempotency burden, and harder tracing/debugging. Right when domains should evolve and fail independently. |
 
 The middle row is the one teams skip, and it is usually the one they needed. "We can't make this
 synchronous, so it has to be an event" is a false step — an event says *something happened* to
-whoever cares; async request/reply says *I asked you specifically, and I am still owed an answer*.
+whoever cares; async request/response says *I asked you specifically, and I am still owed an answer*.
 Those are different contracts with different failure modes, and the tooling has followed the split:
 OpenAPI covers the middle row with callbacks and webhooks, while AsyncAPI exists because callbacks
 break down as soon as you have fan-out topics or consumer groups. They are complementary, not
@@ -178,7 +183,7 @@ flowchart TD
     Q1{"Does the caller need the answer<br/>to make its very next move?"}
     Q1 -- "Yes — e.g. authorize this payment" --> RR["✓ Request/response<br/>+ timeouts, retries with backoff,<br/>circuit breakers"]
     Q1 -- "No, but it does need<br/>a specific answer eventually" --> Q2{"Can the caller hold<br/>a connection open<br/>that long?"}
-    Q2 -- "No — seconds to minutes" --> AR["✓ Async request/reply<br/>— 202 + callback, correlation ID,<br/>your own timeout, a 'never came back' path"]
+    Q2 -- "No — seconds to minutes" --> AR["✓ Async request/response<br/>— 202 Accepted + callback, correlation ID,<br/>your own timeout, a 'never came back' path"]
     Q2 -- "Yes" --> RR
     Q1 -- "No — other domains just<br/>need to know it happened / action accordingly" --> EV["✓ Event-driven<br/>— publish and let consumers react"]
     RR -.-> WARN["⚠ Fan out sync calls unguarded / limited<br/>= metastable failure risk"]
@@ -211,8 +216,9 @@ available as its weakest link.
 - Above cost is accepted deliberately, and the interesting part is what
 the schemes built *because* of it: **stand-in processing**, where the network answers on the issuer's
 behalf when the issuer can't. That is precisely this ADR's pattern — bound the wait, and have a
-fallback authority ready rather than letting a timeout become a decline. Payments solved
-slow-dependency-in-a-synchronous-chain before Netflix named it, and solved it the same way: not by
+fallback authority ready rather than letting a timeout become a decline. 
+
+Payments solved slow-dependency-in-a-synchronous-chain before Netflix named it, and solved it the same way: not by
 retrying harder, but by deciding in advance who answers when the callee doesn't.
 
 #### Use-case 2: Transaction processing across lifecycle stages
@@ -228,16 +234,14 @@ settlement, treasury/funding, reconciliation, regulatory reporting.
 - The answer already exists — authorization decided it. Everything
 here is a stage transition on a fact that already happened, and the deadlines are cut-off windows
 measured in hours and days, not milliseconds.
-- Nobody is waiting. Publishing each transition lets
+- Nobody is waiting on immediate basis. Publishing each transition lets
 reconciliation and regulatory reporting attach as consumers without the clearing path knowing they
 exist, which is the one place "add a consumer without touching the producer" is worth real money,
 because regulatory consumers arrive on somebody else's schedule.
 - The cost the table warns about is not optional here: money movement has to be *effectively*
-exactly-once, so ordering and idempotency stop being hygiene and become the design — the duplicate
-window of [ADR-006](006-multi-region-kafka-high-availability.md), closed by the ledger rather than by
-the broker.
+exactly-once, so ordering and idempotency stop being hygiene and become the design.
 - Sync would be actively wrong: chaining clearing behind settlement behind pricing means a
-slow treasury system stalls interchange calculation for transactions authorized cleanly hours ago.
+slow treasury system stalls interchange calculation for transactions authorized cleanly minutes / hours ago.
 
 #### Use-case 3: Fraud and risk decisioning
 - Learning from each transaction and applying it to the next. The learning can happen
@@ -254,8 +258,7 @@ training, case management, chargeback/disputes.
 it: a synchronous call with a hard deadline and — the part teams skip — a **pre-decided fail-open or
 fail-closed behaviour**, because "the scorer didn't answer in time" is a business decision about
 fraud loss versus false declines, not something to leave to an exception handler.
-- Learning is the
-opposite shape entirely: feature updates, retraining, and labels that arrive weeks later when a
+- Learning is the opposite shape entirely: feature updates, retraining, and labels that arrive weeks later when a
 chargeback lands. That belongs on the event stream.
 - The failure to avoid is letting the async side leak into the synchronous path — a feature lookup
 that quietly reads a store being rebuilt, and now your authorization deadline is hostage to a
@@ -263,16 +266,14 @@ training pipeline. The two sides should share data and never share a call path. 
 exactly why: fraud load peaks when you can least afford a contended dependency.
 
 #### Use-case 4: Banking mobile app features
-- Critical capabilities like displaying transactions from the ledger, and funds transfer from the
-  app
+- Critical capabilities like displaying transactions from the ledger, and funds transfer from the app
 - Core capabilities like transaction history and value-added features
 
 **Observations:**
 - Domains: core banking ledger, payment initiation, notification, offers/insights.
 
 **Verdict: split — but on read-your-own-writes, not on "criticality" in the abstract.**
-- The question
-that decides each screen is *can the customer catch you being wrong?* A balance rendered right after
+- The question that decides each screen is *can the customer catch you being wrong?* A balance rendered right after
 a transfer must be authoritative, so it is a synchronous read against the ledger: the customer just
 moved money and will pull to refresh. Getting that wrong is not a stale cache, it is a support call
 and possibly a complaint. The transfer confirmation is the same — they need to know it happened, now.
@@ -309,7 +310,7 @@ its next move?**
   react on their own schedule.
 
 Add the middle row where it belongs: when the caller needs a *specific* answer but cannot hold a
-connection open for it, that is async request/reply — a correlation ID, a timeout you own, and an
+connection open for it, that is async request/response — a correlation ID, a timeout you own, and an
 explicit path for "it never came back." Reaching for an event there is a category error; you don't
 need to broadcast that something happened, you need your answer.
 
@@ -364,7 +365,7 @@ load; new consumers added without touching the producer.
   "decouple" it is how you get a system that can't tell you whether a payment went through.
 - **Request/response is wrong** as the default for everything — sync-calling a chain of domains turns
   one slow dependency into a system-wide outage.
-- **Async request/reply buys you a state machine you didn't have.** The middle row removes the
+- **Async request/response buys you a state machine you didn't have.** The middle row removes the
   blocked thread and hands you correlation IDs, retry-safe callbacks, duplicate replies, and a
   "never came back" branch that someone has to own. Teams adopt it for the latency relief and
   discover the bookkeeping afterwards. It is still usually the right call — but price it as a state
@@ -388,9 +389,8 @@ Draft. The event-driven patterns here are demonstrated in the
 **[Payments Resiliency Simulator](https://github.com/raghavarora12/payments-resiliency-simulator)**.
 Once that event-driven path has to survive the loss of a region, the log's own failure semantics take
 over — that is [ADR-006](006-multi-region-kafka-high-availability.md). This ADR takes a position on
-how agents should be *wired*;
-[ADR-008](008-ai-assisted-engineering-adoption.md) takes one on how their adoption should be
-*measured* — the architectural and organizational halves of the same arrival.
+how agents should be *wired*; ADR-007 — AI-assisted engineering adoption, in draft — takes one on how
+their adoption should be *measured*, the architectural and organizational halves of the same arrival.
 Related principle: [[choose-coupling-on-purpose]].
 
 ## References
